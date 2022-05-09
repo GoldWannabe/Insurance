@@ -9,7 +9,7 @@ import Account.Account;
  */
 public class CompensateTeam {
 	
-	/////////
+	///////////////
 
 	public Account m_Account;
 
