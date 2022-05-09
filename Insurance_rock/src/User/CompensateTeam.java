@@ -8,6 +8,8 @@ import Account.Account;
  * @created 08-5-2022 ¿ÀÈÄ 10:34:18
  */
 public class CompensateTeam {
+	
+	/////////
 
 	public Account m_Account;
 
