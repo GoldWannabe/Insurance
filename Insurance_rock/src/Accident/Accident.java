@@ -1,7 +1,7 @@
 package Accident;
 
 import java.util.Date;
-//123
+//12
 /**
  * @author ansm6
  * @version 1.0
