@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * @author ansm6
  * @version 1.0
- * @created 08-5-2022 ¿ÀÈÄ 10:34:19
+ * @created 08-5-2022 ì˜¤í›„ 10:34:19
  */
 public class Insurance {
 

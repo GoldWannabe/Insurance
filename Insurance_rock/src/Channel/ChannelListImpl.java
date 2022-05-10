@@ -3,13 +3,13 @@ package Channel;
 import java.util.ArrayList;
 
 /**
- * @author ansm6
+ * @author ansm6 ì•¼í˜¸
  * @version 1.0
- * @created 08-5-2022 ¿ÀÈÄ 10:34:18
+ * @created 08-5-2022 ï¿½ï¿½ï¿½ï¿½ 10:34:18
  */
 public class ChannelListImpl extends ChannelList {
 
-	private ArrayList<Channel> Ã¤³Î;
+	private ArrayList<Channel> channel;
 	public Channel m_Channel;
 
 	public ChannelListImpl(){
