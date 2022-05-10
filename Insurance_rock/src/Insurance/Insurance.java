@@ -13,7 +13,7 @@ public class Insurance {
 	private String compensateCondition;
 	private String explanation;
 	private String insuranceName;
-	private enum insuranceTyp{a,b};
+	private enum insuranceType{a,b};
 	private boolean longTerm;
 	private Date releaseDate;
 	private String specialContract;
