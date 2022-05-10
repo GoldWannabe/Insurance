@@ -1,5 +1,6 @@
 package Contract;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import Customer.Customer;
@@ -22,7 +23,7 @@ public class Contract {
 	private int period;
 	private int phoneNum;
 	private int provisionFee;
-	private int rank;
+	private ArrayList<Rank> rank;
 	private int securityFee;
 	private Date startDate;
 	private int unpaidFee;
