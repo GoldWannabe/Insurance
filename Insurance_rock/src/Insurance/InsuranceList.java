@@ -8,6 +8,7 @@ import java.util.ArrayList;
  * @created 08-5-2022 ���� 10:34:19
  */
 public interface InsuranceList {
+	
 	public boolean add(Insurance insurance);
 	public boolean delete(String insuranceID);
 	//public boolean update();

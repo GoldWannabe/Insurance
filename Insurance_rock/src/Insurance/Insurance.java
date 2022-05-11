@@ -7,13 +7,14 @@ import java.util.Date;
  * @version 1.0
  * @created 08-5-2022 오후 10:34:19
  */
+
 public class Insurance {
     private String insuranceID;
 	private String applyCondition;
 	private String compensateCondition;
 	private String explanation;
 	private String insuranceName;
-	//private enum insuranceType{a,b};
+	// private enum insuranceType{a,b}; 
 	private boolean longTerm;
 	private Date releaseDate;
 	private String specialContract;

@@ -1,33 +1,19 @@
 package Channel;
 
+import java.util.ArrayList;
 
 /**
  * @author ansm6
  * @version 1.0
  * @created 08-5-2022 ���� 10:34:18
  */
-public class ChannelList {
+public interface ChannelList {
 
-	public ChannelList(){
+	public boolean add(Channel channel);
+	public boolean delete(String channelID);
+	public ArrayList<Channel> get();
 
-	}
-
-	public void finalize() throws Throwable {
-
-	}
-	public void add(){
-
-	}
-
-	public void delete(){
-
-	}
-
-	public void get(){
-
-	}
-
-	public void update(){
-
-	}
+//	public void update(){
+//
+//	}
 }//end ChannelList

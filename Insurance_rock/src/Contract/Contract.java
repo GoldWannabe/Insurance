@@ -7,7 +7,7 @@ import java.util.Date;
  * @version 1.0
  * @created 08-5-2022 ���� 10:34:18
  */
-public abstract  class Contract {
+public class Contract {
 
 	private String accidentHistory;
 	private String contractID;
@@ -26,54 +26,55 @@ public abstract  class Contract {
 	private String customerID;
 	private String insuranceName;
 
-	public Contract(){
-
+	public Contract() {
+		this.rank = new Rank();
 	}
 
 	public void finalize() throws Throwable {
 
 	}
-	public void allowRenew(){
+
+	public void allowRenew() {
 
 	}
 
-	public void apply(){
+	public void apply() {
 
 	}
 
-	public void cancelContract(){
+	public void cancelContract() {
 
 	}
 
-	public void checkUnpaidFee(){
+	public void checkUnpaidFee() {
 
 	}
 
-	public void permit(){
+	public void permit() {
 
 	}
 
-	public void reapply(){
+	public void reapply() {
 
 	}
 
-	public void renew(){
+	public void renew() {
 
 	}
 
-	public void underwrite(){
+	public void underwrite() {
 
 	}
 
-	public void updatePayment(){
+	public void updatePayment() {
 
 	}
 
-	public void verify(){
+	public void verify() {
 
 	}
 
-	public void verifyRenew(){
+	public void verifyRenew() {
 
 	}
 
@@ -204,6 +205,5 @@ public abstract  class Contract {
 	public void setInsuranceName(String insuranceName) {
 		this.insuranceName = insuranceName;
 	}
-	
-	
-}//end Contract
+
+}// end Contract

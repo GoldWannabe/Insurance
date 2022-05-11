@@ -18,6 +18,7 @@ public class InsuranceListImpl implements InsuranceList {
 	public void finalize() throws Throwable {
 
 	}
+	
 	public boolean add(Insurance insurance){
 		if(this.insuranceList.add(insurance)) return true;
 		return false;
