@@ -3,23 +3,22 @@ package Payment;
 import java.util.Date;
 
 import Customer.Customer;
-/////h////////////
-/**
- * @author ansm6
- * @version 1.0
- * @created 08-5-2022 ¿ÀÈÄ 10:34:19
- */
+
 public class Payment {
 
+	private String paymentID;
+	private String customerID;
 	private String accountNum;
 	private String cardOrBankName;
-	private String customerName;
 	private int insuranceFee;
 	private String insuranceID;
-	private enum insuranceType{a,b};
 	private Date paidDate;
-	private String phoneNum;
-	public Customer m_Customer;
+	
+	private enum EInsuranceType{
+		genralInsurance,
+		houseInsurance
+	}
+	private EInsuranceType insuranceType;
 
 	public Payment(){
 
@@ -31,4 +30,71 @@ public class Payment {
 	public void checkPayment(){
 
 	}
+
+	public String getPaymentID() {
+		return paymentID;
+	}
+
+	public void setPaymentID(String paymentID) {
+		this.paymentID = paymentID;
+	}
+
+	public String getCustomerID() {
+		return customerID;
+	}
+
+	public void setCustomerID(String customerID) {
+		this.customerID = customerID;
+	}
+
+	public String getAccountNum() {
+		return accountNum;
+	}
+
+	public void setAccountNum(String accountNum) {
+		this.accountNum = accountNum;
+	}
+
+	public String getCardOrBankName() {
+		return cardOrBankName;
+	}
+
+	public void setCardOrBankName(String cardOrBankName) {
+		this.cardOrBankName = cardOrBankName;
+	}
+
+	public int getInsuranceFee() {
+		return insuranceFee;
+	}
+
+	public void setInsuranceFee(int insuranceFee) {
+		this.insuranceFee = insuranceFee;
+	}
+
+	public String getInsuranceID() {
+		return insuranceID;
+	}
+
+	public void setInsuranceID(String insuranceID) {
+		this.insuranceID = insuranceID;
+	}
+
+	public Date getPaidDate() {
+		return paidDate;
+	}
+
+	public void setPaidDate(Date paidDate) {
+		this.paidDate = paidDate;
+	}
+
+	public EInsuranceType getInsuranceType() {
+		return insuranceType;
+	}
+
+	public void setInsuranceType(String insuranceType) {
+		// set logic
+		this.insuranceType = EInsuranceType.genralInsurance;
+	}
+	
+	
 }//end Payment

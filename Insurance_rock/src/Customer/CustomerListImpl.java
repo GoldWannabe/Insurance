@@ -2,15 +2,9 @@ package Customer;
 
 import java.util.ArrayList;
 
-/**
- * @author ansm6
- * @version 1.0
- * @created 09-5-2022 ¿ÀÈÄ 6:20:28
- */
-public class CustomerListImpl extends CustomerList {
+public class CustomerListImpl implements CustomerList {
 
-	private ArrayList<Customer> CustomerList;
-	public Customer m_Customer;
+	private ArrayList<Customer> customerList = new ArrayList<Customer>();
 
 	public CustomerListImpl(){
 
@@ -19,19 +13,39 @@ public class CustomerListImpl extends CustomerList {
 	public void finalize() throws Throwable {
 
 	}
-	public void add(){
 
+	@Override
+	public boolean add(Customer customer) {
+		if(this.customerList.add(customer)) return true;
+		return false;
 	}
 
-	public void delete(){
-
+	@Override
+	public boolean delete(String customerID) {
+		if(this.customerList.remove(customerID)) return true;
+		return false;
 	}
 
-	public void edit(){
-
+	@Override
+	public boolean edit(String customerID) {
+		for(Customer customer : this.customerList) {
+			if(customer.getContractID().equals(customerID)) {
+				//edit
+				return true;
+			}
+		}
+		return false;
 	}
 
-	public void search(){
-
+	@Override
+	public Customer search(String name, String phoneNum) {
+		for(Customer customer : this.customerList) {
+			if(customer.getName().equals(name)&&customer.getPhoneNum().equals(phoneNum)) {
+				//search
+				return customer;
+			}
+		}
+		return null;
 	}
+	
 }//end CustomerListImpl

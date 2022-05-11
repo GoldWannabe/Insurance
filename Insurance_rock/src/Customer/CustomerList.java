@@ -6,28 +6,15 @@ package Customer;
  * @version 1.0
  * @created 09-5-2022 ¿ÀÈÄ 6:20:28
  */
-public class CustomerList {
+public interface CustomerList {
 
-	public CustomerList(){
+	public void finalize() throws Throwable;
+	
+	public boolean add(Customer customer);
+	
+	public boolean delete(String customerID);
 
-	}
+	public boolean edit(String customerID);
 
-	public void finalize() throws Throwable {
-
-	}
-	public void add(){
-
-	}
-
-	public void delete(){
-
-	}
-
-	public void edit(){
-
-	}
-
-	public void search(){
-
-	}
+	public Customer search(String name, String phoneNum);
 }//end CustomerList

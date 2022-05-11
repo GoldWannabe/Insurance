@@ -2,15 +2,9 @@ package Payment;
 
 import java.util.ArrayList;
 
-/**
- * @author ansm6
- * @version 1.0
- * @created 08-5-2022 ¿ÀÈÄ 10:34:19
- */
-public class PaymentImpl extends PaymentList {
+public class PaymentImpl implements PaymentList {
 
-	private ArrayList<Payment> paymentList;
-	public Payment m_Payment;
+	private ArrayList<Payment> paymentList = new ArrayList<Payment>();
 
 	public PaymentImpl(){
 
@@ -19,19 +13,36 @@ public class PaymentImpl extends PaymentList {
 	public void finalize() throws Throwable {
 
 	}
-	public void add(){
 
+	@Override
+	public boolean add(Payment payment) {
+		if(this.paymentList.add(payment)) return true;
+		return false;
 	}
 
-	public void delete(){
-
+	@Override
+	public boolean delete(String paymentID) {
+		if(this.paymentList.remove(paymentID)) return true;
+		return false;
 	}
 
-	public void get(){
-
+	@Override
+	public Payment get(String paymentID) {
+		for(Payment payment : this.paymentList) {
+			if(payment.getPaymentID().equals(paymentID)) return payment;
+		}
+		return null;
 	}
 
-	public void update(){
-
+	@Override
+	public boolean update(String paymentID) {
+		for(Payment payment : this.paymentList) {
+			if(payment.getPaymentID().equals(paymentID)) {
+				//update
+				return true;
+			}
+		}
+		return false;
 	}
+
 }//end PaymentImpl
