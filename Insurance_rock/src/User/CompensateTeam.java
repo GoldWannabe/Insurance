@@ -1,6 +1,9 @@
 package User;
 
+import java.util.Scanner;
+
 import Account.Account;
+
 //488548123456789jyjjyy
 /**
  * @author ansm6
@@ -8,31 +11,49 @@ import Account.Account;
  * @created 08-5-2022 ���� 10:34:18
  */
 public class CompensateTeam {
-	
+
 	/////////////////////
 
 	public Account m_Account;
 
-	public CompensateTeam(){
+	public CompensateTeam() {
 
 	}
 
 	public void finalize() throws Throwable {
 
 	}
-	public void add(){
+
+	public void add() {
 
 	}
 
-	public void edit(){
+	public void edit() {
 
 	}
 
-	public void payCost(){
+	public void payCost() {
 
 	}
 
-	public void search(){
+	public void search() {
 
 	}
-}//end CompensateTeam
+
+	public void start() {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("1. 손해사정");
+		String selectNum = scanner.next();
+		scanner.close();
+
+		switch (selectNum) {
+		case "1":
+			search();
+			break;
+
+		default:
+			System.out.println("선택 이상함");
+			break;
+		}
+	}// end CompensateTeam
+}

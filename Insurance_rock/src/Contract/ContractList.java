@@ -1,33 +1,20 @@
 package Contract;
 
+import java.util.ArrayList;
 
 /**
- * @author ansm6
  * @version 1.0
- * @created 08-5-2022 ¿ÀÈÄ 10:34:18
+ * @created 08-5-2022 ï¿½ï¿½ï¿½ï¿½ 10:34:18
  */
-public class ContractList {
+public interface ContractList {
 
-	public ContractList(){
 
-	}
-
-	public void finalize() throws Throwable {
-
-	}
-	public void add(){
-
-	}
-
-	public void delete(){
-
-	}
-
-	public void get(){
-
-	}
-
-	public void update(){
-
-	}
+	
+	public boolean add(Contract contract);
+	public boolean delete(String contractID);
+	public ArrayList<Contract> get(String customerName, String contractID);
+	
+//	public boolean update(){
+//
+//	}
 }//end ContractList

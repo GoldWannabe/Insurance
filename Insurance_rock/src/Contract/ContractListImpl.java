@@ -5,12 +5,11 @@ import java.util.ArrayList;
 /**
  * @author ansm6
  * @version 1.0
- * @created 08-5-2022 ¿ÀÈÄ 10:34:18
+ * @created 08-5-2022 ï¿½ï¿½ï¿½ï¿½ 10:34:18
  */
-public class ContractListImpl extends ContractList {
+public class ContractListImpl implements ContractList {
 
-	private ArrayList<Contract> contractList;
-	public Contract m_Contract;
+	private ArrayList<Contract> contractList = new ArrayList<Contract>();
 
 	public ContractListImpl(){
 
@@ -19,19 +18,34 @@ public class ContractListImpl extends ContractList {
 	public void finalize() throws Throwable {
 
 	}
-	public void add(){
+	public boolean add(Contract contract){
+		if(this.contractList.add(contract)) return true;
+		return false;
 
 	}
 
-	public void delete(){
-
+	@SuppressWarnings("unlikely-arg-type")
+	public boolean delete(String contractID){
+		if(this.contractList.remove(contractID)) return true;
+		return false;
 	}
 
-	public void get(){
-
+	public ArrayList<Contract> get(String customerName, String phoneNum){
+		ArrayList<Contract> tempContract = new ArrayList<Contract>();
+		for(Contract contract: this.contractList) {
+			if(contract.getPhoneNum().equals(phoneNum) && contract.getCustomerName().equals(customerName)) {
+				tempContract.add(contract);
+			}
+		}
+		
+		if(!(tempContract.isEmpty())) {
+			return tempContract;
+		} 
+		return null;
+		
 	}
 
-	public void update(){
-
-	}
+//	public boolean update(){
+//
+//	}
 }//end ContractListImpl
