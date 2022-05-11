@@ -5,12 +5,11 @@ import java.util.ArrayList;
 /**
  * @author ansm6
  * @version 1.0
- * @created 08-5-2022 ¿ÀÈÄ 10:34:19
+ * @created 08-5-2022 ï¿½ï¿½ï¿½ï¿½ 10:34:19
  */
-public class InsuranceListImpl extends InsuranceList {
-
-	private ArrayList<Insurance> InsuranceList;
-	public Insurance m_Insurance;
+public class InsuranceListImpl implements InsuranceList {
+	private ArrayList<Insurance> insuranceList = new ArrayList<Insurance>();
+//	public Insurance m_Insurance;
 
 	public InsuranceListImpl(){
 
@@ -19,19 +18,33 @@ public class InsuranceListImpl extends InsuranceList {
 	public void finalize() throws Throwable {
 
 	}
-	public void add(){
+	public boolean add(Insurance insurance){
+		if(this.insuranceList.add(insurance)) return true;
+		return false;
 
 	}
 
-	public void delete(){
-
+	@SuppressWarnings("unlikely-arg-type")
+	public boolean delete(String insuranceID){
+		if(this.insuranceList.remove(insuranceID)) return true;
+		return false;
 	}
 
-	public void get(){
-
+	public ArrayList<Insurance> get(String insuranceID){
+		ArrayList<Insurance> tempInsurance = new ArrayList<Insurance>();
+		for(Insurance insurance:this.insuranceList) {
+			if(insurance.getInsuranceID().equals(insuranceID)) {
+				tempInsurance.add(insurance);
+			}
+		}
+		if(!(tempInsurance.isEmpty())) {
+			return tempInsurance;
+		}
+		return null;
 	}
 
 	public void update(){
 
 	}
+
 }//end InsuranceListImpl
