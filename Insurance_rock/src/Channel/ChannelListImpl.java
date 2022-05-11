@@ -7,10 +7,9 @@ import java.util.ArrayList;
  * @version 1.0
  * @created 08-5-2022 ���� 10:34:18
  */
-public class ChannelListImpl extends ChannelList {
+public class ChannelListImpl implements ChannelList {
 
-	private ArrayList<Channel> channel;
-	public Channel m_Channel;
+	private ArrayList<Channel> channelList;
 
 	public ChannelListImpl(){
 
@@ -19,19 +18,26 @@ public class ChannelListImpl extends ChannelList {
 	public void finalize() throws Throwable {
 
 	}
-	public void add(){
+	public boolean add(Channel channel){
+		if(this.channelList.add(channel)) return true;
+		
+		return false;
 
 	}
 
-	public void delete(){
+	@SuppressWarnings("unlikely-arg-type")
+	public boolean delete(String channelID){
+		if(this.channelList.remove(channelID)) return true;
+		return false;
 
 	}
 
-	public void get(){
-
+	public ArrayList<Channel> get(){
+		
+		return this.channelList;
 	}
 
-	public void update(){
-
-	}
+//	public void update(){
+//
+//	}
 }//end ChannelListImpl

@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * @author ansm6
  * @version 1.0
- * @created 08-5-2022 ¿ÀÈÄ 10:34:18
+ * @created 08-5-2022 ï¿½ï¿½ï¿½ï¿½ 10:34:18
  */
 public class Channel {
 
@@ -38,4 +38,53 @@ public class Channel {
 	public void search(){
 
 	}
+
+	public String getChannelID() {
+		return channelID;
+	}
+
+	public void setChannelID(String channelID) {
+		this.channelID = channelID;
+	}
+
+	public String getChannelName() {
+		return channelName;
+	}
+
+	public void setChannelName(String channelName) {
+		this.channelName = channelName;
+	}
+
+	public int getMonthlyExpense() {
+		return monthlyExpense;
+	}
+
+	public void setMonthlyExpense(int monthlyExpense) {
+		this.monthlyExpense = monthlyExpense;
+	}
+
+	public int getNumOfRegister() {
+		return numOfRegister;
+	}
+
+	public void setNumOfRegister(int numOfRegister) {
+		this.numOfRegister = numOfRegister;
+	}
+
+	public Date getRegisterDate() {
+		return registerDate;
+	}
+
+	public void setRegisterDate(Date registerDate) {
+		this.registerDate = registerDate;
+	}
+
+	public int getSumOfExpense() {
+		return sumOfExpense;
+	}
+
+	public void setSumOfExpense(int sumOfExpense) {
+		this.sumOfExpense = sumOfExpense;
+	}
+	
 }//end Channel
