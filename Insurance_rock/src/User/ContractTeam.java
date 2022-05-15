@@ -39,33 +39,27 @@ public class ContractTeam {
 		} else {
 			longTerm = false;
 		}
-		System.out.println("이름을 입력해주세요.");
-		String name = scanner.next();
-		System.out.println("특약을 입력해주세요.");		
-		String specialContract = scanner.next();
-		System.out.println("가입조건을 입력해주세요.");
-		String applyCondition = scanner.next();
-		System.out.println("보상 조건을 입력해주세요.");
-		String compensateCondition = scanner.next();
-		System.out.println("설명을 입력해주세요.");
-		String explanation = scanner.next();
 		
 		if(type == 1) {
-			this.insurance = new GeneralInsurance(longTerm, name, specialContract, applyCondition, compensateCondition, explanation);
+			this.insurance = new GeneralInsurance(longTerm);
 			
 		} else if(type == 2) {
-			this.insurance = new HouseInsurance(longTerm, name, specialContract, applyCondition, compensateCondition, explanation);
+			this.insurance = new HouseInsurance(longTerm);
 		} else {
 			System.out.println("잘 못 입력함");
 			System.exit(0);
 		}
 		
-		//this.generalInsurance.checkName(); 검색의 효율성을 위함
+		this.insurance.design();
 		this.insurance.measureStandardFee();
+	
+		
 		System.out.println("등록을 원하면 1번");
-		if(scanner.nextInt() == 1) {
+		if((scanner.nextInt() == 1)&&this.insurance.apply()) {
 			System.out.println("등록 완료");
 		}
+		
+		
 	}
 	
 	public void underwrite() {

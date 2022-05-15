@@ -10,8 +10,8 @@ public class GeneralInsurance extends Insurance {
 
 	private int generalPremiumRate;
 
-	public GeneralInsurance(boolean longTerm, String name, String specialContract, String applyCondition, String compensateCondition, String explanation){
-		super(eInsurance.genetal, longTerm, name, specialContract, applyCondition, compensateCondition, explanation);
+	public GeneralInsurance(boolean longTerm){
+		super(eInsurance.genetal, longTerm);
 	}
 
 	public void finalize() throws Throwable {

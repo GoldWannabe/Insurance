@@ -1,7 +1,7 @@
 package Insurance;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.Scanner;
 
 /**
  * @author ansm6
@@ -22,14 +22,12 @@ public class Insurance {
 	private int standardFee;
 	private LocalDate releaseDate;
 	
-	public Insurance(eInsurance insuranceType, boolean longTerm, String name, String specialContract, String applyCondition, String compensateCondition, String explanation){
+	public Insurance() {
+	}
+	
+	public Insurance(eInsurance insuranceType, boolean longTerm){
 		this.insuranceType = insuranceType;
 		this.longTerm = longTerm;
-		this.insuranceName = name;
-		this.specialContract = specialContract;
-		this.applyCondition = applyCondition;
-		this.compensateCondition = compensateCondition;
-		this.explanation = explanation;
 	}
 
 	public String getInsuranceID() {
@@ -115,16 +113,33 @@ public class Insurance {
 
 	}
 	
-	public void apply(){
-
+	public boolean apply(){
+		return true;
 	}
 
 	public void design(){
-
+		Scanner scanner = new Scanner(System.in);
+		this.insuranceID = "0l"; //입력 받는 방식이 아닌 자동으로 번호 매겨짐
+		System.out.println("이름을 입력해주세요.");
+		this.insuranceName = scanner.next();
+		System.out.println("특약을 입력해주세요.");		
+		this.specialContract = scanner.next();
+		System.out.println("가입조건을 입력해주세요.");
+		this.applyCondition = scanner.next();
+		System.out.println("보상 조건을 입력해주세요.");
+		this.compensateCondition = scanner.next();
+		System.out.println("설명을 입력해주세요.");
+		this.explanation = scanner.next();
+		
+//		while(checkName(this.insuranceName)){
+//			this.insuranceName = scanner.next();
+//		}; 검색을 위함
+		
+		
 	}
 
-	public void examine(){
-
+	public boolean examine(){
+		return true;
 	}
 
 	public void measureStandardFee(){
@@ -132,7 +147,7 @@ public class Insurance {
 	}
 
 	public void permitInsurance(){
-
+		//DB 저장
 	}
 
 	public void register(){

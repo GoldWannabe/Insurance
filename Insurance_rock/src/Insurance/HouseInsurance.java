@@ -1,7 +1,5 @@
 package Insurance;
 
-import Insurance.Insurance.eInsurance;
-
 /**
  * @author ansm6
  * @version 1.0
@@ -11,8 +9,8 @@ public class HouseInsurance extends Insurance {
 
 	private int housePremiumRate;
 
-	public HouseInsurance(boolean longTerm, String name, String specialContract, String applyCondition, String compensateCondition, String explanation){
-		super(eInsurance.house, longTerm, name, specialContract, applyCondition, compensateCondition, explanation);
+	public HouseInsurance(boolean longTerm){
+		super(eInsurance.house, longTerm);
 	}
 
 	public void finalize() throws Throwable {

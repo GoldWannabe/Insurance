@@ -11,21 +11,25 @@ import Insurance.Insurance;
  */
 public class FinancialDirector {
 
-	public Insurance m_Insurance;
+	public Insurance insurance;
 
 	public FinancialDirector(){
-
+		this.insurance = new Insurance();
 	}
 
 	public void finalize() throws Throwable {
 
 	}
 	public void examine(){
-
+		//1.DB에서 파일 목록 보여줌
+		
+		if(this.insurance.examine()) {
+			permitInsurance();
+		}
 	}
 
 	public void permitInsurance(){
-
+		this.insurance.permitInsurance();
 	}
 
 	public void start() {
