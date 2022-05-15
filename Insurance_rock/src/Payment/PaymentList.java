@@ -1,33 +1,13 @@
 package Payment;
 
+public interface PaymentList {
 
-/**
- * @author ansm6
- * @version 1.0
- * @created 08-5-2022 ¿ÀÈÄ 10:34:19
- */
-public class PaymentList {
 
-	public PaymentList(){
-
-	}
-
-	public void finalize() throws Throwable {
-
-	}
-	public void add(){
-
-	}
-
-	public void delete(){
-
-	}
-
-	public void get(){
-
-	}
-
-	public void update(){
-
-	}
+	public void finalize() throws Throwable;
+	
+	public boolean add(Payment payment);
+	public boolean delete(String paymentID);
+	public Payment get(String paymentID);
+	public boolean update(String paymentID);
+	
 }//end PaymentList

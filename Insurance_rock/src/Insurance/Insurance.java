@@ -1,5 +1,6 @@
 package Insurance;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -16,7 +17,7 @@ public class Insurance {
 	private String insuranceName;
 	// private enum insuranceType{a,b}; 
 	private boolean longTerm;
-	private Date releaseDate;
+	private LocalDate releaseDate;
 	private String specialContract;
 	private int standardFee;
 
@@ -71,11 +72,11 @@ public class Insurance {
 		this.longTerm = longTerm;
 	}
 
-	public Date getReleaseDate() {
+	public LocalDate getReleaseDate() {
 		return releaseDate;
 	}
 
-	public void setReleaseDate(Date releaseDate) {
+	public void setReleaseDate(LocalDate releaseDate) {
 		this.releaseDate = releaseDate;
 	}
 

@@ -1,5 +1,6 @@
 package Channel;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -13,7 +14,7 @@ public class Channel {
 	private String channelName;
 	private int monthlyExpense;
 	private int numOfRegister;
-	private Date registerDate;
+	private LocalDate registerDate;
 	private int sumOfExpense;
 
 	public Channel(){
@@ -71,11 +72,11 @@ public class Channel {
 		this.numOfRegister = numOfRegister;
 	}
 
-	public Date getRegisterDate() {
+	public LocalDate getRegisterDate() {
 		return registerDate;
 	}
 
-	public void setRegisterDate(Date registerDate) {
+	public void setRegisterDate(LocalDate registerDate) {
 		this.registerDate = registerDate;
 	}
 

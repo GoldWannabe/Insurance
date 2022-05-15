@@ -1,5 +1,6 @@
 package Provision;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import Customer.Customer;
@@ -7,14 +8,14 @@ import Customer.Customer;
 /**
  * @author ansm6
  * @version 1.0
- * @created 08-5-2022 ¿ÀÈÄ 10:34:19
+ * @created 08-5-2022 ï¿½ï¿½ï¿½ï¿½ 10:34:19
  */
 public class Provision {
 
 	private String accountNum;
 	private String bankName;
 	private int compensation;
-	private Date compensationDate;
+	private LocalDate compensationDate;
 	private String customerName;
 	private String insuranceID;
 	private enum insuranceType{a,b};

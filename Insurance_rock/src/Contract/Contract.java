@@ -1,5 +1,6 @@
 package Contract;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -12,7 +13,7 @@ public class Contract {
 	private String accidentHistory;
 	private String contractID;
 	private String customerName;
-	private Date endDate;
+	private LocalDate endDate;
 	private int insuranceFee;
 	private String insuranceID;
 	private String paymentCycle;
@@ -21,7 +22,7 @@ public class Contract {
 	private int provisionFee;
 	private Rank rank;
 	private int securityFee;
-	private Date startDate;
+	private LocalDate startDate;
 	private int unpaidFee;
 	private String customerID;
 	private String insuranceName;
@@ -102,11 +103,11 @@ public class Contract {
 		this.customerName = customerName;
 	}
 
-	public Date getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
 
@@ -174,11 +175,11 @@ public class Contract {
 		this.securityFee = securityFee;
 	}
 
-	public Date getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
 

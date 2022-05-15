@@ -1,5 +1,6 @@
 package Accident;
 
+import java.time.LocalDate;
 import java.util.Date;
 //121234536456123
 /**
@@ -9,7 +10,7 @@ import java.util.Date;
  */
 public class Accident {
 
-	private Date accidentDate;
+	private LocalDate accidentDate;
 	private String content;
 	private String contractID;
 	private String customerName;
