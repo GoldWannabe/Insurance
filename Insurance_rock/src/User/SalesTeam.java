@@ -68,16 +68,16 @@ public class SalesTeam {
 	}
 
 	public void sell(){
-		Scanner scanner = new Scanner(System.in);
-		Contract contract = new Contract();
-		contract.setAccidentHistory("나는 몰라요");
-		contract.getRank().setHeight(true);
-		LocalDate a= LocalDate.of(2012, 5, 6);
-		
-		contract.setEndDate(a);
-		System.out.println(contract.getAccidentHistory());
-		System.out.println(contract.getRank().isHeight());
-		System.out.println(a);
+//		Scanner scanner = new Scanner(System.in);
+//		Contract contract = new Contract();
+//		contract.setAccidentHistory("나는 몰라요");
+//		contract.getRank().setHeight(true);
+//		LocalDate a= LocalDate.of(2012, 5, 6);
+//		
+//		contract.setEndDate(a);
+//		System.out.println(contract.getAccidentHistory());
+//		System.out.println(contract.getRank().isHeight());
+//		System.out.println(a);
 	}
 
 	private void manageChannel() {
