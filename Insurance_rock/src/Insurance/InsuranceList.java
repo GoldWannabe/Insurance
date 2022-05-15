@@ -2,6 +2,8 @@ package Insurance;
 
 import java.util.ArrayList;
 
+import Insurance.Insurance.EInsurance;
+
 /**
  * @author ansm6
  * @version 1.0
@@ -13,6 +15,7 @@ public interface InsuranceList {
 	public boolean delete(String insuranceID);
 	//public boolean update();
 	public ArrayList<Insurance> get(String insuranceID);
+	public Insurance get(String name, EInsurance insuranceType);
 	
 //	}
 

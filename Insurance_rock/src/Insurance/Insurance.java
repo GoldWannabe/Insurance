@@ -11,8 +11,8 @@ import java.util.Scanner;
 
 public class Insurance {
     private String insuranceID;
-    protected enum eInsurance{genetal, house}; 
-	private eInsurance insuranceType;
+    protected enum EInsurance{genetal, house}; 
+	private EInsurance insuranceType;
 	private boolean longTerm;
 	private String insuranceName;
 	private String specialContract;
@@ -25,7 +25,7 @@ public class Insurance {
 	public Insurance() {
 	}
 	
-	public Insurance(eInsurance insuranceType, boolean longTerm){
+	public Insurance(EInsurance insuranceType, boolean longTerm){
 		this.insuranceType = insuranceType;
 		this.longTerm = longTerm;
 	}
@@ -101,11 +101,11 @@ public class Insurance {
 		this.standardFee = standardFee;
 	}
 	
-	public eInsurance getInsuranceType() {
+	public EInsurance getInsuranceType() {
 		return insuranceType;
 	}
 
-	public void setInsuranceType(eInsurance insuranceType) {
+	public void setInsuranceType(EInsurance insuranceType) {
 		this.insuranceType = insuranceType;
 	}
 

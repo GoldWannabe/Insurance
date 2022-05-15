@@ -1,24 +1,21 @@
 package User;
 
-import java.io.Console;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.Scanner;
 
-import Contract.Contract;
 import Customer.Customer;
+import Customer.CustomerList;
+import Customer.CustomerListImpl;
 import Insurance.Insurance;
+import Insurance.InsuranceList;
+import Insurance.InsuranceListImpl;
 
-/**
- * @author ansm6
- * @version 1.0
- * @created 08-5-2022 ���� 10:34:19
- */
 public class SalesTeam {
 
-	public Contract m_Contract;
-	public Customer m_Customer;
-	public Insurance m_Insurance;
+	private CustomerList customerList = new CustomerListImpl();
+	private Customer currentCustomer = null;
+	private InsuranceList insuranceList = new InsuranceListImpl();
+	private Insurance currentInsurance = null;
+	
 
 	public SalesTeam(){
 
@@ -66,8 +63,16 @@ public class SalesTeam {
 	public void searchCustomer(){
 
 	}
+	
+	public boolean searchCustomer(String name, String phoneNum) {
+		
+		return false;
+	}
 
 	public void sell(){
+		
+		System.out.println("1-1");
+		searchCustomer();
 //		Scanner scanner = new Scanner(System.in);
 //		Contract contract = new Contract();
 //		contract.setAccidentHistory("나는 몰라요");
