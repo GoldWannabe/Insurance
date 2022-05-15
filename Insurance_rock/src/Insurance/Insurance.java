@@ -11,18 +11,25 @@ import java.util.Date;
 
 public class Insurance {
     private String insuranceID;
+    protected enum eInsurance{genetal, house}; 
+	private eInsurance insuranceType;
+	private boolean longTerm;
+	private String insuranceName;
+	private String specialContract;
 	private String applyCondition;
 	private String compensateCondition;
 	private String explanation;
-	private String insuranceName;
-	// private enum insuranceType{a,b}; 
-	private boolean longTerm;
-	private LocalDate releaseDate;
-	private String specialContract;
 	private int standardFee;
-
-	public Insurance(){
-
+	private LocalDate releaseDate;
+	
+	public Insurance(eInsurance insuranceType, boolean longTerm, String name, String specialContract, String applyCondition, String compensateCondition, String explanation){
+		this.insuranceType = insuranceType;
+		this.longTerm = longTerm;
+		this.insuranceName = name;
+		this.specialContract = specialContract;
+		this.applyCondition = applyCondition;
+		this.compensateCondition = compensateCondition;
+		this.explanation = explanation;
 	}
 
 	public String getInsuranceID() {
@@ -96,6 +103,14 @@ public class Insurance {
 		this.standardFee = standardFee;
 	}
 	
+	public eInsurance getInsuranceType() {
+		return insuranceType;
+	}
+
+	public void setInsuranceType(eInsurance insuranceType) {
+		this.insuranceType = insuranceType;
+	}
+
 	public void finalize() throws Throwable {
 
 	}
