@@ -2,11 +2,11 @@ package Payment;
 
 import java.util.ArrayList;
 
-public class PaymentImpl implements PaymentList {
+public class PaymentListImpl implements PaymentList {
 
 	private ArrayList<Payment> paymentList = new ArrayList<Payment>();
 
-	public PaymentImpl(){
+	public PaymentListImpl(){
 
 	}
 

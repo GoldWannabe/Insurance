@@ -74,7 +74,7 @@ public class SalesTeam {
 		contract.getRank().setHeight(true);
 		LocalDate a= LocalDate.of(2012, 5, 6);
 		
-		contract.setEndDate(new Date(2019,0,1));
+		contract.setEndDate(a);
 		System.out.println(contract.getAccidentHistory());
 		System.out.println(contract.getRank().isHeight());
 		System.out.println(a);
