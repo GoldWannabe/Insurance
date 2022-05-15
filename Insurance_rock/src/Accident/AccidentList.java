@@ -1,33 +1,19 @@
 package Accident;
 
+import java.util.ArrayList;
+
 
 /**
  * @author ansm6
  * @version 1.0
- * @created 08-5-2022 ¿ÀÈÄ 10:34:18
+ * @created 08-5-2022 ï¿½ï¿½ï¿½ï¿½ 10:34:18
  */
-public class AccidentList {
-
-	public AccidentList(){
-
-	}
-
-	public void finalize() throws Throwable {
-
-	}
-	public void add(){
-
-	}
-
-	public void delete(){
-
-	}
-
-	public void get(){
-
-	}
-
-	public void update(){
-
-	}
+public interface AccidentList {
+	public boolean add(Accident accident);
+	public boolean delete(String ID);
+	public void update();
+	
+	public ArrayList<Accident> get(String phoneNum, String customerName);
+	
+	
 }//end AccidentList
