@@ -2,6 +2,10 @@ package Contract;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.Scanner;
+
+import Customer.Customer;
+import Insurance.InsuranceList;
 
 /**
  * @author ansm6
@@ -35,11 +39,11 @@ public class Contract {
 
 	}
 
-	public void allowRenew() {
+	public void apply() {
 
 	}
 
-	public void apply() {
+	public void reapply() {
 
 	}
 
@@ -51,31 +55,40 @@ public class Contract {
 
 	}
 
-	public void permit() {
-
-	}
-
-	public void reapply() {
-
-	}
-
-	public void renew() {
-
-	}
-
-	public void underwrite() {
-
-	}
-
 	public void updatePayment() {
 
 	}
 
-	public void verify() {
+	public void renew() {
+		//갱신 내용 적고 저장
+	}
+	
+	public void permit() {
+		// Customer customer = new Customer(); 고객 정보 저장
+		// 계약 정보 저장
 
 	}
 
+	public void allowRenew() {
+		// DB에 갱신 정보 저장
+	}
+
+	
+
+	public void underwrite() {
+		// 심사 대기 DB에서 받아옴
+
+	}
+
+	public void verify() {
+		// 보험료 검증
+	}
+
 	public void verifyRenew() {
+		// 보험료 검증
+	}
+
+	public void search() {
 
 	}
 

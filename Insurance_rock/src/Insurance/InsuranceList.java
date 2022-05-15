@@ -14,13 +14,6 @@ public interface InsuranceList {
 	//public boolean update();
 	public ArrayList<Insurance> get(String insuranceID);
 	
-//	private int add;
-//	private int delete;
-//	private int get;
-//	private int update;
-//
-//	public InsuranceList(){
-//
 //	}
 
 }//end InsuranceList
