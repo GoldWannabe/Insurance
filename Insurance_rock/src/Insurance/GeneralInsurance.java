@@ -11,7 +11,7 @@ public class GeneralInsurance extends Insurance {
 	private int generalPremiumRate;
 
 	public GeneralInsurance(boolean longTerm){
-		super(eInsurance.genetal, longTerm);
+		super(EInsurance.genetal, longTerm);
 	}
 
 	public void finalize() throws Throwable {

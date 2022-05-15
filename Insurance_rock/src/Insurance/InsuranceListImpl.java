@@ -2,6 +2,8 @@ package Insurance;
 
 import java.util.ArrayList;
 
+import Insurance.Insurance.EInsurance;
+
 /**
  * @author ansm6
  * @version 1.0
@@ -46,6 +48,16 @@ public class InsuranceListImpl implements InsuranceList {
 
 	public void update(){
 
+	}
+
+	@Override
+	public Insurance get(String name, EInsurance insuranceType) {
+		for(Insurance insurance : this.insuranceList) {
+			if(insurance.getInsuranceType() == insuranceType && insurance.getInsuranceName().equals(name)) {
+				return insurance;
+			}
+		}
+		return null;
 	}
 
 }//end InsuranceListImpl

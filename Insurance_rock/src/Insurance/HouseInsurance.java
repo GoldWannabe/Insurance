@@ -10,7 +10,7 @@ public class HouseInsurance extends Insurance {
 	private int housePremiumRate;
 
 	public HouseInsurance(boolean longTerm){
-		super(eInsurance.house, longTerm);
+		super(EInsurance.house, longTerm);
 	}
 
 	public void finalize() throws Throwable {
