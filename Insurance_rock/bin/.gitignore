@@ -1,5 +1,3 @@
-/Provision/
-/Payment/
 /Accident/
 /Account/
 /Channel/
@@ -7,4 +5,16 @@
 /Customer/
 /Insurance/
 /Main/
+/Payment/
+<<<<<<< HEAD
+/Accident/
+/Account/
+/Channel/
+/Contract/
+/Customer/
+/Insurance/
+/Main/
+=======
+/Provision/
+>>>>>>> refs/heads/main
 /User/
