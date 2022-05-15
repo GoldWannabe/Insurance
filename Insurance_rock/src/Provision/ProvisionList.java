@@ -4,30 +4,15 @@ package Provision;
 /**
  * @author ansm6
  * @version 1.0
- * @created 08-5-2022 ¿ÀÈÄ 10:34:19
+ * @created 08-5-2022 ï¿½ï¿½ï¿½ï¿½ 10:34:19
  */
-public class ProvisionList {
+public interface ProvisionList {
 
-	public ProvisionList(){
 
-	}
+	public boolean add(Provision provision);
+	public boolean delete(String provisionID);
+	public Provision get(String provisionID);
+	public boolean update(String provisionID);
 
-	public void finalize() throws Throwable {
-
-	}
-	public void add(){
-
-	}
-
-	public void delete(){
-
-	}
-
-	public void get(){
-
-	}
-
-	public void update(){
-
-	}
+	public void finalize() throws Throwable;
 }//end ProvisionList

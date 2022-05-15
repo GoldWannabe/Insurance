@@ -5,33 +5,50 @@ import java.util.ArrayList;
 /**
  * @author ansm6
  * @version 1.0
- * @created 08-5-2022 ¿ÀÈÄ 10:34:19
+ * @created 08-5-2022 ï¿½ï¿½ï¿½ï¿½ 10:34:19
  */
-public class ProvisionListImpl extends ProvisionList {
+public class ProvisionListImpl implements ProvisionList {
 
-	private ArrayList<Provision> provisionList;
-	public Provision m_Provision;
+	private ArrayList<Provision> provisionList = new ArrayList<Provision>();
+//	public Provision m_Provision;
 
 	public ProvisionListImpl(){
-
+		
 	}
 
 	public void finalize() throws Throwable {
 
 	}
-	public void add(){
 
+	@Override
+	public boolean add(Provision provision) {
+		if(this.provisionList.add(provision)) return true;
+		return false;
 	}
 
-	public void delete(){
-
+	@SuppressWarnings("unlikely-arg-type")
+	@Override
+	public boolean delete(String provisionID) {
+		if(this.provisionList.remove(provisionID)) return true;
+		return false;
 	}
 
-	public void get(){
-
+	@Override
+	public Provision get(String provisionID) {
+		for(Provision provision : this.provisionList) {
+			if(provision.getProvisionID().equals(provisionID)) return provision;
+		}
+		return null;
 	}
 
-	public void update(){
-
+	@Override
+	public boolean update(String provisionID) {
+		for(Provision provision : this.provisionList) {
+			if(provision.getProvisionID().equals(provisionID)) {
+				return true;
+			}
+		}
+		return false;
 	}
+
 }//end ProvisionListImpl
