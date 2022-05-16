@@ -3,15 +3,9 @@ package Insurance;
 import java.time.LocalDate;
 import java.util.Scanner;
 
-/**
- * @author ansm6
- * @version 1.0
- * @created 08-5-2022 오후 10:34:19
- */
-
 public class Insurance {
     private String insuranceID;
-    protected enum EInsurance{genetal, house}; 
+    public enum EInsurance{general, house}; 
 	private EInsurance insuranceType;
 	private boolean longTerm;
 	private String insuranceName;
@@ -23,6 +17,7 @@ public class Insurance {
 	private LocalDate releaseDate;
 	
 	public Insurance() {
+		
 	}
 	
 	public Insurance(EInsurance insuranceType, boolean longTerm){
