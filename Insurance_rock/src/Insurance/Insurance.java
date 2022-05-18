@@ -3,7 +3,7 @@ package Insurance;
 import java.time.LocalDate;
 import java.util.Scanner;
 
-public class Insurance {
+public abstract class Insurance {
     private String insuranceID;
     public enum EInsurance{general, house}; 
 	private EInsurance insuranceType;
@@ -153,7 +153,5 @@ public class Insurance {
 
 	}
 
-	public void verify(){
-
-	}
+	public abstract void verifyPremium();
 }//end Insurance

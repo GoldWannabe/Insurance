@@ -1,6 +1,5 @@
 package Insurance;
 
-
 /**
  * @author ansm6
  * @version 1.0
@@ -21,7 +20,9 @@ public class GeneralInsurance extends Insurance {
 		this.setStandardFee(10000);
 	}
 
-	public void verify(){
+	public void verifyPremium(){
 
 	}
+
+	
 }//end GeneralInsurance

@@ -20,7 +20,7 @@ public class HouseInsurance extends Insurance {
 		this.setStandardFee(10000);
 	}
 
-	public void verify(){
+	public void verifyPremium(){
 
 	}
 }//end houseInsurance

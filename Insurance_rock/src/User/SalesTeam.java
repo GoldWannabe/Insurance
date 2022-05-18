@@ -31,7 +31,7 @@ public class SalesTeam {
 		customer.setCustomerID("1");
 		this.customerList.add(customer);
 		//------------------------------
-		Insurance insurance = new Insurance(EInsurance.general, true);
+		Insurance insurance = new Insurance(); //Insurance (x)  houseInsurance(o)
 		insurance.setInsuranceName("a");
 		this.insuranceList.add(insurance);
 		
