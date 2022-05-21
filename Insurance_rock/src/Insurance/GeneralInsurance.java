@@ -12,7 +12,9 @@ public class GeneralInsurance extends Insurance {
 	public GeneralInsurance(boolean longTerm){
 		super(EInsurance.general, longTerm);
 	}
-
+	public GeneralInsurance(){
+		super(EInsurance.general);
+	}
 	public void finalize() throws Throwable {
 		super.finalize();
 	}
