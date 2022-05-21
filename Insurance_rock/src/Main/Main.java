@@ -50,30 +50,30 @@ public class Main {
 
 	private static void selectContractTeam(Scanner scanner) {
 		boolean continueSelect = true;
-		System.out.println("1. 설계, 2. 인수심사,  3. 계약관리 0. 종료");
-		String selectNum = scanner.next();
 
-		while(continueSelect) {
-		switch (selectNum) {
-		case "1":
-			InsuranceDesign insuranceDesign = new InsuranceDesign();
-			continueSelect=insuranceDesign.design();
-			break;
-		case "2":
-			Underwriting underwriting = new Underwriting();
-			continueSelect=underwriting.selectUnderwrite();
-			break;
-		case "3":
-			ContractManagement contractManagement = new ContractManagement();
-			continueSelect=contractManagement.searchContract();
-			break;
-		case "0":
-			System.exit(0);
-			break;	
-		default:
-			System.out.println("입력이 잘못 되었습니다. 다시 입력해주세요.");
-			break;
-		}
+		while (continueSelect) {
+			System.out.println("1. 설계, 2. 인수심사,  3. 계약관리 0. 종료");
+			String selectNum = scanner.next();
+			switch (selectNum) {
+			case "1":
+				InsuranceDesign insuranceDesign = new InsuranceDesign();
+				continueSelect = insuranceDesign.design();
+				break;
+			case "2":
+				Underwriting underwriting = new Underwriting();
+				continueSelect = underwriting.selectUnderwrite();
+				break;
+			case "3":
+				ContractManagement contractManagement = new ContractManagement();
+				continueSelect = contractManagement.searchContract();
+				break;
+			case "0":
+				System.exit(0);
+				break;
+			default:
+				System.out.println("입력이 잘못 되었습니다. 다시 입력해주세요.");
+				break;
+			}
 		}
 	}
 
