@@ -2,7 +2,8 @@ package ContractTeam;
 
 public class ContractManagement {
 
-	public void searchContract() {
+	public boolean searchContract() {
+		return false;
 		// TODO Auto-generated method stub
 		
 	}

@@ -49,26 +49,31 @@ public class Main {
 	}
 
 	private static void selectContractTeam(Scanner scanner) {
-
-		System.out.println("1. 설계, 2. 인수심사,  3. 계약관리");
+		boolean continueSelect = true;
+		System.out.println("1. 설계, 2. 인수심사,  3. 계약관리 0. 종료");
 		String selectNum = scanner.next();
 
+		while(continueSelect) {
 		switch (selectNum) {
 		case "1":
 			InsuranceDesign insuranceDesign = new InsuranceDesign();
-			insuranceDesign.design();
+			continueSelect=insuranceDesign.design();
 			break;
 		case "2":
 			Underwriting underwriting = new Underwriting();
-			underwriting.selectUnderwrite();
+			continueSelect=underwriting.selectUnderwrite();
 			break;
 		case "3":
 			ContractManagement contractManagement = new ContractManagement();
-			contractManagement.searchContract();
+			continueSelect=contractManagement.searchContract();
 			break;
+		case "0":
+			System.exit(0);
+			break;	
 		default:
-			System.out.println("선택 이상함");
+			System.out.println("입력이 잘못 되었습니다. 다시 입력해주세요.");
 			break;
+		}
 		}
 	}
 
