@@ -19,7 +19,7 @@ import User.SalesTeam;
 
 public class Main {
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
 
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("1. 계약팀, 2. 금감원, 3. 마켓팅/영업팀, 4. 보상팀, 5.고객");
@@ -94,7 +94,7 @@ public class Main {
 		}
 	}
 
-	private static void selectSalesTeam(Scanner scanner) throws Exception {
+	private static void selectSalesTeam(Scanner scanner) {
 		System.out.println("1. 보험 판매, 2. 고객 정보 관리, 3. 판매채널 관리");
 		String selectNum = scanner.next();
 

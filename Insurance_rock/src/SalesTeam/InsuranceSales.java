@@ -20,7 +20,7 @@ public class InsuranceSales {
 		
 	}
 
-	public void searchInsurance(Scanner scanner) throws Exception {
+	public void searchInsurance(Scanner scanner) {
 		System.out.println("가입하실 보험을 선택해주십시오.");
 		System.out.println("1. 일반보험 2. 주택보험");
 		String type = scanner.next();
