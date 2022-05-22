@@ -1,10 +1,5 @@
 package Insurance;
 
-/**
- * @author ansm6
- * @version 1.0
- * @created 08-5-2022 ���� 10:34:18
- */
 public class GeneralInsurance extends Insurance {
 
 	private int generalPremiumRate;
@@ -15,6 +10,11 @@ public class GeneralInsurance extends Insurance {
 	public GeneralInsurance(){
 		super(EInsurance.general);
 	}
+	
+	public GeneralInsurance(String inputString) {
+		super(inputString, EInsurance.general);
+	}
+	
 	public void finalize() throws Throwable {
 		super.finalize();
 	}

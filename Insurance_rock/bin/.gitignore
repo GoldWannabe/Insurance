@@ -1,5 +1,19 @@
+/CompensateTeam/
 /ContractTeam/
-/Main/
+/FinancialDirector/
+/Policyholder/
+/SalesTeam/
+/User/
 /Insurance/
+<<<<<<< HEAD
 /SalesTeam/
 /Channel/
+=======
+/Main/
+/Customer/
+/Contract/
+>>>>>>> branch 'main' of https://github.com/GoldWannabe/Insurance.git
+/Accident/
+/Account/
+/Payment/
+/Provision/

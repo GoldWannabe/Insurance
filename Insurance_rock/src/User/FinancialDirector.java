@@ -14,7 +14,7 @@ public class FinancialDirector {
 	public Insurance insurance;
 
 	public FinancialDirector(){
-		this.insurance = new Insurance();
+//		this.insurance = new Insurance();
 	}
 
 	public void finalize() throws Throwable {

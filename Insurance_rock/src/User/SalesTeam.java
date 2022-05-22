@@ -8,6 +8,7 @@ import Contract.ContractListImpl;
 import Customer.Customer;
 import Customer.CustomerList;
 import Customer.CustomerListImpl;
+import Insurance.GeneralInsurance;
 import Insurance.Insurance;
 import Insurance.InsuranceList;
 import Insurance.InsuranceListImpl;
@@ -25,15 +26,15 @@ public class SalesTeam {
 	public SalesTeam(){
 		//set customerList & insuranceList
 		//test data
-		Customer customer =  new Customer();
-		customer.setName("a");
-		customer.setPhoneNum("bc");
-		customer.setCustomerID("1");
-		this.customerList.add(customer);
-		//------------------------------
-		Insurance insurance = new Insurance(); //Insurance (x)  houseInsurance(o)
-		insurance.setInsuranceName("a");
-		this.insuranceList.add(insurance);
+//		Customer customer = new Customer();
+//		customer.setName("a");
+//		customer.setPhoneNum("bc");
+//		customer.setCustomerID("1");
+//		this.customerList.add(customer);
+//		//------------------------------
+//		Insurance insurance = new GeneralInsurance(); //Insurance (x)  houseInsurance(o)
+//		insurance.setInsuranceName("a");
+//		this.insuranceList.add(insurance);
 		
 	}
 
