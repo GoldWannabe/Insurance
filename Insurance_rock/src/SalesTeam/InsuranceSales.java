@@ -3,6 +3,7 @@ package SalesTeam;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import Customer.Customer;
 import Customer.CustomerList;
 import Customer.CustomerListImpl;
 import Insurance.Insurance;
@@ -58,11 +59,19 @@ public class InsuranceSales {
 			else if(answer.equals("2")) System.out.println("가입을 취소합니다.");
 			else System.out.println("잘못된 입력입니다.");
 			
-			
 		}
 	}
 
 	public void searchCustomer(Scanner scanner, Insurance insurance) {
+		System.out.println("1. 신규 가입자 2. 기존 보험 가입자");
 		
+		//test 
+		Scanner scanner1 = new Scanner(System.in);
+		System.out.println("고객 조회");
+		System.out.print("고객 이름 입력: ");
+		
+		Customer customer = this.customerList.search("홍길동", "010-1234-5678");
+		System.out.println("customer: "+ customer.getName()+" \n"
+				+"Rank: "+customer.getRankList().get(0).getFireFacilities()+" ");
 	}
 }
