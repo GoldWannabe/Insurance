@@ -11,7 +11,9 @@ public interface ChannelList {
 
 	public boolean add(Channel channel);
 	public boolean delete(String channelID);
-	public ArrayList<Channel> get();
+	public Channel get(String channelID);
+	public ArrayList<Channel> getAll();
+	public ArrayList<Channel> getName(String name);
 
 //	public void update(){
 //
