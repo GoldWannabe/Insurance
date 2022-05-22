@@ -141,9 +141,10 @@ public class Main {
 
 	private static void selectCompensateTeam(Scanner scanner) {
 		boolean continueSelect = true;
-		System.out.println("1. 손해사정 ");
-		String selectNum = scanner.next();
+		
 		while (continueSelect) {
+			System.out.println("1. 손해사정 ");
+			String selectNum = scanner.next();
 			switch (selectNum) {
 			case "1":
 				DamageAssessment damageAssessment = new DamageAssessment();
