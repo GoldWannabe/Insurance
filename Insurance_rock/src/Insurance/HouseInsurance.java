@@ -1,10 +1,5 @@
 package Insurance;
 
-/**
- * @author ansm6
- * @version 1.0
- * @created 08-5-2022 ���� 10:34:18
- */
 public class HouseInsurance extends Insurance {
 
 	private int housePremiumRate;
@@ -14,6 +9,10 @@ public class HouseInsurance extends Insurance {
 	}
 	public HouseInsurance(){
 		super(EInsurance.house);
+	}
+	
+	public HouseInsurance(String inputString) {
+		super(inputString, EInsurance.house);
 	}
 	
 	public void finalize() throws Throwable {

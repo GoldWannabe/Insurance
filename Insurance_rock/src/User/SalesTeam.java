@@ -8,6 +8,7 @@ import Contract.ContractListImpl;
 import Customer.Customer;
 import Customer.CustomerList;
 import Customer.CustomerListImpl;
+import Insurance.GeneralInsurance;
 import Insurance.Insurance;
 import Insurance.InsuranceList;
 import Insurance.InsuranceListImpl;
@@ -31,7 +32,7 @@ public class SalesTeam {
 		customer.setCustomerID("1");
 		this.customerList.add(customer);
 		//------------------------------
-		Insurance insurance = new Insurance(); //Insurance (x)  houseInsurance(o)
+		Insurance insurance = new GeneralInsurance(); //Insurance (x)  houseInsurance(o)
 		insurance.setInsuranceName("a");
 		this.insuranceList.add(insurance);
 		
