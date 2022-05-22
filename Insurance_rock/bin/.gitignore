@@ -1,5 +1,17 @@
+/.classpath
+/.project
+/Accident/
+/Account/
+/Channel/
 /CompensateTeam/
+/Contract/
 /ContractTeam/
+/Customer/
 /FinancialDirector/
+/Insurance/
+/Main/
+/Payment/
 /Policyholder/
+/Provision/
 /SalesTeam/
+/User/

@@ -47,7 +47,8 @@ public class Main {
 			break;
 		}
 	}
-
+	
+	
 	private static void selectContractTeam(Scanner scanner) {
 		boolean continueSelect = true;
 
@@ -122,32 +123,36 @@ public class Main {
 	private static void selectCustomer(Scanner scanner) {
 		System.out.println("1. 보험료 납부");
 		String selectNum = scanner.next();
-		switch (selectNum) {
-		case "1":
-			FeePayment feePayment = new FeePayment();
-			feePayment.checkFee();
-			break;
+		
+			switch (selectNum) {
+			case "1":
+				FeePayment feePayment = new FeePayment();
+				feePayment.checkFee();
+				break;
 
-		default:
-			System.out.println("선택 이상함");
-			break;
-		}
+			default:
+				System.out.println("선택 이상함");
+				break;
+			}
+		
+		
 
 	}
 
 	private static void selectCompensateTeam(Scanner scanner) {
+		boolean continueSelect = true;
 		System.out.println("1. 손해사정 ");
 		String selectNum = scanner.next();
-
-		switch (selectNum) {
-		case "1":
-			DamageAssessment damageAssessment = new DamageAssessment();
-			damageAssessment.selectAccidentMenagement();
-			break;
-
-		default:
-			System.out.println("선택 이상함");
-			break;
+		while (continueSelect) {
+			switch (selectNum) {
+			case "1":
+				DamageAssessment damageAssessment = new DamageAssessment();
+				continueSelect = damageAssessment.selectAccidentMenagement(scanner);
+				break;
+			default:
+				System.out.println("선택 이상함");
+				break;
+			}
 		}
 	}
 }
