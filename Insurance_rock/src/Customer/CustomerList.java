@@ -1,11 +1,9 @@
 package Customer;
 
+import java.util.ArrayList;
 
-/**
- * @author ansm6
- * @version 1.0
- * @created 09-5-2022 ¿ÀÈÄ 6:20:28
- */
+import Contract.Contract;
+
 public interface CustomerList {
 
 	public void finalize() throws Throwable;
@@ -17,4 +15,5 @@ public interface CustomerList {
 	public boolean edit(String customerID);
 
 	public Customer search(String name, String phoneNum);
+
 }//end CustomerList

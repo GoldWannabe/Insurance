@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 import java.util.UUID;
 
 public abstract class Insurance {
@@ -23,6 +24,24 @@ public abstract class Insurance {
 	private String explanation;
 	private int standardFee;
 	private LocalDate releaseDate;
+	
+	public Insurance(String inputString, EInsurance insuranceType) {
+		StringTokenizer stringTokenizer = new StringTokenizer(inputString);
+		this.insuranceID = stringTokenizer.nextToken();
+		this.insuranceName = stringTokenizer.nextToken();
+		
+		//nextToken 
+		String type = stringTokenizer.nextToken();
+		//define in subClass
+		this.insuranceType = insuranceType;
+		
+		this.standardFee = Integer.parseInt(stringTokenizer.nextToken());
+		this.specialContract = stringTokenizer.nextToken();
+		this.longTerm = Boolean.parseBoolean(stringTokenizer.nextToken());
+		this.applyCondition = stringTokenizer.nextToken();
+		this.compensateCondition = stringTokenizer.nextToken();
+		this.explanation = stringTokenizer.nextToken();	
+	}
 
 	public Insurance(EInsurance insuranceType) {
 		this.insuranceType = insuranceType;

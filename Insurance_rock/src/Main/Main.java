@@ -102,7 +102,7 @@ public class Main {
 		switch (selectNum) {
 		case "1":
 			InsuranceSales insuranceSales = new InsuranceSales();
-			insuranceSales.searchInsurance();
+			insuranceSales.searchInsurance(scanner);
 			break;
 		case "2":
 			CustomerManagement customerManagement = new CustomerManagement();

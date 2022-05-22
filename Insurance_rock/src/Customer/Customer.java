@@ -1,33 +1,47 @@
 package Customer;
 
 import java.util.ArrayList;
-
-import Account.Account;
-import Contract.Contract;
+import java.util.StringTokenizer;
 
 public class Customer {
 
 	private String customerID;
-	private String accountNum;
+	private String name;
+	private String SSN;
+	private Esex sex;
+	private String phoneNum;
 	private String address;
 	private String bankName;
-	private ArrayList<Contract> contractID = new ArrayList<Contract>();
+	private String accountNum;
 	private float insuranceNum;
-	private String name;
-	private String phoneNum;
+	
+	private ArrayList<String> contractID = new ArrayList<String>();
+	private ArrayList<Rank> rankList = new ArrayList<Rank>();
+	
 	private enum Esex{
 		male,
 		female,
 		none,
 	};
-	
-	private Esex sex;
-	private String SSN;
 
-	public Customer(){
-
+	public Customer(String inputString, ArrayList<Rank> rankList){
+		StringTokenizer stringTokenizer = new StringTokenizer(inputString);
+		this.customerID = stringTokenizer.nextToken();
+		this.name = stringTokenizer.nextToken();
+		this.SSN = stringTokenizer.nextToken();
+		this.setSex(stringTokenizer.nextToken());
+		this.phoneNum = stringTokenizer.nextToken();
+		this.address = stringTokenizer.nextToken();
+		this.bankName = stringTokenizer.nextToken();
+		this.accountNum = stringTokenizer.nextToken();
+		this.insuranceNum = Float.parseFloat(stringTokenizer.nextToken());
+		
+		while (stringTokenizer.hasMoreTokens()) {
+    		this.contractID.add(stringTokenizer.nextToken());
+    	}
+		this.rankList = rankList;
 	}
-
+	
 	public void finalize() throws Throwable {
 
 	}
@@ -112,11 +126,11 @@ public class Customer {
 		this.bankName = bankName;
 	}
 
-	public ArrayList<Contract> getContractID() {
+	public ArrayList<String> getContractID() {
 		return contractID;
 	}
 
-	public void setContractID(ArrayList<Contract> contractID) {
+	public void setContractID(ArrayList<String> contractID) {
 		this.contractID = contractID;
 	}
 
@@ -158,7 +172,26 @@ public class Customer {
 
 	public void setSex(String sex) {
 		// set logic
-		this.sex = Esex.male;
+		if(sex.equals(Esex.male.toString())) {
+			this.sex = Esex.male;
+		}else if(sex.equals(Esex.female.toString())) {
+			this.sex = Esex.female;
+		}else if(sex.equals(Esex.none)) {
+			this.sex = Esex.none;
+		}else {
+			//default
+			this.sex = Esex.none;
+		}
 	}
+
+	public ArrayList<Rank> getRankList() {
+		return rankList;
+	}
+
+	public void setRankList(ArrayList<Rank> rankList) {
+		this.rankList = rankList;
+	}
+	
+	
 	
 }//end Customer

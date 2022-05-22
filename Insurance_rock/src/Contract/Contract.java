@@ -1,11 +1,8 @@
 package Contract;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.Scanner;
 
-import Customer.Customer;
-import Insurance.InsuranceList;
+import Customer.Rank;
 
 /**
  * @author ansm6
@@ -24,7 +21,6 @@ public class Contract {
 	private int period;
 	private String phoneNum;
 	private int provisionFee;
-	private Rank rank;
 	private int securityFee;
 	private LocalDate startDate;
 	private int unpaidFee;
@@ -32,7 +28,7 @@ public class Contract {
 	private String insuranceName;
 
 	public Contract() {
-		this.rank = new Rank();
+		
 	}
 
 	public void finalize() throws Throwable {
@@ -170,14 +166,6 @@ public class Contract {
 
 	public void setProvisionFee(int provisionFee) {
 		this.provisionFee = provisionFee;
-	}
-
-	public Rank getRank() {
-		return rank;
-	}
-
-	public void setRank(Rank rank) {
-		this.rank = rank;
 	}
 
 	public int getSecurityFee() {

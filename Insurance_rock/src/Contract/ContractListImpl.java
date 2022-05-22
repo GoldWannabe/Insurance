@@ -2,11 +2,6 @@ package Contract;
 
 import java.util.ArrayList;
 
-/**
- * @author ansm6
- * @version 1.0
- * @created 08-5-2022 ���� 10:34:18
- */
 public class ContractListImpl implements ContractList {
 
 	private ArrayList<Contract> contractList = new ArrayList<Contract>();
