@@ -27,7 +27,6 @@ public class ChannelListImpl implements ChannelList {
 
 	}
 
-	@SuppressWarnings("unlikely-arg-type")
 	public boolean delete(String channelID) {
 		if (this.channelList.remove(get(channelID)))
 			return true;

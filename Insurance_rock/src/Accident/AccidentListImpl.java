@@ -2,8 +2,6 @@ package Accident;
 
 import java.util.ArrayList;
 
-import Contract.Contract;
-
 
 /**
  * @author ansm6

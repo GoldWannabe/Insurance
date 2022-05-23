@@ -1,9 +1,5 @@
 package Customer;
 
-import java.util.ArrayList;
-
-import Contract.Contract;
-
 public interface CustomerList {
 
 	public void finalize() throws Throwable;

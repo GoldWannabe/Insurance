@@ -2,8 +2,6 @@ package Contract;
 
 import java.time.LocalDate;
 
-import Customer.Rank;
-
 /**
  * @author ansm6
  * @version 1.0

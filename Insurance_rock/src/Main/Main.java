@@ -6,16 +6,11 @@ import CompensateTeam.DamageAssessment;
 import ContractTeam.ContractManagement;
 import ContractTeam.InsuranceDesign;
 import ContractTeam.Underwriting;
-import Customer.Customer;
 import FinancialDirector.InsuranceJudge;
 import Policyholder.FeePayment;
 import SalesTeam.ChannelManagement;
 import SalesTeam.CustomerManagement;
 import SalesTeam.InsuranceSales;
-import User.CompensateTeam;
-import User.ContractTeam;
-import User.FinancialDirector;
-import User.SalesTeam;
 
 public class Main {
 

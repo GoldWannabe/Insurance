@@ -34,7 +34,7 @@ public class CompensateTeam {
 	}
 
 	public void add() {
-		accident.search();
+		//accident.search();
 		accident.add();
 		
 		File file = new File(".//DB//Accident_DB.txt");
@@ -86,7 +86,7 @@ public class CompensateTeam {
 
 		switch (selectNum) {
 		case "1":
-			accident.search();
+			//accident.search();
 			break;
 		case "2":
 			add();
