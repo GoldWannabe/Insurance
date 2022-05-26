@@ -12,4 +12,10 @@ public interface CustomerList {
 
 	public Customer search(String name, String phoneNum);
 
+	boolean editInsuranceNum(String customerID);
+
+	public void init();
+
+	public void rewrite();
+
 }//end CustomerList

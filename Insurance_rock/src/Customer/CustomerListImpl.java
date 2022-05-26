@@ -1,10 +1,14 @@
 package Customer;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import Channel.Channel;
 
 public class CustomerListImpl implements CustomerList {
 
@@ -15,14 +19,14 @@ public class CustomerListImpl implements CustomerList {
 		init();
 	}
 
-	private void init() {
+	public void init() {
 		try {
 			BufferedReader customerFile = new BufferedReader(new FileReader(".//DB//Customer.txt"));
 			this.customerList = new ArrayList<Customer>();
 			while (customerFile.ready()) {
 				String customer = customerFile.readLine();
 				if (!customer.equals("")) {
-					this.customerList.add(new Customer(customer, setRank(customer)));
+					this.customerList.add(new Customer(customer));
 				}
 			}
 			customerFile.close();
@@ -34,32 +38,29 @@ public class CustomerListImpl implements CustomerList {
 		}
 
 	}
-
-	private ArrayList<Rank> setRank(String customer) {
-		String[] tempCustomer = customer.split(" ");
+	
+	public void rewrite() {
 		try {
-			BufferedReader rankFile = new BufferedReader(new FileReader(".//DB//Rank.txt"));
-			this.rankList = new ArrayList<Rank>();
-			while (rankFile.ready()) {
-				String rank = rankFile.readLine();
-				String[] tempRank = rank.split(" ");
-				//rank is not null && equal customerID
-				if (!rank.equals("") && tempCustomer[0].equals(tempRank[0])) {
-					this.rankList.add(new Rank(rank));
-				}
-			}
-			rankFile.close();
-			return this.rankList;
-			
+			File file = new File(".//DB//Customer.txt");
+			FileWriter fileWriter = new FileWriter(file);
+			for (Customer customer : this.customerList) {
+				fileWriter.write(customer.getCustomerID() + " " + customer.getName() + " "
+						+ customer.getSSN() + " " + customer.getSex() + " "
+						+ customer.getPhoneNum() + " " + customer.getAddress() +" "
+						+ customer.getBankName()+" "+customer.getAccountNum()+" "
+						+ customer.getInsuranceNum()+" "+customer.toStringContract()+" "
+						+ customer.toStringRankID()+"\n");
+				fileWriter.flush();
 
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			}
+			fileWriter.close();
 		} catch (IOException e) {
+			System.out.println("DB 접근 오류: 정보 접근에 실패하였습니다. 해당 문제가 계속 발생할 시에는 사내 시스템 관리팀(1234-5678)에게 문의 주시기 바랍니다.");
 			e.printStackTrace();
 		}
-		// exception
-		return null;
 	}
+
+
 
 	public void finalize() throws Throwable {
 
@@ -84,6 +85,17 @@ public class CustomerListImpl implements CustomerList {
 		for (Customer customer : this.customerList) {
 			if (customer.getContractID().equals(customerID)) {
 				// edit
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean editInsuranceNum(String customerID) {
+		for (Customer customer : this.customerList) {
+			if (customer.getContractID().equals(customerID)) {
+				customer.setInsuranceNum((float) (customer.getInsuranceNum()+0.1));
 				return true;
 			}
 		}

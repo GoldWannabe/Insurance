@@ -1,9 +1,13 @@
 package Customer;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.StringTokenizer;
+import java.util.UUID;
 
 public class Rank {
-	
+	private String rankID;
 	private String customerID;
 	private EMaterial material;
 	private float fireFacilities;
@@ -19,6 +23,7 @@ public class Rank {
 	
 	public Rank(String inputString) {
 		StringTokenizer stringTokenizer = new StringTokenizer(inputString);
+		this.rankID = stringTokenizer.nextToken();
 		this.customerID = stringTokenizer.nextToken();
 		this.setMaterial(stringTokenizer.nextToken());
 		this.fireFacilities = Float.parseFloat(stringTokenizer.nextToken());
@@ -30,12 +35,19 @@ public class Rank {
 	public void finalize() throws Throwable {
 
 	}
-
+	
+	public void setRankID() {
+		this.rankID = UUID.randomUUID().toString();
+	}
+	
+	public String getRankID() {
+		return this.rankID;
+	}
 	
 	public String getCustomerID() {
 		return customerID;
 	}
-
+	
 	public void setCustomerID(String customerID) {
 		this.customerID = customerID;
 	}
@@ -91,4 +103,21 @@ public class Rank {
 		}
 		
 	}
+	
+	public void register() {
+		try {
+			File file = new File(".//DB//Rank.txt");
+			FileWriter fileWriter = new FileWriter(file, true);
+			fileWriter.write(this.rankID + " "+this.customerID+" " + this.material + " "
+					+ this.fireFacilities + " " + this.height + " " + this.scale + " " + this.surroundingFacilities
+					+"\n");
+			fileWriter.flush();
+			fileWriter.close();
+		} catch (IOException e) {
+			System.out.println("DB 접근 오류: 정보 접근에 실패하였습니다. 해당 문제가 계속 발생할 시에는 사내 시스템 관리팀(1234-5678)에게 문의 주시기 바랍니다.");
+			e.printStackTrace();
+		}
+	}
+
+
 }//end Rank

@@ -1,31 +1,37 @@
 package Contract;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.UUID;
 
-/**
- * @author ansm6
- * @version 1.0
- * @created 08-5-2022 ���� 10:34:18
- */
 public class Contract {
 
-	private String accidentHistory;
-	private String contractID;
+	private String customerID;
 	private String customerName;
+	private String phoneNum;
+	
+	private String insuranceID;
+	private String insuranceName;
+	
+	private String contractID;
+	private String accidentHistory;
 	private LocalDate endDate;
 	private int insuranceFee;
-	private String insuranceID;
 	private String paymentCycle;
 	private int period;
-	private String phoneNum;
 	private int provisionFee;
 	private int securityFee;
 	private LocalDate startDate;
 	private int unpaidFee;
-	private String customerID;
-	private String insuranceName;
-
+	
 	public Contract() {
+		
+	}
+
+	public Contract(String contract) {
+		
 		
 	}
 
@@ -98,6 +104,10 @@ public class Contract {
 		return contractID;
 	}
 
+	public void setContractID() {
+		this.contractID = UUID.randomUUID().toString();
+	}
+	
 	public void setContractID(String contractID) {
 		this.contractID = contractID;
 	}
@@ -204,6 +214,21 @@ public class Contract {
 
 	public void setInsuranceName(String insuranceName) {
 		this.insuranceName = insuranceName;
+	}
+
+	public void register() {
+		try {
+			File file = new File(".//DB//ApplyContract.txt");
+			FileWriter fileWriter = new FileWriter(file, true);
+			fileWriter.write(this.contractID + " " + this.customerID + " " + this.customerName + " "
+					+ this.phoneNum + " " + this.insuranceID + " " + this.insuranceName + " " + this.paymentCycle
+					+ " " + this.insuranceFee + " " +this.securityFee+" "+ this.period+ "\n");
+			fileWriter.flush();
+			fileWriter.close();
+		} catch (IOException e) {
+			System.out.println("DB 접근 오류: 정보 접근에 실패하였습니다. 해당 문제가 계속 발생할 시에는 사내 시스템 관리팀(1234-5678)에게 문의 주시기 바랍니다.");
+			e.printStackTrace();
+		}
 	}
 
 }// end Contract
