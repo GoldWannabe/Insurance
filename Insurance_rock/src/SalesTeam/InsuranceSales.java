@@ -90,7 +90,6 @@ public class InsuranceSales {
 		newContract.setInsuranceName(insurance.getInsuranceName());
 		newContract.setInsuranceID(insurance.getInsuranceID());
 		
-		
 		System.out.print("가입자 이름: ");
 		String customerName = scanner.next();
 		newContract.setCustomerName(customerName);
