@@ -7,6 +7,6 @@
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="/Insurance_2022"/>
-	<classpathentry kind="lib" path="C:/Users/ansm6/OneDrive/바탕 화면/mysql-connector-java-8.0.13/mysql-connector-java-8.0.13/mysql-connector-java-8.0.13.jar"/>
+	<classpathentry kind="lib" path="C:/Users/DaEunYeo/Documents/카카오톡 받은 파일/mysql-connector-java-8.0.13_1/mysql-connector-java-8.0.13.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -176,7 +176,7 @@ public class Accident {
 		return true;
 	}
 
-	public void search(String customerName_inser, LocalDate accidentDate_inser, boolean empty) {
+	public boolean search(String customerName_inser, LocalDate accidentDate_inser, boolean isSearch) {
 		// 검색한것을 보여줄려면...? 가입자명과 사고날짜가 같다면. 거기에 해당하는 파일 내용 보여주기.
 		Path path = Paths.get(".//DB//Accident_DB.txt");
 		Charset cs = StandardCharsets.UTF_8;
@@ -197,9 +197,10 @@ public class Accident {
 			if(readfilesplit[2].equals(customerName_inser) && strToLocalDateTime.isEqual(accidentDate_inser)) {
 				System.out.println(readLine);
 				System.out.println(customerName_inser+"님의 해당 사고날짜의 정보가 출력되었습니다.");
-				empty = false;
+				return isSearch = false;
 			}
 		}
+		return isSearch;
 
 		// 다읽어보구... 해당하는것만 set해서 넣어... 그리고 get으로 가져와.
 		// set의 정보와 VectorList의 비교는 다름! set한것을 Vertor에 넣기!
