@@ -176,7 +176,7 @@ public class Accident {
 		return true;
 	}
 
-	public void search(String customerName_inser, LocalDate accidentDate_inser, boolean empty) {
+	public void search(String customerName_inser, LocalDate accidentDate_inser, boolean isSearch) {
 		// 검색한것을 보여줄려면...? 가입자명과 사고날짜가 같다면. 거기에 해당하는 파일 내용 보여주기.
 		Path path = Paths.get(".//DB//Accident_DB.txt");
 		Charset cs = StandardCharsets.UTF_8;

@@ -15,31 +15,39 @@ import SalesTeam.InsuranceSales;
 public class Main {
 
 	public static void main(String[] args) {
-
-		Scanner scanner = new Scanner(System.in);
-		System.out.println("1. 계약팀, 2. 금감원, 3. 마켓팅/영업팀, 4. 보상팀, 5.고객");
-		String selectNum = scanner.next();
-
-		switch (selectNum) {
-		case "1":
-			selectContractTeam(scanner);
-			break;
-		case "2":
-			selectFinancialDirector(scanner);
-			break;
-		case "3":
-			selectSalesTeam(scanner);
-			break;
-		case "4":
-			selectCompensateTeam(scanner);
-			break;
-
-		case "5":
-			selectCustomer(scanner);
-			break;
-		default:
-			System.out.println("제대로 입력해주세요.");
-			break;
+		
+		boolean continueSelect = false;
+		while(!continueSelect) {
+			Scanner scanner = new Scanner(System.in);
+			System.out.println("1. 계약팀, 2. 금감원, 3. 마켓팅/영업팀, 4. 보상팀, 5.고객");
+			String selectNum = scanner.next();
+			switch (selectNum) {
+			case "1":
+				selectContractTeam(scanner);
+				continueSelect = true;
+				break;
+			case "2":
+				selectFinancialDirector(scanner);
+				continueSelect = true;
+				break;
+			case "3":
+				selectSalesTeam(scanner);
+				continueSelect = true;
+				break;
+			case "4":
+				selectCompensateTeam(scanner);
+				continueSelect = true;
+				break;
+				
+			case "5":
+				selectCustomer(scanner);
+				continueSelect = true;
+				break;
+			default:
+				//while문 안먹음 사
+				System.out.println("제대로 입력해주세요.");
+				break;
+			}
 		}
 	}
 	
@@ -138,12 +146,15 @@ public class Main {
 		boolean continueSelect = true;
 		
 		while (continueSelect) {
-			System.out.println("1. 손해사정 ");
+			System.out.println("1. 손해사정, 0. 취소 ");
 			String selectNum = scanner.next();
 			switch (selectNum) {
 			case "1":
 				DamageAssessment damageAssessment = new DamageAssessment();
 				continueSelect = damageAssessment.selectAccidentMenagement(scanner);
+				break;
+			case "0":
+				System.out.println("취소되었습니다. 전 선택창으로 돌아갑니다");
 				break;
 			default:
 				System.out.println("선택 이상함");

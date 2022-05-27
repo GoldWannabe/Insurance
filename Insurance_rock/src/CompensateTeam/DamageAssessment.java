@@ -14,10 +14,12 @@ public class DamageAssessment {
 
 	public DamageAssessment() {
 		this.contract = new Contract();
+		
 	}
 
 	public boolean selectAccidentMenagement(Scanner scanner) {
-		System.out.println("1. 사고검색, 2. 사고 추가, 0. 취소");
+		System.out.println("사고를 접수하기 위한 메뉴 선택해주세요.");
+		System.out.println("1. 검색, 2. 추가, 0. 취소");
 		String selectNum = scanner.next();
 		this.accident = new Accident();
 
@@ -58,9 +60,9 @@ public class DamageAssessment {
 		}
 		LocalDate accidentDate_inser = LocalDate.of(intArray[0], intArray[1], intArray[2]);
 
-		boolean empty = false;
-		if (!empty) {
-			accident.search(customerName_inser, accidentDate_inser, empty);
+		boolean isSearch = false;
+		if (!isSearch) {
+			accident.search(customerName_inser, accidentDate_inser, isSearch);
 			System.out.println("1. 보상금 지급, 2. 수정");
 			String selectNum = scanner.next();
 			switch (selectNum) {
