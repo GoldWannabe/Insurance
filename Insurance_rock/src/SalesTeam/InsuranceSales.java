@@ -31,13 +31,13 @@ public class InsuranceSales {
 		String type = scanner.next();
 			
 		if(type.equals("1")) {
-			generalInsurance(scanner, EInsurance.general);
+			getInsurance(scanner, EInsurance.general);
 		}else if(type.equals("2")) {
-			generalInsurance(scanner, EInsurance.house);
+			getInsurance(scanner, EInsurance.house);
 		}
 	}
 
-	private void generalInsurance(Scanner scanner, EInsurance insuranceType) {
+	private void getInsurance(Scanner scanner, EInsurance insuranceType) {
 		ArrayList<Insurance> InsuranceList = this.insuranceList.get(insuranceType);
 		System.out.println("------"+insuranceType.toString()+"보험 목록------");
 		for(int i = 0; i<InsuranceList.size(); i++) {
