@@ -2,13 +2,17 @@ package dao;
 
 import java.sql.ResultSet;
 
+import Insurance.GeneralInsurance;
+
 public class RegisterGeneralRateDao  extends Dao {
 	public RegisterGeneralRateDao() {
 		super.connect();
 	}
 
-	public boolean create() {
-		String query = "";
+	public boolean create(GeneralInsurance generalInsurance) {
+		
+		double[] rate = generalInsurance.getStandardRate();
+		String query = "insert into RegisterGeneralRate(insuranceID, insurancerank, generalPremiumRate) values (\""+generalInsurance.getInsuranceID()+"\","+1+","+rate[0]+"),(\""+generalInsurance.getInsuranceID()+"\","+2+","+rate[1]+"),(\""+generalInsurance.getInsuranceID()+"\","+3+","+rate[2]+");";
 
 		System.out.println(query);
 		return super.create(query);
@@ -33,5 +37,19 @@ public class RegisterGeneralRateDao  extends Dao {
 
 		System.out.println(query);
 		return super.delete(query);
+	}
+
+	public ResultSet retriveRate(String insuranceID) {
+		String query = "select generalPremiumRate from RegisterGeneralRate where insuranceID=\""+insuranceID+"\";";
+
+		System.out.println(query);
+		return super.retrive(query);
+	}
+
+	public boolean deleteRate(String insuranceID) {
+		String query = "delete from RegisterGeneralRate where insuranceID=\""+insuranceID+"\";";
+
+		System.out.println(query);
+		return super.delete(query);		
 	}
 }

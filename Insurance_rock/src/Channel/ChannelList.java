@@ -15,6 +15,7 @@ public interface ChannelList {
 	public ArrayList<Channel> getAll();
 	public ArrayList<Channel> getName(String name);
 
+	
 //	public void update(){
 //
 //	}

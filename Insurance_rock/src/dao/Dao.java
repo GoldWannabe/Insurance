@@ -36,6 +36,7 @@ public class Dao {
 		try { 
 			statement = connect.createStatement();
 			this.resultSet = statement.executeQuery(query);
+			
 			return resultSet;
 		} catch (SQLException e) {
 			e.printStackTrace();
