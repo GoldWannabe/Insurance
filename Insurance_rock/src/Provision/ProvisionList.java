@@ -1,11 +1,8 @@
 package Provision;
 
+import java.util.ArrayList;
 
-/**
- * @author ansm6
- * @version 1.0
- * @created 08-5-2022 ���� 10:34:19
- */
+
 public interface ProvisionList {
 
 
@@ -13,6 +10,7 @@ public interface ProvisionList {
 	public boolean delete(String provisionID);
 	public Provision get(String provisionID);
 	public boolean update(String provisionID);
-
+	public ArrayList<Provision> getAll();
+	
 	public void finalize() throws Throwable;
 }//end ProvisionList

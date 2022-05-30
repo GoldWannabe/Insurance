@@ -1,0 +1,2 @@
+93ef39aa-c81d-41c5-8e4b-634e4061a251 보험1 general 10000 특약1 true 가입조건1 보상조건1 설명1
+04ac1705-79c6-45e6-96dc-c63b91cf9ac0 보험2 house 10000  false false 가입조건2 보상조건2 설명2

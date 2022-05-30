@@ -2,18 +2,14 @@ package Provision;
 
 import java.util.ArrayList;
 
-/**
- * @author ansm6
- * @version 1.0
- * @created 08-5-2022 ���� 10:34:19
- */
+
 public class ProvisionListImpl implements ProvisionList {
 
-	private ArrayList<Provision> provisionList = new ArrayList<Provision>();
+	private ArrayList<Provision> provisionList;
 //	public Provision m_Provision;
 
 	public ProvisionListImpl(){
-		
+		this.provisionList = new ArrayList<Provision>();
 	}
 
 	public void finalize() throws Throwable {
@@ -49,6 +45,12 @@ public class ProvisionListImpl implements ProvisionList {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public ArrayList<Provision> getAll() {
+		// TODO Auto-generated method stub
+		return this.provisionList;
 	}
 
 }//end ProvisionListImpl

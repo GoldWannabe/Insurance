@@ -19,7 +19,7 @@ public class InsuranceListImpl implements InsuranceList {
 
 	private void init() {
 		try {
-			BufferedReader insuranceFile = new BufferedReader(new FileReader(".//DB//registerInsurance.txt"));
+			BufferedReader insuranceFile = new BufferedReader(new FileReader(".//DB//Insurance.txt"));
 			this.insuranceList = new ArrayList<Insurance>();
 			while (insuranceFile.ready()) {
 				String insurance = insuranceFile.readLine();

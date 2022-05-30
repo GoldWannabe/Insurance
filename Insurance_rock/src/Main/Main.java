@@ -116,13 +116,13 @@ public class Main {
 	}
 
 	private static void selectCustomer(Scanner scanner) {
-		System.out.println("1. 보험료 납부");
+		System.out.println("1. 납부기록");
 		String selectNum = scanner.next();
 		
 			switch (selectNum) {
 			case "1":
 				FeePayment feePayment = new FeePayment();
-				feePayment.checkFee();
+				feePayment.checkFee(scanner);
 				break;
 
 			default:

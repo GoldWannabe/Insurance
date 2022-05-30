@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 public class PaymentListImpl implements PaymentList {
 
-	private ArrayList<Payment> paymentList = new ArrayList<Payment>();
+	private ArrayList<Payment> paymentList;
 
 	public PaymentListImpl(){
-
+		this.paymentList = new ArrayList<Payment>();
 	}
 
 	public void finalize() throws Throwable {
@@ -43,6 +43,12 @@ public class PaymentListImpl implements PaymentList {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public ArrayList<Payment> getAll() {
+		// TODO Auto-generated method stub
+		return this.paymentList;
 	}
 
 }//end PaymentImpl

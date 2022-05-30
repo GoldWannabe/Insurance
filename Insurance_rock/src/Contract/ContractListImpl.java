@@ -1,14 +1,41 @@
 package Contract;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ContractListImpl implements ContractList {
 
-	private ArrayList<Contract> contractList = new ArrayList<Contract>();
+	private ArrayList<Contract> contractList;
 
 	public ContractListImpl(){
+		init();
+	}
+	
+	private void init() {
+		try {
+			BufferedReader contractFile = new BufferedReader(new FileReader(".//DB//ApplyContract.txt"));
+			this.contractList = new ArrayList<Contract>();
+			while (contractFile.ready()) {
+				String contract = contractFile.readLine();
+				if (!contract.equals("")) {
+					this.contractList.add(new Contract(contract));
+				}
+			}
+			contractFile.close();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
+	
 
 	public void finalize() throws Throwable {
 
