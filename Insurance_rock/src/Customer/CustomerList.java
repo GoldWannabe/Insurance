@@ -14,8 +14,5 @@ public interface CustomerList {
 
 	boolean editInsuranceNum(String customerID);
 
-	public void init();
-
-	public void rewrite();
 
 }//end CustomerList

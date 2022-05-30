@@ -30,6 +30,7 @@ public class GeneralInsurance extends Insurance {
 		super.finalize();
 	}
 
+	
 	public void measureStandardFee() {
 		setStandardFee((int) (1000000000 * standardRate[0]/100));
 	}
@@ -101,5 +102,6 @@ public class GeneralInsurance extends Insurance {
 		
 		
 	}
+
 
 }// end GeneralInsurance

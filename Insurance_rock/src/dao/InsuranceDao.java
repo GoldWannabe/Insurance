@@ -3,6 +3,7 @@ package dao;
 import java.sql.ResultSet;
 
 import Insurance.Insurance;
+import Insurance.Insurance.EInsurance;
 
 public class InsuranceDao  extends Dao {
 	public InsuranceDao() {
@@ -41,6 +42,11 @@ public class InsuranceDao  extends Dao {
 		String query = "select * from Insurance where insuranceName=\""+insuranceName+"\";";
 
 		System.out.println(query);
+		return super.retrive(query);
+	}
+
+	public ResultSet retrive(EInsurance insuranceType) {
+		String query = "select * from Insurance where insuranceType =\""+insuranceType.toString()+"\";";
 		return super.retrive(query);
 	}
 }

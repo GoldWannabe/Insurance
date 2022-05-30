@@ -13,30 +13,9 @@ public class ContractListImpl implements ContractList {
 	private ArrayList<Contract> contractList;
 
 	public ContractListImpl(){
-		init();
+	
 	}
 	
-	private void init() {
-		try {
-			BufferedReader contractFile = new BufferedReader(new FileReader(".//DB//ApplyContract.txt"));
-			this.contractList = new ArrayList<Contract>();
-			while (contractFile.ready()) {
-				String contract = contractFile.readLine();
-				if (!contract.equals("")) {
-					this.contractList.add(new Contract(contract));
-				}
-			}
-			contractFile.close();
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}
-	
-
 	public void finalize() throws Throwable {
 
 	}

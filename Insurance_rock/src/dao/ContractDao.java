@@ -2,9 +2,15 @@ package dao;
 
 import java.sql.ResultSet;
 
+import Contract.Contract;
+
 public class ContractDao  extends Dao {
 	public ContractDao() {
 		super.connect();
+	}
+	
+	public void create(Contract contract) {
+		
 	}
 
 	public boolean create() {
@@ -34,4 +40,5 @@ public class ContractDao  extends Dao {
 		System.out.println(query);
 		return super.delete(query);
 	}
+
 }
