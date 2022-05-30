@@ -44,7 +44,6 @@ public class Accident {
 	private boolean payCompleted;
 	private int liablityRate;
 	private int liablityCost;	
-	private ContractDao contractDAO;
 	private AccidentDao accidentDAO;
 	private int Num;
 	public String getCustomerID() {
@@ -56,7 +55,6 @@ public class Accident {
 	}
 	public Accident() {
 		this.accidentDAO = new AccidentDao();
-		this.contractDAO = new ContractDao();
 	}
 
 	public LocalDate getAccidentDate() {
@@ -164,42 +162,14 @@ public class Accident {
 		return true;
 	}
 
-	public boolean search(String customerName_inser, LocalDate accidentDate_inser, boolean isSearch) {
-		// 검색한것을 보여줄려면...? 가입자명과 사고날짜가 같다면. 거기에 해당하는 파일 내용 보여주기.
-//			ArrayList<Accident> tempAccidentList = this.accidentList.get(customerName_inser, accidentDate_inser);//내가 적은적과, 내가 적은 Date를 보냉
-			
-			Path path = Paths.get(".//DB//Accident_DB.txt");
-			Charset cs = StandardCharsets.UTF_8;
-			List<String> list = new ArrayList<String>();
-			String[] readfilesplit = null;
-			try {
-				list = Files.readAllLines(path,cs);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			//사고날짜는 DB랑 연결되면 이제 비교가능. readLine없다고 생각하고.
-			
-			for(String readLine : list) {
-				readfilesplit = readLine.split(" ");
-				String strDate = readfilesplit[4];
-				DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-				LocalDate strToLocalDateTime = LocalDate.parse(strDate, format);
-				
-				if(readfilesplit[2].equals(customerName_inser) && strToLocalDateTime.isEqual(accidentDate_inser)) {
-				
-					System.out.println(readLine);
-					System.out.println(customerName_inser+"님의 해당 사고날짜의 정보가 출력되었습니다.");
-					return isSearch = false;
-				}
-			}
-		return isSearch;
-
-		// 다읽어보구... 해당하는것만 set해서 넣어... 그리고 get으로 가져와.
-		// set의 정보와 VectorList의 비교는 다름! set한것을 Vertor에 넣기!
-
+	public int getNum() {
+		return Num;
 	}
+	
+	public void setNum(int num) {
+		Num = num;
+	}
+	
 
 	public void survey() {
 
@@ -222,13 +192,6 @@ public class Accident {
 		
 	}
 
-	public int getNum() {
-		return Num;
-	}
-
-	public void setNum(int num) {
-		Num = num;
-	}
 
 	
 
