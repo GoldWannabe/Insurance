@@ -1,7 +1,23 @@
 /Insurance/
 /ContractTeam/
 /dao/
+<<<<<<< HEAD
 /Channel/
 /FinancialDirector/
 /Main/
+=======
+/Accident/
+/Account/
+/Channel/
+/CompensateTeam/
+/Contract/
+/Customer/
+/FinancialDirector/
+/Insurance/
+/Main/
+/Payment/
+/Policyholder/
+/Provision/
+/SalesTeam/
+>>>>>>> branch 'main' of https://github.com/GoldWannabe/Insurance.git
 /User/

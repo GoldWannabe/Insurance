@@ -31,58 +31,23 @@ public class InsuranceSales {
 		String type = scanner.next();
 			
 		if(type.equals("1")) {
-			generalInsurance(scanner);
+			getInsurance(scanner, EInsurance.general);
 		}else if(type.equals("2")) {
-			houseInsurance(scanner);
+			getInsurance(scanner, EInsurance.house);
 		}
 	}
 
-	private void generalInsurance(Scanner scanner) {
-		ArrayList<Insurance> GeneralInsuranceList = this.insuranceList.get(EInsurance.general);
-		System.out.println("------일반보험 목록------");
-		for(int i = 0; i<GeneralInsuranceList.size(); i++) {
-			System.out.println(GeneralInsuranceList.get(i).getInsuranceID()+" "+GeneralInsuranceList.get(i).getInsuranceName());
+	private void getInsurance(Scanner scanner, EInsurance insuranceType) {
+		ArrayList<Insurance> InsuranceList = this.insuranceList.get(insuranceType);
+		System.out.println("------"+insuranceType.toString()+"보험 목록------");
+		for(int i = 0; i<InsuranceList.size(); i++) {
+			System.out.println(InsuranceList.get(i).getInsuranceID()+" "+InsuranceList.get(i).getInsuranceName());
 		}
 		System.out.println("보험 이름을 입력하여 주십시오.");
 		System.out.print("보험 이름: ");
 		String insuranceName = scanner.next();
-		if(!this.insuranceList.get(insuranceName, EInsurance.general).equals(null)) {
-			Insurance insurance = this.insuranceList.get(insuranceName, EInsurance.general);
-			
-			//보험 상세 정보(보험 이름, 보험 종류, 기준 보험료, 특약, 출시일, 장기여부, 가입 조건, 보상 조건, 설명)와 가입, 재신청, 취소 버튼을 출력한다
-			System.out.println("-----선택하신 보험-----");
-			System.out.println("보험 이름: "+insurance.getInsuranceName()+" \n"+
-					"보험 종류: "+insurance.getInsuranceType()+" \n"+
-					"기준 보험료: "+insurance.getStandardFee()+" \n"+
-					"특약: "+insurance.getReleaseDate()+" \n"+
-					"장기여부: "+insurance.isLongTerm()+" \n"+
-					"가입조건: "+insurance.getApplyCondition()+ " \n"+
-					"보상조건: "+insurance.getCompensateCondition()+ "\n"+
-					"설명: "+insurance.getExplanation()+" \n");
-			System.out.println(insurance.getInsuranceName()+" 보험에 가입하시겠습니까?");
-			System.out.println("1. 예 2. 아니오");
-			String answer = scanner.next();
-			
-			// create new Contract
-			if(answer.equals("1")) newContract(scanner, insurance);
-			else if(answer.equals("2")) System.out.println("가입을 취소합니다.");
-			else System.out.println("잘못된 입력입니다.");
-		}else {
-			System.out.println("입력하신 이름의 보험이 없습니다.");
-		}
-	}
-	
-	private void houseInsurance(Scanner scanner) {
-		ArrayList<Insurance> hoseInsuranceList = this.insuranceList.get(EInsurance.house);
-		System.out.println("------주택보험 목록------");
-		for(int i = 0; i<hoseInsuranceList.size(); i++) {
-			System.out.println(hoseInsuranceList.get(i).getInsuranceID()+" "+hoseInsuranceList.get(i).getInsuranceName());
-		}
-		System.out.println("보험 이름을 입력하여 주십시오.");
-		System.out.print("보험 이름: ");
-		String insuranceName = scanner.next();
-		if(!this.insuranceList.get(insuranceName, EInsurance.house).equals(null)) {
-			Insurance insurance = this.insuranceList.get(insuranceName, EInsurance.house);
+		if(!this.insuranceList.get(insuranceName, insuranceType).equals(null)) {
+			Insurance insurance = this.insuranceList.get(insuranceName, insuranceType);
 			
 			//보험 상세 정보(보험 이름, 보험 종류, 기준 보험료, 특약, 출시일, 장기여부, 가입 조건, 보상 조건, 설명)와 가입, 재신청, 취소 버튼을 출력한다
 			System.out.println("-----선택하신 보험-----");
@@ -124,7 +89,6 @@ public class InsuranceSales {
 		
 		newContract.setInsuranceName(insurance.getInsuranceName());
 		newContract.setInsuranceID(insurance.getInsuranceID());
-		
 		
 		System.out.print("가입자 이름: ");
 		String customerName = scanner.next();
