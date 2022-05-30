@@ -224,6 +224,13 @@ public abstract class Insurance {
 		this.registerInsuranceDao = new RegisterInsuranceDao();
 		return this.registerInsuranceDao.retrive(this.insuranceType);
 	}
+	
+	public ResultSet getInsurance() {
+		this.insuranceDao = new InsuranceDao();
+		return this.insuranceDao.retrive(this.insuranceType);
+	}
+
+	
 	public abstract void measureStandardFee();
 
 	public abstract void verifyPremium();
@@ -241,5 +248,6 @@ public abstract class Insurance {
 	public abstract boolean notPermitRate();
 
 	public abstract boolean permitRate();
+
 
 }// end Insurance

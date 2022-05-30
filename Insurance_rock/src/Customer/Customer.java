@@ -1,11 +1,10 @@
 package Customer;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 import java.util.UUID;
+
+import dao.CustomerDao;
 
 public class Customer {
 
@@ -17,7 +16,7 @@ public class Customer {
 	private String address;
 	private String bankName;
 	private String accountNum;
-	private float insuranceNum;
+	private Double insuranceNum;
 
 	private ArrayList<String> contractID = new ArrayList<String>();
 	private ArrayList<String> rankID = new ArrayList<String>();
@@ -25,37 +24,11 @@ public class Customer {
 	private enum Esex {
 		male, female, none,
 	};
+	
+	private CustomerDao customerDao;
 
 	public Customer() {
-
-	}
-
-	public Customer(String inputString) {
-		StringTokenizer stringTokenizer = new StringTokenizer(inputString);
-		this.customerID = stringTokenizer.nextToken();
-		this.name = stringTokenizer.nextToken();
-		this.SSN = stringTokenizer.nextToken();
-		this.setSex(stringTokenizer.nextToken());
-		this.phoneNum = stringTokenizer.nextToken();
-		this.address = stringTokenizer.nextToken();
-		this.bankName = stringTokenizer.nextToken();
-		this.accountNum = stringTokenizer.nextToken();
-		this.insuranceNum = Float.parseFloat(stringTokenizer.nextToken());
-
-		String contractTemp = stringTokenizer.nextToken();
-		if (!contractTemp.equals(null) || contractTemp.equals("null")) {
-			String[] tempID = contractTemp.split("-");
-			for (int i = 0; i < tempID.length; i++) {
-				this.contractID.add(tempID[i]);
-			}
-		}
-		String rankTemp = stringTokenizer.nextToken();
-		if (!rankTemp.equals(null) || rankTemp.equals("null")) {
-			this.rankID.add(rankTemp);
-			while (stringTokenizer.hasMoreTokens()) {
-				this.rankID.add(stringTokenizer.nextToken());
-			}
-		}
+		this.customerID = UUID.randomUUID().toString();
 	}
 
 	public void finalize() throws Throwable {
@@ -110,10 +83,6 @@ public class Customer {
 
 	}
 
-	public void setCustomerID() {
-		this.customerID = UUID.randomUUID().toString();
-	}
-
 	public String getCustomerID() {
 		return customerID;
 	}
@@ -162,11 +131,11 @@ public class Customer {
 		this.rankID = rankID;
 	}
 
-	public float getInsuranceNum() {
+	public Double getInsuranceNum() {
 		return insuranceNum;
 	}
 
-	public void setInsuranceNum(float insuranceNum) {
+	public void setInsuranceNum(Double insuranceNum) {
 		this.insuranceNum = insuranceNum;
 	}
 
@@ -194,8 +163,8 @@ public class Customer {
 		this.SSN = SSN;
 	}
 
-	public Esex getSex() {
-		return sex;
+	public String getSex() {
+		return sex.toString();
 	}
 	
 	public void setSex(String sex) {
@@ -228,28 +197,14 @@ public class Customer {
 		return "null";
 	}
 
-//	public String toStringRankID() {
-//		String returnID = "";
-//		for(Rank rank : this.rankList) {
-//			returnID = rank.getRankID()+" ";
-//		}
-//		System.out.println("rankID: "+returnID);
-//		return returnID;
-//	}
-
-	public void register() {
-		try {
-			File file = new File(".//DB//Customer.txt");
-			FileWriter fileWriter = new FileWriter(file, true);
-			fileWriter.write(this.customerID + " " + this.name + " " + this.SSN + " " + this.sex + " " + this.phoneNum
-					+ " " + this.address + " " + this.bankName + " " + this.accountNum + " " + this.insuranceNum + " "
-					+ this.toStringContract() + " " + this.toStringRankID() + "\n");
-			fileWriter.flush();
-			fileWriter.close();
-		} catch (IOException e) {
-			System.out.println("DB 접근 오류: 정보 접근에 실패하였습니다. 해당 문제가 계속 발생할 시에는 사내 시스템 관리팀(1234-5678)에게 문의 주시기 바랍니다.");
-			e.printStackTrace();
-		}
+	public ResultSet getCustomer() {
+		this.customerDao = new CustomerDao();
+		return this.customerDao.retrive();
+	}
+	
+	public boolean register() {
+		this.customerDao = new CustomerDao();
+		return this.customerDao.create(this);
 	}
 
 }// end Customer

@@ -2,6 +2,8 @@ package dao;
 
 import java.sql.ResultSet;
 
+import Customer.Rank;
+
 public class IRankDao  extends Dao {
 	public IRankDao() {
 		super.connect();
@@ -10,6 +12,15 @@ public class IRankDao  extends Dao {
 	public boolean create() {
 		String query = "";
 
+		System.out.println(query);
+		return super.create(query);
+	}
+	
+	public boolean create(Rank rank) {
+		String query ="insert into IRank(RankID, material, fireFacilities, height, scale, surroundingFacilities, purpose) values (\""
+				+rank.getRankID()+"\", \""+rank.getMaterial()+"\", \""+rank.getFireFacilities()+"\", \""+rank.isHeight()+"\", \""+rank.getScale()+"\", \""
+				+rank.getSurroundingFacilities()+"\", \""+rank.getPurpose()+"\");";
+		
 		System.out.println(query);
 		return super.create(query);
 	}
@@ -34,4 +45,5 @@ public class IRankDao  extends Dao {
 		System.out.println(query);
 		return super.delete(query);
 	}
+
 }

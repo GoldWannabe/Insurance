@@ -2,6 +2,8 @@ package dao;
 
 import java.sql.ResultSet;
 
+import Customer.Customer;
+
 public class CustomerDao  extends Dao {
 	public CustomerDao() {
 		super.connect();
@@ -13,9 +15,16 @@ public class CustomerDao  extends Dao {
 		System.out.println(query);
 		return super.create(query);
 	}
+	
+	public boolean create(Customer customer) {
+		String query = "insert into customer(customerID, Name, SSN, Sex, phoneNum, address, bankName, accountNum, insuranceNum) values (\""
+				+customer.getCustomerID()+"\","+customer.getName()+"\","+customer.getSSN()+"\","+customer.getSex()+"\","
+				+customer.getPhoneNum()+"\","+customer.getAddress()+"\","+customer.getBankName()+"\","+customer.getAccountNum()+"\","+customer.getInsuranceNum()+"\");";
+		return super.create(query);
+	}
 
 	public ResultSet retrive() {
-		String query = "";
+		String query = "select * from customer;";
 
 		System.out.println(query);
 		return super.retrive(query);
@@ -34,4 +43,5 @@ public class CustomerDao  extends Dao {
 		System.out.println(query);
 		return super.delete(query);
 	}
+
 }

@@ -29,6 +29,7 @@ public class HouseInsurance extends Insurance {
 	public void finalize() throws Throwable {
 		super.finalize();
 	}
+	
 
 	public void measureStandardFee() {
 		setStandardFee((int) (1000000000 * standardRate[0]/100));
