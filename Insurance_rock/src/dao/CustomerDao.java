@@ -2,7 +2,10 @@ package dao;
 
 import java.sql.ResultSet;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/remotes/origin/main
 public class CustomerDao  extends Dao {
 	public CustomerDao() {
 		super.connect();

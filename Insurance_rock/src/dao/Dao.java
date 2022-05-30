@@ -15,6 +15,7 @@ public class Dao {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			connect = DriverManager.getConnection(
+<<<<<<< HEAD
 					"jdbc::mysql://localhost:3306/insurance?serverTimezone=UTC&useSSL=false", "root", "1234");
 		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -38,6 +39,30 @@ public class Dao {
 		try { 
 			statement = connect.createStatement();
 			this.resultSet = statement.executeQuery(query);
+=======
+					"jdbc:mysql://localhost:3306/insurance_rock?serverTimezone=UTC&useSSL=false", "root", "1234");
+		} catch (SQLException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public boolean create(String query) {
+		try { 
+			statement = connect.createStatement();
+			if (!statement.execute(query)) return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public ResultSet retrive(String query) {
+		try { 
+			statement = connect.createStatement();
+			this.resultSet = statement.executeQuery(query);
+			
+>>>>>>> refs/remotes/origin/main
 			return resultSet;
 		} catch (SQLException e) {
 			e.printStackTrace();

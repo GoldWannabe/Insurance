@@ -2,6 +2,7 @@ package dao;
 
 import java.sql.ResultSet;
 
+<<<<<<< HEAD
 public class GeneralRateDao  extends Dao {
 	public GeneralRateDao() {
 		super.connect();
@@ -9,6 +10,18 @@ public class GeneralRateDao  extends Dao {
 
 	public boolean create() {
 		String query = "";
+=======
+import Insurance.GeneralInsurance;
+
+public class GeneralRateDao  extends Dao {
+	public GeneralRateDao() {
+		super.connect();
+	}
+
+	public boolean create(GeneralInsurance generalInsurance) {
+		double[] rate = generalInsurance.getStandardRate();
+		String query = "insert into generalRate(insuranceID, insurancerank, generalPremiumRate) values (\""+generalInsurance.getInsuranceID()+"\","+1+","+rate[0]+"),(\""+generalInsurance.getInsuranceID()+"\","+2+","+rate[1]+"),(\""+generalInsurance.getInsuranceID()+"\","+3+","+rate[2]+");";
+>>>>>>> refs/remotes/origin/main
 
 		System.out.println(query);
 		return super.create(query);
