@@ -1,38 +1,41 @@
 package Contract;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import dao.ApplyContractDao;
 import dao.ContractDao;
 
 public class Contract {
 
-	private String contractID;
-	
 	private String customerID;
 	private String customerName;
 	private String phoneNum;
 	
 	private String insuranceID;
 	private String insuranceName;
-	private int paymentCycle;
-	private int insuranceFee;
-	private int unpaidFee;
-	private int securityFee;
-	private int provisionFee;
 	
-	private int period;
-	private LocalDate startDate;
+	private String contractID;
+	private String accidentHistory;
 	private LocalDate endDate;
-	
-	private String[] accidentHistory;
-	
-	private ContractDao contractDao;
-	private ApplyContractDao applyContractDao;
-	
+	private int insuranceFee;
+	private int paymentCycle;
+	private int period;
+	private int provisionFee;
+	private int securityFee;
+	private LocalDate startDate;
+	private int unpaidFee;
+	private ContractDao contractDAO;
 	public Contract() {
-		this.contractID = UUID.randomUUID().toString();
+		this.contractDAO = new ContractDao();
+	}
+
+	public Contract(String contract) {
+		
+		
 	}
 
 	public void finalize() throws Throwable {
@@ -92,16 +95,20 @@ public class Contract {
 
 	}
 
-	public String[] getAccidentHistory() {
+	public String getAccidentHistory() {
 		return accidentHistory;
 	}
 
-	public void setAccidentHistory(String[] accidentHistory) {
+	public void setAccidentHistory(String accidentHistory) {
 		this.accidentHistory = accidentHistory;
 	}
 
 	public String getContractID() {
 		return contractID;
+	}
+
+	public void setContractID() {
+		this.contractID = UUID.randomUUID().toString();
 	}
 	
 	public void setContractID(String contractID) {
@@ -211,15 +218,28 @@ public class Contract {
 	public void setInsuranceName(String insuranceName) {
 		this.insuranceName = insuranceName;
 	}
-	
+
 	public void register() {
-		this.contractDao = new ContractDao();
-		this.contractDao.create(this);
+		try {
+			File file = new File(".//DB//ApplyContract.txt");
+			FileWriter fileWriter = new FileWriter(file, true);
+			fileWriter.write(this.contractID + " " + this.customerID + " " + this.customerName + " "
+					+ this.phoneNum + " " + this.insuranceID + " " + this.insuranceName + " " + this.paymentCycle
+					+ " " + this.insuranceFee + " " +this.securityFee+" "+ this.period+ "\n");
+			fileWriter.flush();
+			fileWriter.close();
+		} catch (IOException e) {
+			System.out.println("DB 접근 오류: 정보 접근에 실패하였습니다. 해당 문제가 계속 발생할 시에는 사내 시스템 관리팀(1234-5678)에게 문의 주시기 바랍니다.");
+			e.printStackTrace();
+		}
 	}
+
+	public ResultSet retrivecontract() {
+		return contractDAO.retrivecontract(this.getCustomerName(), this.getPhoneNum());
+		
+	}
+
 	
-	public void registerApplyContract() {
-		this.applyContractDao = new ApplyContractDao();
-		this.applyContractDao.create(this);
-	}
+
 
 }// end Contract

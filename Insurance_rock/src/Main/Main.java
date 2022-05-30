@@ -15,31 +15,33 @@ import SalesTeam.InsuranceSales;
 public class Main {
 
 	public static void main(String[] args) {
-
-		Scanner scanner = new Scanner(System.in);
-		System.out.println("1. 계약팀, 2. 금감원, 3. 마켓팅/영업팀, 4. 보상팀, 5.고객");
-		String selectNum = scanner.next();
-
-		switch (selectNum) {
-		case "1":
-			selectContractTeam(scanner);
-			break;
-		case "2":
-			selectFinancialDirector(scanner);
-			break;
-		case "3":
-			selectSalesTeam(scanner);
-			break;
-		case "4":
-			selectCompensateTeam(scanner);
-			break;
-
-		case "5":
-			selectCustomer(scanner);
-			break;
-		default:
-			System.out.println("제대로 입력해주세요.");
-			break;
+		
+		boolean continueSelect = false;
+		while(!continueSelect) {
+			Scanner scanner = new Scanner(System.in);
+			System.out.println("1. 계약팀, 2. 금감원, 3. 마켓팅/영업팀, 4. 보상팀, 5.고객");
+			String selectNum = scanner.next();
+			switch (selectNum) {
+			case "1":
+				selectContractTeam(scanner);
+				break;
+			case "2":
+				selectFinancialDirector(scanner);
+				break;
+			case "3":
+				selectSalesTeam(scanner);
+				break;
+			case "4":
+				selectCompensateTeam(scanner);
+				break;
+			case "5":
+				selectCustomer(scanner);
+				break;
+			default:
+				//while문 안먹음 사
+				System.out.println("제대로 입력해주세요.");
+				break;
+			}
 		}
 	}
 	
@@ -74,25 +76,19 @@ public class Main {
 	}
 
 	private static void selectFinancialDirector(Scanner scanner) {
-		
-		boolean continueSelect = true;
-
-		while (continueSelect) {
-		System.out.println("1. 보험 심사 0. 종료");
+		System.out.println("1. 보험 심사");
 		String selectNum = scanner.next();
+		scanner.close();
 
 		switch (selectNum) {
 		case "1":
 			InsuranceJudge insuranceJudge = new InsuranceJudge();
-			continueSelect = insuranceJudge.selectJudge();
+			insuranceJudge.selectJudge();
 			break;
-		case "0":
-			System.exit(0);
-			break;
+
 		default:
 			System.out.println("선택 이상함");
 			break;
-		}
 		}
 	}
 
@@ -115,7 +111,7 @@ public class Main {
 			break;
 
 		default:
-			System.out.println("입력이 잘못 되었습니다. 다시 입력해주세요.");
+			System.out.println("선택 이상함");
 			break;
 		}
 
@@ -140,21 +136,25 @@ public class Main {
 
 	}
 
-	private static void selectCompensateTeam(Scanner scanner) {
-		boolean continueSelect = true;
+	private static boolean selectCompensateTeam(Scanner scanner) {
+		boolean continueSelect = false;
 		
-		while (continueSelect) {
-			System.out.println("1. 손해사정 ");
+		while (!continueSelect) {
+			System.out.println("1. 손해사정, 0. 취소 ");
 			String selectNum = scanner.next();
 			switch (selectNum) {
-			case "1":
+			case "1":		
 				DamageAssessment damageAssessment = new DamageAssessment();
-				continueSelect = damageAssessment.selectAccidentMenagement(scanner);
-				break;
+				return continueSelect = damageAssessment.selectAccidentMenagement(scanner);
+				
+			case "0":
+				System.out.println("취소되었습니다. 전 선택창으로 돌아갑니다");
+				return true;
 			default:
 				System.out.println("선택 이상함");
 				break;
 			}
 		}
+		return continueSelect;
 	}
 }
