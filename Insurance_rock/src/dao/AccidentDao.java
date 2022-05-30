@@ -3,8 +3,6 @@ package dao;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 
-import com.mysql.cj.protocol.Resultset;
-
 import Accident.Accident;
 
 public class AccidentDao extends Dao {

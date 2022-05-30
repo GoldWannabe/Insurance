@@ -35,7 +35,7 @@ public class CompensateTeam {
 
 	public void add() {
 		//accident.search();
-		accident.add();
+		//accident.add();
 		
 		File file = new File(".//DB//Accident_DB.txt");
 		if (!file.exists()) {
