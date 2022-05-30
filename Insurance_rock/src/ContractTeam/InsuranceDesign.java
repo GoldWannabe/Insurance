@@ -73,8 +73,7 @@ public class InsuranceDesign {
 	private int getflag(Scanner scanner) {
 		String flag = scanner.next();
 		while (true) {
-
-			flag = scanner.next();
+			
 			if (flag.equals("1")) {
 				return 1;
 			} else if (flag.equals("2")) {
@@ -84,6 +83,7 @@ public class InsuranceDesign {
 				return 0;
 			} else {
 				System.out.println("해당하는 번호가 없습니다. 다시 입력해주세요.");
+				flag = scanner.next();
 			}
 		}
 	}
