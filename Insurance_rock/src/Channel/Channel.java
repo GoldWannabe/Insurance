@@ -3,11 +3,15 @@ package Channel;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import dao.ChannelDao;
 
 public class Channel {
 
@@ -18,11 +22,16 @@ public class Channel {
 	private int monthlyExpense;
 	private int sumOfExpense;
 	private ChannelList channelList;
+	private ChannelDao channelDAO;
+
+
 
 	public Channel() {
-
+		this.channelList = new ChannelListImpl();
+		this.channelDAO = new ChannelDao();
+		
+		this.setChnnel();
 	}
-
 	public void showChannel() {
 		if (!(this.channelList == null)) {
 			System.out
@@ -38,35 +47,30 @@ public class Channel {
 				System.out.println();
 			}
 		}
-
 	}
-
-	public void setChnnel() {
-		this.channelList = new ChannelListImpl();
+	private void setChnnel() {
+		ResultSet resultSet = channelDAO.retrive();
+		
 		try {
-			File file = new File(".//DB//Channel.txt");
-
-			@SuppressWarnings("resource")
-			Scanner fileScanner = new Scanner(file);
-
-			while (fileScanner.hasNextLine()) {
-				Channel tempChannel = new Channel();
-				tempChannel.setChannelID(fileScanner.next());
-				tempChannel.setChannelName(fileScanner.next());
-				tempChannel.setRegisterDate(LocalDate.parse(fileScanner.next()));
-				tempChannel.setNumOfRegister(fileScanner.nextInt());
-				tempChannel.setMonthlyExpense(fileScanner.nextInt());
-				tempChannel.setSumOfExpense(fileScanner.nextInt());
-				fileScanner.nextLine();
-				this.channelList.add(tempChannel);
+			while (resultSet.next()) {
+			Channel tempChannel = new Channel();
+			tempChannel.setChannelID(resultSet.getString("ChannelID"));
+			tempChannel.setChannelName(resultSet.getString("channelName"));
+			tempChannel.setRegisterDate(LocalDate.parse(resultSet.getString("registerDate")));
+			tempChannel.setNumOfRegister(resultSet.getInt("numOfRegister"));
+			tempChannel.setMonthlyExpense(resultSet.getInt("monthlyExpense"));
+			tempChannel.setSumOfExpense(resultSet.getInt("sumOfExpense"));
+			this.channelList.add(tempChannel);
+			}
+		} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 
-		} catch (IOException e) {
-			System.out.println(
-					"파일 접근 중 문제가 생겨 보험 정보를 불러오지 못했습니다. 잠시후 다시 실행 해주십시오. 해당 문제가 계속 발생할 시에는 사내 시스템 관리팀(1234-5678)에게 문의 주시기 바랍니다.");
-			e.printStackTrace();
-		}
-	}
+
+
+	 
+}
 
 	public void addChannel() {
 		Scanner scanner = new Scanner(System.in);

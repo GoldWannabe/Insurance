@@ -1,28 +1,37 @@
 package SalesTeam;
 
+import java.io.File;
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Scanner;
 
 import Channel.Channel;
+import Channel.ChannelList;
+import Channel.ChannelListImpl;
+import dao.AccidentDao;
+import dao.ChannelDao;
 
 public class ChannelManagement {
 
-	Channel channel;
-
+	private Channel channel;
+	
 	public ChannelManagement() {
 		this.channel = new Channel();
-		this.channel.setChnnel();
+		
+
 	}
 
+	
 	public void viewChannel() {
-		
-		showChannel();
+
+		this.channel.showChannel();
 		selectChannelManagement();
 
 	}
 
-	private void showChannel() {
-		this.channel.showChannel();
-	}
+	
 
 	private void selectChannelManagement() {
 		Scanner scanner = new Scanner(System.in);
@@ -88,7 +97,7 @@ public class ChannelManagement {
 				System.out.println("해당 채널이 존재하지 않습니다. 다시 입력해주세요.");
 			}
 		}
-		
+
 		this.channel.editChannel(tempChannel);
 	}
 

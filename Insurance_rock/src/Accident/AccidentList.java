@@ -1,5 +1,7 @@
 package Accident;
 
+import java.sql.ResultSet;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 
@@ -11,9 +13,10 @@ import java.util.ArrayList;
 public interface AccidentList {
 	public boolean add(Accident accident);
 	public boolean delete(String ID);
-	public void update();
+	public ResultSet update();
 	
-	public ArrayList<Accident> get(String phoneNum, String customerName);
+	public ArrayList<Accident> get(String customerName_inser, String phoneNum_inser);
+	public ArrayList<Accident>  getAll();
 	
 	
 }//end AccidentList

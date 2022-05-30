@@ -24,24 +24,18 @@ public class Main {
 			switch (selectNum) {
 			case "1":
 				selectContractTeam(scanner);
-				continueSelect = true;
 				break;
 			case "2":
 				selectFinancialDirector(scanner);
-				continueSelect = true;
 				break;
 			case "3":
 				selectSalesTeam(scanner);
-				continueSelect = true;
 				break;
 			case "4":
 				selectCompensateTeam(scanner);
-				continueSelect = true;
 				break;
-				
 			case "5":
 				selectCustomer(scanner);
-				continueSelect = true;
 				break;
 			default:
 				//while문 안먹음 사
@@ -69,7 +63,7 @@ public class Main {
 				break;
 			case "3":
 				ContractManagement contractManagement = new ContractManagement();
-				continueSelect = contractManagement.searchContract();
+				continueSelect = contractManagement.viewContract(scanner);
 				break;
 			case "0":
 				System.exit(0);
@@ -142,24 +136,25 @@ public class Main {
 
 	}
 
-	private static void selectCompensateTeam(Scanner scanner) {
-		boolean continueSelect = true;
+	private static boolean selectCompensateTeam(Scanner scanner) {
+		boolean continueSelect = false;
 		
-		while (continueSelect) {
+		while (!continueSelect) {
 			System.out.println("1. 손해사정, 0. 취소 ");
 			String selectNum = scanner.next();
 			switch (selectNum) {
-			case "1":
+			case "1":		
 				DamageAssessment damageAssessment = new DamageAssessment();
-				continueSelect = damageAssessment.selectAccidentMenagement(scanner);
-				break;
+				return continueSelect = damageAssessment.selectAccidentMenagement(scanner);
+				
 			case "0":
 				System.out.println("취소되었습니다. 전 선택창으로 돌아갑니다");
-				break;
+				return true;
 			default:
 				System.out.println("선택 이상함");
 				break;
 			}
 		}
+		return continueSelect;
 	}
 }

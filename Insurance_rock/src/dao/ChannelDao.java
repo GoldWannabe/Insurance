@@ -2,8 +2,8 @@ package dao;
 
 import java.sql.ResultSet;
 
-public class Channel  extends Dao {
-	public Channel() {
+public class ChannelDao  extends Dao {
+	public ChannelDao() {
 		super.connect();
 	}
 
@@ -15,7 +15,7 @@ public class Channel  extends Dao {
 	}
 
 	public ResultSet retrive() {
-		String query = "";
+		String query = "SELECT * FROM Channel";
 
 		System.out.println(query);
 		return super.retrive(query);

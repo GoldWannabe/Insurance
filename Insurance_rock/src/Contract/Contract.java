@@ -3,8 +3,11 @@ package Contract;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.UUID;
+
+import dao.ContractDao;
 
 public class Contract {
 
@@ -19,15 +22,15 @@ public class Contract {
 	private String accidentHistory;
 	private LocalDate endDate;
 	private int insuranceFee;
-	private String paymentCycle;
+	private int paymentCycle;
 	private int period;
 	private int provisionFee;
 	private int securityFee;
 	private LocalDate startDate;
 	private int unpaidFee;
-	
+	private ContractDao contractDAO;
 	public Contract() {
-		
+		this.contractDAO = new ContractDao();
 	}
 
 	public Contract(String contract) {
@@ -144,11 +147,11 @@ public class Contract {
 		this.insuranceID = insuranceID;
 	}
 
-	public String getPaymentCycle() {
+	public int getPaymentCycle() {
 		return paymentCycle;
 	}
 
-	public void setPaymentCycle(String paymentCycle) {
+	public void setPaymentCycle(int paymentCycle) {
 		this.paymentCycle = paymentCycle;
 	}
 
@@ -230,5 +233,13 @@ public class Contract {
 			e.printStackTrace();
 		}
 	}
+
+	public ResultSet retrivecontract() {
+		return contractDAO.retrivecontract(this.getCustomerName(), this.getPhoneNum());
+		
+	}
+
+	
+
 
 }// end Contract

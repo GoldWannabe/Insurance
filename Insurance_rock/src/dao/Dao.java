@@ -15,7 +15,7 @@ public class Dao {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			connect = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/insurance_rock?serverTimezone=UTC&useSSL=false", "root", "1234");
+					"jdbc:mysql://localhost:3306/insurance_rock?serverTimezone=UTC&useSSL=false", "root", "5C7vnrt7!");
 		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -61,5 +61,10 @@ public class Dao {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	public Object select(String query) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
