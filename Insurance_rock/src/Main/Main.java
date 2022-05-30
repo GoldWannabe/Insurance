@@ -74,19 +74,25 @@ public class Main {
 	}
 
 	private static void selectFinancialDirector(Scanner scanner) {
-		System.out.println("1. 보험 심사");
+		
+		boolean continueSelect = true;
+
+		while (continueSelect) {
+		System.out.println("1. 보험 심사 0. 종료");
 		String selectNum = scanner.next();
-		scanner.close();
 
 		switch (selectNum) {
 		case "1":
 			InsuranceJudge insuranceJudge = new InsuranceJudge();
-			insuranceJudge.selectJudge();
+			continueSelect = insuranceJudge.selectJudge();
 			break;
-
+		case "0":
+			System.exit(0);
+			break;
 		default:
 			System.out.println("선택 이상함");
 			break;
+		}
 		}
 	}
 
@@ -109,7 +115,7 @@ public class Main {
 			break;
 
 		default:
-			System.out.println("선택 이상함");
+			System.out.println("입력이 잘못 되었습니다. 다시 입력해주세요.");
 			break;
 		}
 

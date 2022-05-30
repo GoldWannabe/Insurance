@@ -3,10 +3,15 @@ package Insurance;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.UUID;
+
+import dao.InsuranceDao;
+import dao.RegisterInsuranceDao;
 
 public abstract class Insurance {
 	private String insuranceID;
@@ -24,23 +29,26 @@ public abstract class Insurance {
 	private String explanation;
 	private int standardFee;
 	private LocalDate releaseDate;
-	
+
+	public RegisterInsuranceDao registerInsuranceDao;
+	public InsuranceDao insuranceDao;
+
 	public Insurance(String inputString, EInsurance insuranceType) {
 		StringTokenizer stringTokenizer = new StringTokenizer(inputString);
 		this.insuranceID = stringTokenizer.nextToken();
 		this.insuranceName = stringTokenizer.nextToken();
-		
-		//nextToken 
+
+		// nextToken
 		String type = stringTokenizer.nextToken();
-		//define in subClass
+		// define in subClass
 		this.insuranceType = insuranceType;
-		
+
 		this.standardFee = Integer.parseInt(stringTokenizer.nextToken());
 		this.specialContract = stringTokenizer.nextToken();
 		this.longTerm = Boolean.parseBoolean(stringTokenizer.nextToken());
 		this.applyCondition = stringTokenizer.nextToken();
 		this.compensateCondition = stringTokenizer.nextToken();
-		this.explanation = stringTokenizer.nextToken();	
+		this.explanation = stringTokenizer.nextToken();
 	}
 
 	public Insurance(EInsurance insuranceType) {
@@ -141,73 +149,97 @@ public abstract class Insurance {
 	}
 
 	public void design() {
-		@SuppressWarnings("resource")
-		Scanner scanner = new Scanner(System.in);
+		this.insuranceDao = new InsuranceDao();
+		this.registerInsuranceDao = new RegisterInsuranceDao();
 		this.insuranceID = UUID.randomUUID().toString();
-		System.out.println("이름을 입력해주세요.");
-		this.insuranceName = scanner.next();
-		System.out.println("특약을 입력해주세요.");
-		this.specialContract = scanner.next();
-		System.out.println("가입조건을 입력해주세요.");
-		this.applyCondition = scanner.next();
-		System.out.println("보상 조건을 입력해주세요.");
-		this.compensateCondition = scanner.next();
-		System.out.println("설명을 입력해주세요.");
-		this.explanation = scanner.next();
 
-//		while(checkName(this.insuranceName)){
-//		System.out.println("이름이 중복 됩니다. 다시 입력해주세요.");
-//			this.insuranceName = scanner.next();
-//		}; 검색을 위함
+	}
 
+	public boolean checkName() {
+		try {
+			if (this.insuranceDao.retriveName(this.insuranceName).next()
+					|| (this.registerInsuranceDao.retriveName(this.insuranceName).next()))
+				return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return false;
 	}
 
 	public boolean examine() {
 		return true;
 	}
 
-	public void permitInsurance() {
+	public boolean permitInsurance() {
+		this.insuranceDao = new InsuranceDao();
+		this.registerInsuranceDao = new RegisterInsuranceDao();
+		this.releaseDate = LocalDate.now();
+		if(this.registerInsuranceDao.deleteInsurance(this.insuranceID)) {
+			return this.insuranceDao.create(this);
+		}
+		
+		return false;
 		// DB 저장
 	}
 
-	public void register() {
+	public boolean notPermitInsurance() {
+		this.registerInsuranceDao = new RegisterInsuranceDao();
+		return this.registerInsuranceDao.deleteInsurance(this.insuranceID);
 
-		try {
-			File file = new File(".//DB//registerInsurance.txt");
-			FileWriter fileWriter = new FileWriter(file, true);
-			fileWriter.write(this.insuranceID + " " + this.insuranceName + " " + this.insuranceType + " "
-					+ this.standardFee + " " + this.specialContract + " " + this.longTerm + " " + this.applyCondition
-					+ " " + this.compensateCondition + " " + this.explanation + "\n");
-			fileWriter.flush();
-			fileWriter.close();
-		} catch (IOException e) {
-			System.out.println("DB 접근 오류: 정보 접근에 실패하였습니다. 해당 문제가 계속 발생할 시에는 사내 시스템 관리팀(1234-5678)에게 문의 주시기 바랍니다.");
-			e.printStackTrace();
-		}
+	}
+
+	public boolean register() {
+		if (this.registerInsuranceDao.create(this))
+			return true;
+
+		return false;
+
 	}
 
 	public void saveTempInsurance() {
 		try {
 			File file = new File(".//DB//tempInsurance.txt");
 			FileWriter fileWriter = new FileWriter(file);
-			fileWriter.write("1"+"\n" + this.insuranceID + "\n" + this.insuranceName + "\n" + this.insuranceType + "\n"
-					+ this.standardFee + "\n" + this.specialContract + "\n" + this.longTerm + "\n" + this.applyCondition
-					+ "\n" + this.compensateCondition + " " + this.explanation + "\n");
+			double[] tempRate = this.getStandardRate();
+			fileWriter.write("1" + "\n" + this.insuranceID + "\n" + this.insuranceName + "\n" + this.insuranceType
+					+ "\n" + this.standardFee + "\n" + this.specialContract + "\n" + this.longTerm + "\n"
+					+ this.applyCondition + "\n" + this.compensateCondition + "\n" + this.explanation + "\n"
+					+ tempRate[0] + "\n" + tempRate[1] + "\n" + tempRate[2] + "\n");
 			fileWriter.flush();
 			fileWriter.close();
 		} catch (IOException e) {
 			System.out.println("DB 접근 오류: 정보 접근에 실패하였습니다. 해당 문제가 계속 발생할 시에는 사내 시스템 관리팀(1234-5678)에게 문의 주시기 바랍니다.");
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public void sell() {
 
 	}
 
+	public ResultSet getRegisterInsurance() {
+		this.registerInsuranceDao = new RegisterInsuranceDao();
+		return this.registerInsuranceDao.retrive(this.insuranceType);
+	}
 	public abstract void measureStandardFee();
 
 	public abstract void verifyPremium();
+
+	public abstract void setStandardRate(double[] rate);
+
+	public abstract double[] getStandardRate();
+
+	public abstract boolean registerRate();
+
+	
+
+	public abstract void setRate();
+
+	public abstract boolean notPermitRate();
+
+	public abstract boolean permitRate();
 
 }// end Insurance

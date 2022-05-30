@@ -2,13 +2,15 @@ package dao;
 
 import java.sql.ResultSet;
 
+import Insurance.Insurance;
+
 public class InsuranceDao  extends Dao {
 	public InsuranceDao() {
 		super.connect();
 	}
 
-	public boolean create() {
-		String query = "";
+	public boolean create(Insurance insurance) {
+		String query = "insert into Insurance(insuranceID, insuranceName, insuranceType, StandradFee, specialContract , longTerm, applyCondition, compensateCondition, explanation, releaseDate) values (\""+insurance.getInsuranceID()+"\",\""+ insurance.getInsuranceName()+"\",\""+ insurance.getInsuranceType().toString()+"\","+ insurance.getStandardFee()+",\""+ insurance.getSpecialContract() +"\","+ insurance.isLongTerm()+",\""+ insurance.getApplyCondition()+"\",\""+ insurance.getCompensateCondition()+"\",\""+ insurance.getExplanation()+"\",\""+insurance.getReleaseDate().toString()+"\");";
 
 		System.out.println(query);
 		return super.create(query);
@@ -33,5 +35,12 @@ public class InsuranceDao  extends Dao {
 
 		System.out.println(query);
 		return super.delete(query);
+	}
+
+	public ResultSet retriveName(String insuranceName) {
+		String query = "select * from Insurance where insuranceName=\""+insuranceName+"\";";
+
+		System.out.println(query);
+		return super.retrive(query);
 	}
 }
