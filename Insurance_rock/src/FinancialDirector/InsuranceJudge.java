@@ -16,11 +16,12 @@ public class InsuranceJudge {
 	Insurance insurance;
 	InsuranceList insuranceList;
 
+	@SuppressWarnings("resource")
 	public boolean selectJudge() {
 		Scanner scanner = new Scanner(System.in);
 		this.insuranceList = new InsuranceListImpl();
 
-		System.out.println("보험 종료를 선택해주세요.");
+		System.out.println("보험 종류를 선택해주세요.");
 		System.out.println("1. 일반보험 2. 주택보험 0. 취소");
 		String flag = scanner.next();
 		boolean correctInput = false;
