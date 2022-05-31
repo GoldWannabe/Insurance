@@ -78,7 +78,6 @@ public class Main {
 	private static void selectFinancialDirector(Scanner scanner) {
 		System.out.println("1. 보험 심사");
 		String selectNum = scanner.next();
-		scanner.close();
 
 		switch (selectNum) {
 		case "1":
