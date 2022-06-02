@@ -109,7 +109,7 @@ public class InsuranceSales {
 				+ this.insurance.getSpecialContract() + "\n" + "장기여부: " + this.insurance.isLongTerm() + "\n" + "가입조건: "
 				+ this.insurance.getApplyCondition() + "\n" + "보상조건: " + this.insurance.getCompensateCondition() + "\n"
 				+ "설명: " + this.insurance.getExplanation() + "\n" + "요율: [1등급, 2등급, 3등급]"
-				+ Arrays.toString(this.insurance.getStandardRate()));
+				+ Arrays.toString(this.insurance.getPremiumRate()));
 		
 			System.out.println(insurance.getInsuranceName()+" 보험에 가입하시겠습니까?");
 			System.out.println("1. 예 2. 아니오");

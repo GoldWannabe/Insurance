@@ -10,7 +10,7 @@ import Model.DB.RegisterHouseRateDao;
 public class HouseInsurance extends Insurance {
 
 	private int housePremiumRate;
-	private double[] standardRate = new double[] { 0.002, 0.003, 0.005 };
+	private double[] premiumRate = new double[] { 0.002, 0.003, 0.005 };
 	private RegisterHouseRateDao registerHouseRateDao;
 	private HouseRateDao houseRateDao;
 
@@ -26,14 +26,6 @@ public class HouseInsurance extends Insurance {
 		super(inputString, EInsurance.house);
 	}
 
-	public void finalize() throws Throwable {
-		super.finalize();
-	}
-	
-
-	public void measureStandardFee() {
-		setStandardFee((int) (1000000000 * standardRate[0]/100));
-	}
 
 	public boolean registerRate() {
 		this.registerHouseRateDao = new RegisterHouseRateDao();
@@ -54,12 +46,12 @@ public class HouseInsurance extends Insurance {
 		this.housePremiumRate = housePremiumRate;
 	}
 
-	public double[] getStandardRate() {
-		return standardRate;
+	public double[] getPremiumRate() {
+		return premiumRate;
 	}
 
-	public void setStandardRate(double[] standardRate) {
-		this.standardRate = standardRate;
+	public void setPremiumRate(double[] premiumRate) {
+		this.premiumRate = premiumRate;
 	}
 
 	@Override
@@ -68,7 +60,7 @@ public class HouseInsurance extends Insurance {
 		ResultSet resultSet = this.registerHouseRateDao.retriveRate(this.getInsuranceID());
 		try {
 			for(int i=0; resultSet.next(); i++) {
-				standardRate[i] = resultSet.getDouble("housePremiumRate");
+				premiumRate[i] = resultSet.getDouble("housePremiumRate");
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

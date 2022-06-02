@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import Model.DB.InsuranceDao;
 import Model.DB.RegisterInsuranceDao;
+import exception.DBAcceptException;
 
 public abstract class Insurance {
 	private String insuranceID;
@@ -140,10 +141,6 @@ public abstract class Insurance {
 		this.insuranceType = insuranceType;
 	}
 
-	public void finalize() throws Throwable {
-
-	}
-
 	public boolean apply() {
 		return true;
 	}
@@ -155,17 +152,24 @@ public abstract class Insurance {
 
 	}
 
-	public boolean checkName() {
+	public boolean checkName() throws DBAcceptException {
 		try {
-			if (this.insuranceDao.retriveName(this.insuranceName).next()
-					|| (this.registerInsuranceDao.retriveName(this.insuranceName).next()))
-				return true;
+			return this.insuranceDao.retriveName(this.insuranceName).next();
+
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DBAcceptException();
 		}
 
-		return false;
+	}
+
+	public boolean checkRegisterName() {
+
+		try {
+			return this.registerInsuranceDao.retriveName(this.insuranceName).next();
+		} catch (SQLException e) {
+			
+			throw new DBAcceptException();
+		}
 	}
 
 	public boolean examine() {
@@ -176,10 +180,10 @@ public abstract class Insurance {
 		this.insuranceDao = new InsuranceDao();
 		this.registerInsuranceDao = new RegisterInsuranceDao();
 		this.releaseDate = LocalDate.now();
-		if(this.registerInsuranceDao.deleteInsurance(this.insuranceID)) {
+		if (this.registerInsuranceDao.deleteInsurance(this.insuranceID)) {
 			return this.insuranceDao.create(this);
 		}
-		
+
 		return false;
 		// DB 저장
 	}
@@ -200,9 +204,9 @@ public abstract class Insurance {
 
 	public void saveTempInsurance() {
 		try {
-			File file = new File(".//DB//tempInsurance.txt");
+			File file = new File(".//File//tempInsurance.txt");
 			FileWriter fileWriter = new FileWriter(file);
-			double[] tempRate = this.getStandardRate();
+			double[] tempRate = this.getPremiumRate();
 			fileWriter.write("1" + "\n" + this.insuranceID + "\n" + this.insuranceName + "\n" + this.insuranceType
 					+ "\n" + this.standardFee + "\n" + this.specialContract + "\n" + this.longTerm + "\n"
 					+ this.applyCondition + "\n" + this.compensateCondition + "\n" + this.explanation + "\n"
@@ -210,8 +214,7 @@ public abstract class Insurance {
 			fileWriter.flush();
 			fileWriter.close();
 		} catch (IOException e) {
-			System.out.println("DB 접근 오류: 정보 접근에 실패하였습니다. 해당 문제가 계속 발생할 시에는 사내 시스템 관리팀(1234-5678)에게 문의 주시기 바랍니다.");
-			e.printStackTrace();
+			throw new fileAcceptException();
 		}
 
 	}
@@ -224,30 +227,24 @@ public abstract class Insurance {
 		this.registerInsuranceDao = new RegisterInsuranceDao();
 		return this.registerInsuranceDao.retrive(this.insuranceType);
 	}
-	
+
 	public ResultSet getInsurance() {
 		this.insuranceDao = new InsuranceDao();
 		return this.insuranceDao.retrive(this.insuranceType);
 	}
 
-	
-	public abstract void measureStandardFee();
-
 	public abstract void verifyPremium();
 
-	public abstract void setStandardRate(double[] rate);
+	public abstract void setPremiumRate(double[] rate);
 
-	public abstract double[] getStandardRate();
+	public abstract double[] getPremiumRate();
 
 	public abstract boolean registerRate();
-
-	
 
 	public abstract void setRate();
 
 	public abstract boolean notPermitRate();
 
 	public abstract boolean permitRate();
-
 
 }// end Insurance

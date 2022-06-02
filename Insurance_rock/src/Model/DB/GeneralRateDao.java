@@ -10,7 +10,7 @@ public class GeneralRateDao  extends Dao {
 	}
 
 	public boolean create(GeneralInsurance generalInsurance) {
-		double[] rate = generalInsurance.getStandardRate();
+		double[] rate = generalInsurance.getPremiumRate();
 		String query = "insert into generalRate(insuranceID, insurancerank, generalPremiumRate) values (\""+generalInsurance.getInsuranceID()+"\","+1+","+rate[0]+"),(\""+generalInsurance.getInsuranceID()+"\","+2+","+rate[1]+"),(\""+generalInsurance.getInsuranceID()+"\","+3+","+rate[2]+");";
 
 		System.out.println(query);

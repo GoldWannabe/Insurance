@@ -100,7 +100,7 @@ public class InsuranceJudge {
 				+ this.insurance.getSpecialContract() + "\n" + "장기여부: " + this.insurance.isLongTerm() + "\n" + "가입조건: "
 				+ this.insurance.getApplyCondition() + "\n" + "보상조건: " + this.insurance.getCompensateCondition() + "\n"
 				+ "설명: " + this.insurance.getExplanation() + "\n" + "요율: [1등급, 2등급, 3등급]"
-				+ Arrays.toString(this.insurance.getStandardRate()));
+				+ Arrays.toString(this.insurance.getPremiumRate()));
 
 		boolean correctInput = false;
 		String select;
