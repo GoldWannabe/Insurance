@@ -16,6 +16,7 @@ import View.Team.ContractTeamTui;
 import View.Team.FinancialDirectorTui;
 import View.Team.PolicyHolderTui;
 import View.Team.SalesTeamTui;
+import exception.DBAcceptException;
 
 public class Main {
 
@@ -51,7 +52,7 @@ public class Main {
 	}
 	
 	
-	private static void selectContractTeam(Scanner scanner) {
+	private static void selectContractTeam(Scanner scanner) throws DBAcceptException {
 		boolean continueSelect = true;
 
 		

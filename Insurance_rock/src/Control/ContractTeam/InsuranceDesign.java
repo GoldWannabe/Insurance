@@ -9,26 +9,32 @@ import java.util.Scanner;
 import Model.Insurance.GeneralInsurance;
 import Model.Insurance.HouseInsurance;
 import Model.Insurance.Insurance;
+import Model.Insurance.fileAcceptException;
+import View.Team.ContractTeamTui;
+import exception.OverlapNameException;
+import exception.WrongInputException;
+import exception.WrongRateException;
 
 public class InsuranceDesign {
 
 	public Insurance insurance;
+	public ContractTeamTui contractTeamTui;
 
 	public InsuranceDesign() {
-
+		this.contractTeamTui = new ContractTeamTui();
 	}
 
 	private boolean getTempInsurance(Scanner scanner) {
-		
-		
+
 		try {
-			File file = new File(".//DB//tempInsurance.txt");
+			File file = new File(".//File//tempInsurance.txt");
 
 			@SuppressWarnings("resource")
 			Scanner fileScanner = new Scanner(file);
 
 			if (fileScanner.nextInt() == 1) {
-				System.out.println("이전에 작업하던 설계가 있습니다. 이어서 하시길 원하면 1을 입력해주세요.");
+				this.contractTeamTui.showSelectTempInsurance();
+
 				if (scanner.next().equals("1")) {
 					double rate[] = new double[3];
 					String id = fileScanner.next();
@@ -48,11 +54,11 @@ public class InsuranceDesign {
 					this.insurance.setApplyCondition(fileScanner.nextLine());
 					this.insurance.setCompensateCondition(fileScanner.nextLine());
 					this.insurance.setExplanation(fileScanner.nextLine());
-					
+
 					rate[0] = fileScanner.nextDouble();
 					rate[1] = fileScanner.nextDouble();
 					rate[2] = fileScanner.nextDouble();
-					this.insurance.setStandardRate(rate);
+					this.insurance.setPremiumRate(rate);
 					@SuppressWarnings("resource")
 					FileWriter fileWriter = new FileWriter(file);
 					fileWriter.write("0");
@@ -65,125 +71,205 @@ public class InsuranceDesign {
 				return false;
 			}
 		} catch (IOException e) {
-			System.out.println(
-					"파일 접근 중 문제가 생겨 보험 정보를 불러오지 못했습니다. 잠시후 다시 실행 해주십시오. 해당 문제가 계속 발생할 시에는 사내 시스템 관리팀(1234-5678)에게 문의 주시기 바랍니다.");
-			e.printStackTrace(); 
+			throw new fileAcceptException();
 		}
 		return false;
+	}
+
+	public boolean design() {
+		Scanner scanner = new Scanner(System.in);
+		if (getTempInsurance(scanner)) {
+			this.insurance.design();
+			return register(scanner);
+		}
+
+		boolean IsLongTerm = false;
+		int flag = -1;
+
+		this.contractTeamTui.showStart();
+		while (flag == -1) {
+			this.contractTeamTui.showSelectLongterm();
+			try {
+				flag = (getflag(scanner));
+			} catch (WrongInputException e) {
+				System.err.println(e.getMessage());
+			}
+		}
+
+		if (flag == 1) {
+			IsLongTerm = true;
+		} else if (flag == 2) {
+			IsLongTerm = false;
+		} else if (flag == 0) {
+			this.contractTeamTui.showCancel();
+			return true;
+		}
+
+		flag = -1;
+		while (flag == -1) {
+			this.contractTeamTui.showSelectInsuranceType();
+			try {
+				flag = (getflag(scanner));
+			} catch (WrongInputException e) {
+				System.err.println(e.getMessage());
+			}
+		}
+
+		if (flag == 1) {
+			this.insurance = new GeneralInsurance(IsLongTerm);
+		} else if (flag == 2) {
+			this.insurance = new HouseInsurance(IsLongTerm);
+		} else if (flag == 0) {
+			this.contractTeamTui.showCancel();
+			return true;
+		}
+
+		this.insurance.design();
+		this.contractTeamTui.showEnterName();
+
+		boolean overlapName = true;
+
+		while (overlapName) {
+
+			try {
+
+				this.insurance.setInsuranceName(scanner.next());
+				overlapName = checkName();
+
+			} catch (OverlapNameException e) {
+				System.err.println(e.getMessage());
+			}
+		}
+		this.contractTeamTui.showEnterSpecialContract();
+		this.insurance.setSpecialContract(scanner.next());
+
+		this.contractTeamTui.showEnterApplyCondition();
+		this.insurance.setApplyCondition(scanner.next());
+
+		this.contractTeamTui.showEnterCompensateCondition();
+		this.insurance.setCompensateCondition(scanner.next());
+
+		this.contractTeamTui.showEnterExplanation();
+		this.insurance.setExplanation(scanner.next());
+
+		flag = -1;
+		while (flag == -1) {
+			this.contractTeamTui.showSelectRate(Arrays.toString(this.insurance.getPremiumRate()));
+
+			try {
+				flag = (getflag(scanner));
+			} catch (WrongInputException e) {
+				System.err.println(e.getMessage());
+			}
+		}
+		if (flag == 1) {
+
+			this.insurance.setStandardFee((int) (1000000000 * this.insurance.getPremiumRate()[0] / 100));
+		} else if (flag == 2) {
+
+			double rate[] = new double[] { 0, 0, 0 };
+			boolean correctRate = false;
+			while (!correctRate) {
+				this.contractTeamTui.showEnterPremiumRate();
+				rate[0] = checkDouble(scanner);
+				rate[1] = checkDouble(scanner);
+				rate[2] = checkDouble(scanner);
+				correctRate = checkRate(rate);
+
+			}
+			this.insurance.setPremiumRate(rate);
+			this.insurance.setStandardFee((int) (1000000000 * this.insurance.getPremiumRate()[0] / 100));
+		} else if (flag == 0) {
+			this.contractTeamTui.showCancel();
+			return true;
+		}
+
+		return register(scanner);
 
 	}
 
+	private boolean checkName() throws OverlapNameException {
 
+		if (this.insurance.checkName() || this.insurance.checkRegisterName()) {
+			throw new OverlapNameException();
+		}
+		return false;
+	}
 
-	public boolean design() {
-		
-//
-//		
-//
-//		if (flag == 1) {
-//			this.insurance = new GeneralInsurance(IsLongTerm);
-//		} else if (flag == 2) {
-//			this.insurance = new HouseInsurance(IsLongTerm);
-//		} else if (flag == 0) {
-//			System.out.println("취소되었습니다. 선택창으로 돌아갑니다.");
-//			return true;
-//		}
-//
-//		this.insurance.design();
-//		
-//		System.out.println("이름을 입력해주세요.");
-//		this.insurance.setInsuranceName(scanner.next());
-//		while (this.insurance.checkName()) {
-//			System.out.println("중복되는 이름이 존재합니다. 다시 입력해주세요."); 
-//			this.insurance.setInsuranceName(scanner.next());
-//		}
-//
-//		System.out.println("특약을 입력해주세요.");
-//		this.insurance.setSpecialContract(scanner.next());
-//		System.out.println("가입조건을 입력해주세요.");
-//		this.insurance.setApplyCondition(scanner.next());
-//		System.out.println("보상 조건을 입력해주세요.");
-//		this.insurance.setCompensateCondition(scanner.next());
-//		System.out.println("설명을 입력해주세요.");
-//		this.insurance.setExplanation(scanner.next());
-//
-//		System.out.println("기준 요율을 사용하시겠습니까? 기존요율: [1등급, 2등급, 3등급]" + Arrays.toString(this.insurance.getStandardRate()));
-//		System.out.println("1. 예 2. 아니오 0. 취소");
-//		flag = getflag(scanner);
-//
-//		if (flag == 1) {
-//			this.insurance.measureStandardFee();
-//		} else if (flag == 2) {
-//
-//			double rate[] = new double[] { 0, 0, 0 };
-//
-//			while (checkRate(rate)) {
-//				System.out.println("등급 별 요율을 입력해주세요.");
-//				System.out.println("1급");
-//				rate[0] = checkDouble(scanner);
-//				System.out.println("2급");
-//				rate[1] = checkDouble(scanner);
-//				System.out.println("3급");
-//				rate[2] = checkDouble(scanner);
-//			}
-//			this.insurance.setStandardRate(rate);
-//			this.insurance.measureStandardFee();
-//		} else if (flag == 0) {
-//			System.out.println("취소되었습니다. 선택창으로 돌아갑니다.");
-//			return true;
-//		}
-//
-//		return register(scanner);
-		return true;
+	private int getflag(Scanner scanner) throws WrongInputException {
+		String flag = scanner.next();
 
+		if (flag.equals("1")) {
+			return 1;
+		} else if (flag.equals("2")) {
+			return 2;
+		} else if (flag.equals("0")) {
+			return 0;
+		} else {
+			throw new WrongInputException();
+		}
 	}
 
 	private boolean checkRate(double[] rate) {
-		if (rate[0] <= 0) {
-			System.out.println("양수로 입력해주세요.");
-			return true;
-		} else if (rate[0] > rate[1]) {
-			System.out.println("1급의 요율이 2급보다 높습니다. 다시 적어주세요.");
-		} else if (rate[1] > rate[2]) {
-			System.out.println("2급의 요율이 3급보다 높습니다. 다시 적어주세요.");
-			return true;
+		try {
+			if (rate[0] > rate[1]) {
+
+				throw new WrongRateException(1, 2);
+			} else if (rate[1] > rate[2]) {
+				throw new WrongRateException(2, 3);
+			}
+		} catch (WrongRateException e) {
+			System.err.println(e.getMessage());
 		}
-		return false;
+
+		return true;
 	}
 
 	private double checkDouble(Scanner scanner) {
-		@SuppressWarnings("unused")
-		String trash;
-		while (!scanner.hasNextDouble()) {
-			trash = scanner.next();
-			System.out.println("소수를 넣어주세요.");
+		while (true) {
+
+			try {
+				if (!scanner.hasNextDouble()) {
+					throw new WrongInputException();
+				}
+
+				double rate = scanner.nextDouble();
+				if (rate < 0) {
+					throw new WrongInputException();
+				}
+				return rate;
+			} catch (WrongInputException e) {
+				System.err.println(e.getMessage());
+			}
 		}
-		return scanner.nextDouble();
+
 	}
 
 	private boolean register(Scanner scanner) {
 
-		System.out.println("보험명: " + this.insurance.getInsuranceName() + "\n" + "보험종류: "
-				+ this.insurance.getInsuranceType() + "\n" + "기준보험료: " + this.insurance.getStandardFee() + "\n"+ "특약: "
-				+ this.insurance.getSpecialContract()+ "\n" + "장기여부: " + this.insurance.isLongTerm() + "\n" + "가입조건: "
-				+ this.insurance.getApplyCondition() + "\n" + "보상조건: " + this.insurance.getCompensateCondition() + "\n"
-				+ "설명: " + this.insurance.getExplanation()+"\n"+"요율: [1등급, 2등급, 3등급]" + Arrays.toString(this.insurance.getStandardRate()));
+		this.contractTeamTui.showInsurance(this.insurance);
 
 		boolean correctInput = false;
 		String select;
 		while (!correctInput) {
-			System.out.println("1. 등록 2. 취소");
-			select = scanner.next();
-			if (select.equals("1") || select.equals("등록")) {
-				this.insurance.registerRate();
-				System.out.println("보험이 심사 등록 되었습니다.");
-				return false;
-			} else if (select.equals("2") || select.equals("취소")) {
-				
-				this.insurance.saveTempInsurance();
-				return true;
-			} else {
-				System.out.println("형식에 맞지 않습니다. 다시 입력해주세요.");
+			try {
+
+				this.contractTeamTui.showSelctRegister();
+				select = scanner.next();
+				if (select.equals("1") || select.equals("등록")) {
+					if (this.insurance.registerRate())
+						this.contractTeamTui.showSuccessRegister();
+
+					return false;
+				} else if (select.equals("2") || select.equals("취소")) {
+
+					this.insurance.saveTempInsurance();
+					return true;
+				} else {
+					throw new WrongInputException();
+				}
+			} catch (WrongInputException e) {
+				System.err.println(e.getMessage());
 			}
 		}
 
