@@ -18,7 +18,7 @@ public class RegisterInsuranceDao  extends Dao {
 	}
 
 	public ResultSet retrive(EInsurance insuranceType) {
-		String query = "select * from RegisterInsurance where insuranceType=\""+insuranceType.toString()+"\";";
+		String query = "select * from RegisterInsurance;";
 
 		System.out.println(query);
 		return super.retrive(query);
