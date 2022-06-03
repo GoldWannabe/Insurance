@@ -6,13 +6,13 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.UUID;
 
 import Model.DB.InsuranceDao;
 import Model.DB.RegisterInsuranceDao;
 import exception.DBAcceptException;
+import exception.fileAcceptException;
 
 public abstract class Insurance {
 	private String insuranceID;

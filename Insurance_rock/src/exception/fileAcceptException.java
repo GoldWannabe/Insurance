@@ -1,4 +1,4 @@
-package Model.Insurance;
+package exception;
 
 public class fileAcceptException extends RuntimeException {
 	public fileAcceptException() {

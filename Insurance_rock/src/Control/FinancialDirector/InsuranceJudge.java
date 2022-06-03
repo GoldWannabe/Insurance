@@ -2,7 +2,6 @@ package Control.FinancialDirector;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.Scanner;
 
 import Model.Insurance.GeneralInsurance;
@@ -10,42 +9,32 @@ import Model.Insurance.HouseInsurance;
 import Model.Insurance.Insurance;
 import Model.Insurance.InsuranceList;
 import Model.Insurance.InsuranceListImpl;
+import View.Team.FinancialDirectorTui;
+import exception.WrongInputException;
 
 public class InsuranceJudge {
 
+	FinancialDirectorTui financialDirectorTui;
 	Insurance insurance;
 	InsuranceList insuranceList;
+
+	public InsuranceJudge() {
+		this.financialDirectorTui = new FinancialDirectorTui();
+	}
 
 	@SuppressWarnings("resource")
 	public boolean selectJudge() {
 		Scanner scanner = new Scanner(System.in);
 		this.insuranceList = new InsuranceListImpl();
+		this.insurance = new GeneralInsurance();
 
-		System.out.println("보험 종류를 선택해주세요.");
-		System.out.println("1. 일반보험 2. 주택보험 0. 취소");
-		String flag = scanner.next();
-		boolean correctInput = false;
-		while (!correctInput) {
-			if (flag.equals("1")) {
-				this.insurance = new GeneralInsurance();
-				correctInput = true;
-			} else if (flag.equals("2")) {
-				this.insurance = new HouseInsurance();
-				correctInput = true;
-			} else if (flag.equals("0")) {
-				System.out.println("취소되었습니다. 선택창으로 돌아갑니다.");
-				return true;
-			} else {
-				System.out.println("해당하는 번호가 없습니다. 다시 입력해주세요.");
-			}
-		}
 		ResultSet resultSet = this.insurance.getRegisterInsurance();
 		try {
 			while (resultSet.next()) {
 				Insurance registerInsurance = null;
-				if (flag.equals("1")) {
+				if (resultSet.getString("insuranceType").equals("general")) {
 					registerInsurance = new GeneralInsurance();
-				} else if (flag.equals("2")) {
+				} else if (resultSet.getString("insuranceType").equals("house")) {
 					registerInsurance = new HouseInsurance();
 				}
 				registerInsurance.setInsuranceID(resultSet.getString("insuranceID"));
@@ -58,81 +47,86 @@ public class InsuranceJudge {
 				registerInsurance.setExplanation(resultSet.getString("explanation"));
 				this.insuranceList.add(registerInsurance);
 			}
-			
-			if(this.insuranceList.getAll().isEmpty()) {
-				System.out.println("해당하는 종류의 심사할 보험이 없습니다.");
+
+			if (this.insuranceList.getAll().isEmpty()) {
+				this.financialDirectorTui.showNoRegisterInsurance();
 				return true;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		showInsurance();
 		return selectInsurance(scanner);
 	}
 
 	private void showInsurance() {
-		System.out.println("---------------------------------------------------------------------------------------");
-		System.out.printf("%10s %10s %10s", "보험명", "보험종류", "기준보험료");
-		System.out.println();
-		System.out.println("---------------------------------------------------------------------------------------");
 		for (Insurance insurance : this.insuranceList.getAll()) {
-			System.out.format("%10s %12s %12d", insurance.getInsuranceName(), insurance.getInsuranceType().toString(),
-					insurance.getStandardFee());
-			System.out.println();
+			this.financialDirectorTui.showInsurance(insurance);
 		}
 	}
 
 	private boolean selectInsurance(Scanner scanner) {
-		System.out.println("심사할 보험명을 입력해 주세요.");
+		this.financialDirectorTui.showInsuranceColumn();
+		showInsurance();
+		this.financialDirectorTui.showEnterInsuranceName();
+
 		this.insurance = this.insuranceList.get(scanner.next());
 
 		while (this.insurance == null) {
-			System.out.println("해당하는 이름의 보험이 존재하지 않습니다. 다시 입력해주세요.");
+			this.financialDirectorTui.ShowNoInsuranceName();
 			this.insurance = this.insuranceList.get(scanner.next());
 		}
 
 		this.insurance.setRate();
 
-		System.out.println("보험명: " + this.insurance.getInsuranceName() + "\n" + "보험종류: "
-				+ this.insurance.getInsuranceType() + "\n" + "기준보험료: " + this.insurance.getStandardFee() + "\n" + "특약: "
-				+ this.insurance.getSpecialContract() + "\n" + "장기여부: " + this.insurance.isLongTerm() + "\n" + "가입조건: "
-				+ this.insurance.getApplyCondition() + "\n" + "보상조건: " + this.insurance.getCompensateCondition() + "\n"
-				+ "설명: " + this.insurance.getExplanation() + "\n" + "요율: [1등급, 2등급, 3등급]"
-				+ Arrays.toString(this.insurance.getPremiumRate()));
+		this.financialDirectorTui.showInsuranceAttribute(this.insurance);
 
 		boolean correctInput = false;
 		String select;
-		System.out.println("심사 결과를 입력해주세요.");
-		System.out.println("1. 승인 2. 비승인 3. 보류");
+		this.financialDirectorTui.showSelectPermit();
 
 		while (!correctInput) {
-			select = scanner.next();
 
-			if (select.equals("1") || select.equals("승인")) {
-				return permitInsurance();
-			} else if (select.equals("2") || select.equals("비승인")) {
-				return notPermitInsurance();
-			} else if (select.equals("3") || select.equals("보류")) {
-				System.out.println(this.insurance.getInsuranceName() + "의 보험 심사가 보류되었습니다.");
-				return true;
-			} else {
-
+			try {
+				select = scanner.next();
+				if (select.equals("1") || select.equals("승인")) {
+					
+					return permitInsurance();
+					
+				} else if (select.equals("2") || select.equals("비승인")) {
+					return notPermitInsurance();
+					
+				} else if (select.equals("3") || select.equals("보류")) {
+					this.financialDirectorTui.showPostponePermit(this.insurance.getInsuranceName());
+					
+					
+					return true;
+				} else {
+					throw new WrongInputException();
+				}
+			} catch (WrongInputException e) {
+				System.err.println(e.getMessage());
 			}
 		}
 		return false;
 	}
 
 	private boolean notPermitInsurance() {
-
-		return this.insurance.notPermitRate();
+if(this.insurance.notPermitRate()) {
+	this.financialDirectorTui.showCompletePermit();
+	return true;
+}
+		return false;
 
 	}
 
 	private boolean permitInsurance() {
-		return this.insurance.permitRate();
-
+		if(this.insurance.permitRate()) {
+			this.financialDirectorTui.showNoCompletePermit();
+			return true;
+		} 
+		return false; 
+		
 	}
 
 }
