@@ -102,8 +102,4 @@ public class Rank {
 		this.rankDao.create(this);
 	}
 
-
-
-
-
 }//end Rank

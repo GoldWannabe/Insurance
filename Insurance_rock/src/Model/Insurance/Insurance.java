@@ -252,7 +252,4 @@ public abstract class Insurance {
 		return this.insuranceDao.retriveType(insuranceName);
 		
 	}
-
-	
-
-}// end Insurance
+}

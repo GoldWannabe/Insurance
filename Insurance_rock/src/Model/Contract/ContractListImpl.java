@@ -54,8 +54,4 @@ public class ContractListImpl implements ContractList {
 		return null;
 	}
 
-
-//	public boolean update(){
-//
-//	}
 }//end ContractListImpl

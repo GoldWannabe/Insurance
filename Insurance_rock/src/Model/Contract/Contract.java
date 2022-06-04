@@ -252,7 +252,6 @@ public class Contract {
 		this.contractDao.updateProvisionFee(this);
 		
 	}
-	
 
 
 }// end Contract

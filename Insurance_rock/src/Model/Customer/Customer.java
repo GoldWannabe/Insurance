@@ -212,6 +212,4 @@ public class Customer {
 		this.customerDao = new CustomerDao();
 		return this.customerDao.retrivecustomerBank(this);
 	}
-
-
-}// end Customer
+}

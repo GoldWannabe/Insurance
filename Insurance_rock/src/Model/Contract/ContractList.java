@@ -11,7 +11,4 @@ public interface ContractList {
 	public ArrayList<Contract> getAll();
 	public Contract getcheck(String customerName_inser, String phoneNum_inser);
 	public Contract get(int num);
-//	public boolean update(){
-//
-//	}
 }//end ContractList

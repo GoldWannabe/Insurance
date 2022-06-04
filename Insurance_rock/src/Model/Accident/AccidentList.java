@@ -18,4 +18,5 @@ public interface AccidentList {
 	public ArrayList<Accident>  getAll();
 	
 	
+	
 }//end AccidentList
