@@ -212,4 +212,9 @@ public class Customer {
 		this.customerDao = new CustomerDao();
 		return this.customerDao.retrivecustomerBank(this);
 	}
+
+	public boolean updateInsuranceNum() {
+		this.customerDao = new CustomerDao();
+		return this.customerDao.updateInsuranceNum(this);
+	}
 }
