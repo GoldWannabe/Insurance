@@ -1,7 +1,5 @@
 package Model.Accident;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -9,19 +7,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
-import com.mysql.cj.protocol.Resultset;
-
-import Model.Channel.Channel;
-import Model.Channel.ChannelListImpl;
 import Model.DB.AccidentDao;
-import Model.DB.ContractDao;
 
 //121234536456123
 /**
@@ -44,7 +35,6 @@ public class Accident {
 	private boolean payCompleted;
 	private int liablityRate;
 	private int liablityCost;	
-	private ContractDao contractDAO;
 	private AccidentDao accidentDAO;
 	private int Num;
 	public String getCustomerID() {
@@ -56,7 +46,6 @@ public class Accident {
 	}
 	public Accident() {
 		this.accidentDAO = new AccidentDao();
-		this.contractDAO = new ContractDao();
 	}
 
 	public LocalDate getAccidentDate() {
@@ -232,36 +221,42 @@ public class Accident {
 
 	
 
-	public boolean updatedate(LocalDate accidentdate) {
-		return accidentDAO.updatedate(this , accidentdate);
+	public boolean updatedate() {
+		return accidentDAO.updatedate(this);
 	}
 
-	public void updatecontent(String content) {
-		accidentDAO.updatecontent(this , content);
+	public void updatecontent() {
+		accidentDAO.updatecontent(this);
 		
 	}
-	public void updatetotal(int totalCost) {
-		 accidentDAO.updatetotal(this , totalCost);
-		
-	}
-
-	public void updateDamage(int damagePer) {
-		 accidentDAO.updateDamage(this , damagePer);
+	public void updatetotal() {
+		 accidentDAO.updatetotal(this);
 		
 	}
 
-	public void updateKind(String kindOfCost) {
-		 accidentDAO.updateKind(this , kindOfCost);
-	}
-
-	public void updateLiablityCost(int liablityCost) {
-		 accidentDAO.updateLiablityCost(this , liablityCost);
-	}
-
-	public void updateLiablityRate(int liablityRate) {
-		 accidentDAO.updateLiablityRate(this , liablityRate);
+	public void updateDamage() {
+		 accidentDAO.updateDamage(this);
 		
 	}
+
+	public void updateKind() {
+		 accidentDAO.updateKind(this);
+	}
+
+	public void updateLiablityCost() {
+		 accidentDAO.updateLiablityCost(this);
+	}
+
+	public void updateLiablityRate() {
+		 accidentDAO.updateLiablityRate(this);
+		
+	}
+
+	public void updatePaycompleted() {
+		 accidentDAO.updatePaycompleted(this);
+	}
+
+	
 
 
 	

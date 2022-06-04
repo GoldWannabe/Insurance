@@ -1,8 +1,5 @@
 package Model.Contract;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -15,10 +12,8 @@ public class Contract {
 	private String customerID;
 	private String customerName;
 	private String phoneNum;
-	
 	private String insuranceID;
 	private String insuranceName;
-	
 	private String contractID;
 	private String accidentHistory;
 	private LocalDate endDate;
@@ -29,11 +24,20 @@ public class Contract {
 	private int securityFee;
 	private LocalDate startDate;
 	private int unpaidFee;
-	private ContractDao contractDAO;
+	private ContractDao contractDao;
 	private ApplyContractDao applyContractDao;
+	private int num;
 	
+	public int getNum() {
+		return num;
+	}
+
+	public void setNum(int num) {
+		this.num = num;
+	}
+
 	public Contract() {
-		this.contractDAO = new ContractDao();
+		this.contractDao = new ContractDao();
 		this.applyContractDao = new ApplyContractDao();
 		this.contractID = UUID.randomUUID().toString();
 	}
@@ -226,16 +230,27 @@ public class Contract {
 
 
 	public ResultSet retrivecontract() {
-		return contractDAO.retrivecontract(this.getCustomerName(), this.getPhoneNum());
+		return contractDao.retrivecontract(this.getCustomerName(), this.getPhoneNum());
 		
 	}
 	public void register() {
-		this.contractDAO = new ContractDao();
+		this.contractDao = new ContractDao();
 	}
 	
 	public void registerApplyContract() {
 		this.applyContractDao = new ApplyContractDao();
 		this.applyContractDao.create(this);
+	}
+
+	public ResultSet retrivelongtermFee() {
+		this.contractDao = new ContractDao();
+		return this.contractDao.retrivelongtermFee(this);
+	}
+
+	public void updateProvisionFee() {
+		this.contractDao = new ContractDao();
+		this.contractDao.updateProvisionFee(this);
+		
 	}
 	
 

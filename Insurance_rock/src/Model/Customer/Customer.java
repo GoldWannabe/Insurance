@@ -207,4 +207,11 @@ public class Customer {
 		return this.customerDao.create(this);
 	}
 
+
+	public ResultSet retrivecustomerBank() {
+		this.customerDao = new CustomerDao();
+		return this.customerDao.retrivecustomerBank(this);
+	}
+
+
 }// end Customer

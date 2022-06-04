@@ -3,6 +3,7 @@ package Model.Provision;
 import java.time.LocalDate;
 
 import Model.Customer.Customer;
+import Model.DB.ProvisionDao;
 
 /**
  * @author ansm6
@@ -11,7 +12,10 @@ import Model.Customer.Customer;
  */
 public class Provision {
 	private String provisionID;
+	private String customerID;
 	private String accountNum;
+	private String contractID;
+	private String insuranceName;
 	private String bankName;
 	private int compensation;
 	private LocalDate compensationDate;
@@ -20,9 +24,32 @@ public class Provision {
 	private boolean longTerm;
 	private String phoneNum;
 	public Customer m_Customer;
-	private enum einsuranceType{generalInsurance, houseInsurace};
-	private einsuranceType insuranceType;
+	@SuppressWarnings("unused")
+	private enum EInsurance{generalInsurance, houseInsurace};
+	private Model.Insurance.Insurance.EInsurance insuranceType;
 	
+	public String getContractID() {
+		return contractID;
+	}
+
+	public void setContractID(String contractID) {
+		this.contractID = contractID;
+	}
+	
+	public String getCustomerID() {
+		return customerID;
+	}
+
+	public void setCustomerID(String customerID) {
+		this.customerID = customerID;
+	}
+	public String getInsuranceName() {
+		return insuranceName;
+	}
+	
+	public void setInsuranceName(String insuranceName) {
+		this.insuranceName = insuranceName;
+	}
 	public String getProvisionID() {
 		return provisionID;
 	}
@@ -95,6 +122,7 @@ public class Provision {
 		this.phoneNum = phoneNum;
 	}
 
+
 	public Customer getM_Customer() {
 		return m_Customer;
 	}
@@ -102,8 +130,11 @@ public class Provision {
 	public void setM_Customer(Customer m_Customer) {
 		this.m_Customer = m_Customer;
 	}
+	public void setInsuranceType(Model.Insurance.Insurance.EInsurance e) {
+		this.insuranceType = e;
+	}
 
-	public einsuranceType getInsuranceType() {
+	public Model.Insurance.Insurance.EInsurance getInsuranceType() {
 		return insuranceType;
 	}
 
@@ -116,5 +147,12 @@ public class Provision {
 	}
 	public void checkProvision(){
 
+	}
+
+
+	public void creatNew() {
+		ProvisionDao provisionDao = new ProvisionDao();
+		provisionDao.creatNew(this);
+		
 	}
 }//end Provision

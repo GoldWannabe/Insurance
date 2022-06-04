@@ -247,4 +247,12 @@ public abstract class Insurance {
 
 	public abstract boolean permitRate();
 
+	public ResultSet retriveType(String insuranceName) {
+		this.insuranceDao = new InsuranceDao();
+		return this.insuranceDao.retriveType(insuranceName);
+		
+	}
+
+	
+
 }// end Insurance

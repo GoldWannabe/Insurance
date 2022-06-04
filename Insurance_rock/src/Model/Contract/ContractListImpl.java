@@ -26,34 +26,13 @@ public class ContractListImpl implements ContractList {
 		return false;
 	}
 
-	public ArrayList<Contract> get(String customerName, String phoneNum){
-		ArrayList<Contract> tempContract = new ArrayList<Contract>();
-		for(Contract contract: this.contractList) {
-			if(contract.getPhoneNum().equals(phoneNum) && contract.getCustomerName().equals(customerName)) {
-				tempContract.add(contract);
-			}
-		}
-		
-		if(!(tempContract.isEmpty())) {
-			return tempContract;
-		} 
-		return null;
-		
-	}
 
 	public ArrayList<Contract> getAll() {
 		return this.contractList;
 	}
 
 
-	public Contract get(String contractID) {
-		for (Contract contract : this.contractList) {
-			if (contract.getContractID().equals(contractID)) {
-				return contract;
-			}
-		}
-		return null;
-	}
+	
 
 
 	public Contract getcheck(String customerName_inser, String phoneNum_inser) {
@@ -64,6 +43,17 @@ public class ContractListImpl implements ContractList {
 		}
 		return null;
 	}
+
+
+	public Contract get(int num) {
+		for (Contract contract : this.contractList) {
+			if (contract.getNum() == num) {
+				return contract;
+			}
+		}
+		return null;
+	}
+
 
 //	public boolean update(){
 //

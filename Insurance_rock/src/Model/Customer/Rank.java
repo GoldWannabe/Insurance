@@ -1,6 +1,5 @@
 package Model.Customer;
 
-import java.util.StringTokenizer;
 import java.util.UUID;
 
 import Model.DB.IRankDao;

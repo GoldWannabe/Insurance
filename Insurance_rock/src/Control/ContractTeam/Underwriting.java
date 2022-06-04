@@ -1,15 +1,7 @@
 package Control.ContractTeam;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Scanner;
-
 import Model.Contract.Contract;
 import Model.Contract.ContractList;
-import Model.Contract.ContractListImpl;
-import Model.Insurance.GeneralInsurance;
-import Model.Insurance.HouseInsurance;
 import Model.Insurance.Insurance;
 
 public class Underwriting {

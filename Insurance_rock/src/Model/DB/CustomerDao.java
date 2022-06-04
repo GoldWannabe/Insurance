@@ -44,4 +44,17 @@ public class CustomerDao  extends Dao {
 		return super.delete(query);
 	}
 
+
+	public ResultSet retrivecustomerBank(Customer customer) {
+		StringBuilder stringBuilder = new StringBuilder();
+
+		String query = stringBuilder.append("select bankName, accountNum from customer Where customerID = ")
+				.append("\'" + customer.getCustomerID()+ "\'" )
+				.toString();
+		
+
+		System.out.println(query);
+		return super.retrive(query);
+	}
+
 }

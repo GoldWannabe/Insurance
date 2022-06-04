@@ -1,14 +1,6 @@
 package Model.Customer;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
-
-import Model.Channel.Channel;
 
 public class CustomerListImpl implements CustomerList {
 
@@ -29,6 +21,7 @@ public class CustomerListImpl implements CustomerList {
 		return false;
 	}
 
+	@SuppressWarnings("unlikely-arg-type")
 	@Override
 	public boolean delete(String customerID) {
 		if (this.customerList.remove(customerID))

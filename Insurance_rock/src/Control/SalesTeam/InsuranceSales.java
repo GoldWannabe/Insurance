@@ -16,9 +16,9 @@ import Model.Customer.Rank;
 import Model.Insurance.GeneralInsurance;
 import Model.Insurance.HouseInsurance;
 import Model.Insurance.Insurance;
+import Model.Insurance.Insurance.EInsurance;
 import Model.Insurance.InsuranceList;
 import Model.Insurance.InsuranceListImpl;
-import Model.Insurance.Insurance.EInsurance;
 
 public class InsuranceSales {
 	private Insurance insurance;
