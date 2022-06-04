@@ -9,8 +9,8 @@ import java.util.Scanner;
 
 import Model.Payment.*;
 import Model.Provision.*;
-import Model.Customer.*;
-//나 customer왜 가져옴?
+import Model.Contract.*;
+import Model.Insurance.Insurance.EInsurance;
 
 public class FeePayment {
 	PolicyHolderTui policyholderTUI;
@@ -21,10 +21,10 @@ public class FeePayment {
 	private Provision provision;
 	private ProvisionList provisionList = new ProvisionListImpl();
 
-	private Customer customer;
-	private CustomerList customerList = new CustomerListImpl();
+	private Contract contract;
+	private ContractList contractList = new ContractListImpl();
 	
-//하......납부해야할 금액을 확인한다 usecase 너무어색함...고쳐야해
+//ea usecase고치기
 	
 	public FeePayment() {
 		this.policyholderTUI = new PolicyHolderTui();
@@ -35,8 +35,11 @@ public class FeePayment {
 		Scanner scanner = new Scanner(System.in);
 		this.paymentList = new PaymentListImpl();
 		this.payment = new Payment();
-		//아아아아아아아앗 payment 고객 에 두개의 payment잇네 아놔 . . . 좀따. 이거 처리하기
+		this.contractList = new ContractListImpl();
+		this.contract = new Contract();
+		//list로 보여주기
 		ResultSet resultSet = this.payment.getPayment();
+		ResultSet resultSet2 = this.contract.getContract();
 		
 		try {
 			while (resultSet.next()) {
@@ -53,6 +56,29 @@ public class FeePayment {
 				tempPayment.setContractID(resultSet.getString("contractID"));
 				this.paymentList.add(tempPayment);
 			}
+		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();	
+		}
+		try {
+			while(resultSet2.next()) { 
+				Contract tempContract = new Contract();
+				tempContract.setContractID(resultSet2.getString("contractID"));
+				tempContract.setCustomerID(resultSet2.getString("customerID"));
+				tempContract.setCustomerName(resultSet2.getString("customerName"));
+				tempContract.setPhoneNum(resultSet2.getString("customerPhoneNum"));
+				tempContract.setInsuranceID(resultSet2.getString("insuranceID"));
+				tempContract.setInsuranceName(resultSet2.getString("insuranceName"));
+				tempContract.setPaymentCycle(resultSet2.getInt("paymentCycle"));
+				tempContract.setInsuranceFee(resultSet2.getInt("insuranceFee"));
+				tempContract.setUnpaidFee(resultSet2.getInt("unpaidFee"));
+				tempContract.setSecurityFee(resultSet2.getInt("securityFee"));
+				tempContract.setProvisionFee(resultSet2.getInt("provisionFee"));
+				tempContract.setStartDate(LocalDate.parse(resultSet2.getDate("startDate").toString()));
+				tempContract.setEndDate(LocalDate.parse(resultSet2.getDate("endDate").toString()));
+				this.contractList.add(tempContract);
+			}
+		
 //없는거 처리 @@	if(this.paymentList.getAll)
 		
 		} catch (SQLException e) {
@@ -105,7 +131,7 @@ public class FeePayment {
 		String num = scanner.next();
 		this.policyholderTUI.showMethod(method, name, num);
 		//통장금액 요청
-		//통장에돈잇음
+		//통장에돈있는지
 		this.payment.createPayment();
 		this.payment.setAccountNum(num);
 		this.payment.setCardOrBankName(name);
@@ -120,7 +146,11 @@ public class FeePayment {
 		switch(selectNum) {
 		case "1" :
 			return payInsuranceFee(scanner);
+		case "2" : 
+			return editPayment(scanner);
+			
 		}
+
 		return false;
 	}
 
@@ -153,37 +183,76 @@ public class FeePayment {
 		}
 		return false;
 	}
+//ea수정 - (gui방식으로 되어있는부분)
+	private boolean editPayment(Scanner scanner) {
+		this.policyholderTUI.showEdit();
+		String num = scanner.next();
+		if(num.equals("1")) {
+			this.policyholderTUI.editMethod();
+		}
+		else if(num.equals("2")){
+			//납부방법은 db에 없음
+			this.policyholderTUI.editMethod();
+			this.policyholderTUI.showEditCompleted();
+		}
+		else if(num.equals("3")) {
+			
+		}
+		//번호 잘못 선택했을 때 exception처리 
+		return false;
+	}
 
-	public void checkProvision() {
+
+	public boolean checkProvision() {
 		// TODO Auto-generated method stub
 		//지급 정보(보험이름,보험종류,장기여부,은행명,계좌번호,보상금액,보상일)를 출력한다
+		Scanner scanner = new Scanner(System.in);
 		this.provisionList = new ProvisionListImpl();
 		this.provision = new Provision();
 		//아아아아아아아앗 payment 고객 에 두개의 payment잇네 아놔 . . . 좀따. 이거 처리하기
 		ResultSet resultSet = this.provision.getProvision();
-		
 		try {
 			while (resultSet.next()) {
+				
 				Provision tempProvision = new Provision();
 				tempProvision.setProvisionID(resultSet.getString("provisionID"));
+				tempProvision.setInsuranceName(resultSet.getString("insuranceName"));
 				tempProvision.setAccountNum(resultSet.getString("accountNum"));
 				tempProvision.setBankName(resultSet.getString("bankName"));
 				tempProvision.setCompensation(resultSet.getInt("compensation"));
+				tempProvision.setPhoneNum(resultSet.getString("customerPhoneNum"));
 				tempProvision.setCompensationDate(LocalDate.parse(resultSet.getDate("compensationDate").toString()));
 				tempProvision.setCustomerName(resultSet.getString("customerName"));
 //				tempProvision.setInsuranceID(resultSet.getInt("insuranceFee"));
 				tempProvision.setLongTerm(resultSet.getBoolean("longTerm"));
-				//setInsuracneType 어캐하노
-//				tempProvision.setInsuranceType(resultSet.getS);
+				//setInsuranceType set도와주세요! 됐나??			
+				tempProvision.setInsuranceType(EInsurance.valueOf(resultSet.getString("insuranceType").toString()));
 				tempProvision.setContractID(resultSet.getString("contractID"));
-//				this.paymentList.add(tempProvision);
+				this.provisionList.add(tempProvision);
 			}
 //없는거 처리 @@	if(this.paymentList.getAll)
 		
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();	
 		}
+		return selectCustomerForProvision(scanner);
+	}
+
+	private boolean selectCustomerForProvision(Scanner scanner) {
+		// TODO Auto-generated method stub
+		this.policyholderTUI.enterCustomerName();
+		String name = scanner.next();
+		this.policyholderTUI.enterPhoneNum();
+		String phoneNum = scanner.next();
+		this.provision = this.provisionList.get(name, phoneNum);
+		//여기 오류 처리 다시 !!
+		if ( this.provision == null) {
+			this.policyholderTUI.showNoProvisionName();
+			this.selectCustomer(scanner);
+		}	
+		this.policyholderTUI.showProvisionRecords(this.provision);
+		//여기 지급 기록 보여주고 홈 화면으로 가는거 처리
+		return false;
 	}
 	
 	

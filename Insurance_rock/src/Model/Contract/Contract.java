@@ -15,14 +15,13 @@ public class Contract {
 	private String insuranceID;
 	private String insuranceName;
 	private String contractID;
-	private String accidentHistory;
-	private LocalDate endDate;
 	private int insuranceFee;
 	private int paymentCycle;
-	private int period;
 	private int provisionFee;
 	private int securityFee;
+	private int period;
 	private LocalDate startDate;
+	private LocalDate endDate;
 	private int unpaidFee;
 	private ContractDao contractDao;
 	private ApplyContractDao applyContractDao;
@@ -102,14 +101,6 @@ public class Contract {
 
 	public void search() {
 
-	}
-
-	public String getAccidentHistory() {
-		return accidentHistory;
-	}
-
-	public void setAccidentHistory(String accidentHistory) {
-		this.accidentHistory = accidentHistory;
 	}
 
 	public String getContractID() {
@@ -251,6 +242,11 @@ public class Contract {
 		this.contractDao = new ContractDao();
 		this.contractDao.updateProvisionFee(this);
 		
+	}
+
+	public ResultSet getContract() {
+		this.contractDao = new ContractDao();
+		return this.contractDao.retrive();
 	}
 
 
