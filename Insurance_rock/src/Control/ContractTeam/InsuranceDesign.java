@@ -31,7 +31,8 @@ public class InsuranceDesign {
 
 			@SuppressWarnings("resource")
 			Scanner fileScanner = new Scanner(file);
-
+			System.out.println(fileScanner.next());
+			
 			if (fileScanner.nextInt() == 1) {
 				this.contractTeamTui.showSelectTempInsurance();
 

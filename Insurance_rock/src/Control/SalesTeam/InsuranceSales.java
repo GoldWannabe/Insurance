@@ -22,7 +22,6 @@ import View.Team.SalesTeamTui;
 import exception.DBAcceptException;
 import exception.WrongInputException;
 
-
 public class InsuranceSales {
 	public SalesTeamTui salesTeamTui;
 
@@ -120,9 +119,9 @@ public class InsuranceSales {
 				int flag = getflag(scanner);
 				if (flag == 1) {
 					return selectCustomer(scanner, this.insurance);
-				} else if(flag == 2) {
+				} else if (flag == 2) {
 					return rejoinContract(scanner, this.insurance);
-				}else if (flag == 0) {
+				} else if (flag == 0) {
 					this.salesTeamTui.showCancel();
 					return true;
 				}
@@ -153,7 +152,7 @@ public class InsuranceSales {
 					return true;
 				}
 			} catch (WrongInputException e) {
-				e.printStackTrace();
+				System.err.println(e.getMessage());
 			}
 		}
 	}
@@ -171,22 +170,22 @@ public class InsuranceSales {
 		this.contract.setPhoneNum(this.customer.getPhoneNum());
 
 		this.salesTeamTui.showEnterSecurityFee();
-		this.contract.setSecurityFee(scanner.nextInt());
+		this.contract.setSecurityFee(checkInt(scanner));
 		this.salesTeamTui.showEnterInsuranceFee();
-		this.contract.setInsuranceFee(scanner.nextInt());
+		this.contract.setInsuranceFee(checkInt(scanner));
 		this.salesTeamTui.showEnterPaymentCycle();
-		this.contract.setPaymentCycle(scanner.nextInt());
+		this.contract.setPaymentCycle(checkInt(scanner));
 		this.salesTeamTui.showEnterPeriod();
-		this.contract.setPeriod(scanner.nextInt());
+		this.contract.setPeriod(checkInt(scanner));
 
 		this.salesTeamTui.showEnterFireFacilities();
-		this.rank.setFireFacilities(scanner.nextFloat());
+		this.rank.setFireFacilities(checkFloat(scanner));
 		this.salesTeamTui.showEnterScale();
-		this.rank.setScale(scanner.nextInt());
+		this.rank.setScale(checkInt(scanner));
 		this.salesTeamTui.showEnterSurroundingFacilities();
-		this.rank.setSurroundingFacilities(scanner.nextFloat());
+		this.rank.setSurroundingFacilities(checkFloat(scanner));
 		this.salesTeamTui.showEnterHeight();
-		this.rank.setHeight(scanner.nextBoolean());
+		this.rank.setHeight(checkBoolean(scanner));
 		this.salesTeamTui.showEnterMaterial();
 		this.rank.setMaterial(scanner.next());
 		this.salesTeamTui.showEnterPurpose();
@@ -203,7 +202,7 @@ public class InsuranceSales {
 	}
 
 	private Customer searchCustomer() {
-		//set customerList with DAO(DB)
+		// set customerList with DAO(DB)
 		ResultSet resultSet = this.customer.getCustomer();
 		try {
 			while (resultSet.next()) {
@@ -228,7 +227,7 @@ public class InsuranceSales {
 			System.err.println(e.getMessage());
 		}
 
-		//search start
+		// search start
 		this.salesTeamTui.showSearchCustomerStart();
 		while (true) {
 			Scanner scanner = new Scanner(System.in);
@@ -262,7 +261,7 @@ public class InsuranceSales {
 		this.salesTeamTui.shoeEnterAddress();
 		customer.setAddress(scanner.next());
 		this.salesTeamTui.showEnterSex();
-		customer.setSex(scanner.next());
+		customer.setSex(checkESex(scanner));
 		this.salesTeamTui.showEnterBankName();
 		customer.setBankName(scanner.next());
 		this.salesTeamTui.showEnterAccountNum();
@@ -278,10 +277,10 @@ public class InsuranceSales {
 
 		// add customerList
 		this.customerList.add(customer);
-		
+
 		// save Customer DB
 		customer.register();
-		
+
 		this.salesTeamTui.showNewCustomerEnd();
 		return customer;
 	}
@@ -299,5 +298,72 @@ public class InsuranceSales {
 			throw new WrongInputException();
 		}
 	}
+
+	private boolean checkBoolean(Scanner scanner) {
+		while (true) {
+			try {
+				if (!scanner.hasNextBoolean()) {
+					String temp = scanner.next();
+					throw new WrongInputException();
+				}else {
+					return scanner.nextBoolean();
+				}
+			} catch (WrongInputException e) {
+				System.err.println(e.getMessage());
+			}
+			this.salesTeamTui.showReInput();
+		}
+	}
+	
+	private Integer checkInt(Scanner scanner) {
+		while(true) {
+			try {
+				if(!scanner.hasNextInt()) {
+					String temp = scanner.next();
+					throw new WrongInputException();
+				}else {
+					return scanner.nextInt();
+				}
+			}catch(WrongInputException e) {
+				System.err.println(e.getMessage());
+			}
+			this.salesTeamTui.showReInput();
+		}
+		
+	}
+	
+	private float checkFloat(Scanner scanner) {
+		while(true) {
+			try {
+				if(!scanner.hasNextFloat()) {
+					String temp = scanner.next();
+					throw new WrongInputException();
+				}else {
+					return scanner.nextFloat();
+				}
+			}catch(WrongInputException e) {
+				System.err.println(e.getMessage());
+			}
+			this.salesTeamTui.showReInput();
+		}
+	}
+
+	private String checkESex(Scanner scanner) {
+		while (true) {
+			try {
+				String input = scanner.next();
+				if (input.equals("male") || input.equals("female") || input.equals("none")) {
+					return input;
+				} else {
+					throw new WrongInputException();
+				}
+			} catch (WrongInputException e) {
+				System.err.println(e.getMessage());
+			}
+			this.salesTeamTui.showEnterSex();
+		}
+	}
+	
+
 
 }

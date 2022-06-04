@@ -175,9 +175,6 @@ public class Customer {
 			this.sex = Esex.female;
 		} else if (sex.equals(Esex.none)) {
 			this.sex = Esex.none;
-		} else {
-			// default
-			this.sex = Esex.none;
 		}
 	}
 

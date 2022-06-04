@@ -84,6 +84,7 @@ public class SalesTeamTui {
 	}
 
 	public void showEnterHeight() {
+		System.out.println("높이가 15층 이상입니까? [true or false]");
 		System.out.print("높이(boolean): ");		
 	}
 
@@ -92,7 +93,7 @@ public class SalesTeamTui {
 	}
 
 	public void showEnterPurpose() {
-		System.out.print("건물 목적(living, factory etc.)");		
+		System.out.print("건물 목적(living, factory etc.): ");		
 	}
 
 	public void showSearchCustomerStart() {
@@ -142,6 +143,11 @@ public class SalesTeamTui {
 	}
 	public void showNewCustomerEnd() {
 		System.out.println("신규 회원가입이 완료되었습니다.");
+	}
+
+	public void showReInput() {
+		System.out.print("재입력: ");
+		
 	}
 	
 }
