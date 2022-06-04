@@ -63,7 +63,6 @@ public class HouseInsurance extends Insurance {
 				premiumRate[i] = resultSet.getDouble("housePremiumRate");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

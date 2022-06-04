@@ -18,8 +18,8 @@ public class CustomerDao  extends Dao {
 	
 	public boolean create(Customer customer) {
 		String query = "insert into customer(customerID, Name, SSN, Sex, phoneNum, address, bankName, accountNum, insuranceNum) values (\""
-				+customer.getCustomerID()+"\","+customer.getName()+"\","+customer.getSSN()+"\","+customer.getSex()+"\","
-				+customer.getPhoneNum()+"\","+customer.getAddress()+"\","+customer.getBankName()+"\","+customer.getAccountNum()+"\","+customer.getInsuranceNum()+"\");";
+				+customer.getCustomerID()+"\", \""+customer.getName()+"\", \""+customer.getSSN()+"\", \""+customer.getSex()+"\", \""
+				+customer.getPhoneNum()+"\", \""+customer.getAddress()+"\", \""+customer.getBankName()+"\", \""+customer.getAccountNum()+"\", \""+customer.getInsuranceNum()+"\");";
 		return super.create(query);
 	}
 
@@ -36,12 +36,30 @@ public class CustomerDao  extends Dao {
 		System.out.println(query);
 		return super.update(query);
 	}
+	
+	public boolean updateInsuranceNum(Customer customer) {
+		String query = "update customer set insuranceNum="+customer.getInsuranceNum()+" where customerID= \""+customer.getCustomerID()+"\"";
+		return super.update(query);
+	}
 
 	public boolean delete() {
 		String query = "";
 
 		System.out.println(query);
 		return super.delete(query);
+	}
+
+
+	public ResultSet retrivecustomerBank(Customer customer) {
+		StringBuilder stringBuilder = new StringBuilder();
+
+		String query = stringBuilder.append("select bankName, accountNum from customer Where customerID = ")
+				.append("\'" + customer.getCustomerID()+ "\'" )
+				.toString();
+		
+
+		System.out.println(query);
+		return super.retrive(query);
 	}
 
 }

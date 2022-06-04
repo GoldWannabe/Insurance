@@ -18,7 +18,7 @@ public class IRankDao  extends Dao {
 	
 	public boolean create(Rank rank) {
 		String query ="insert into IRank(RankID, material, fireFacilities, height, scale, surroundingFacilities, purpose) values (\""
-				+rank.getRankID()+"\", \""+rank.getMaterial()+"\", \""+rank.getFireFacilities()+"\", \""+rank.isHeight()+"\", \""+rank.getScale()+"\", \""
+				+rank.getRankID()+"\", \""+rank.getMaterial()+"\", \""+rank.getFireFacilities()+"\", "+rank.isHeight()+", \""+rank.getScale()+"\", \""
 				+rank.getSurroundingFacilities()+"\", \""+rank.getPurpose()+"\");";
 		
 		System.out.println(query);

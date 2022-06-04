@@ -54,4 +54,30 @@ public class ContractDao  extends Dao {
 		System.out.println(query);
 		return super.retrive(query);
 	}
+
+	public ResultSet retrivelongtermFee(Contract contract) {
+		StringBuilder stringBuilder = new StringBuilder();
+
+		String query = stringBuilder.append("select  insuranceID, insuranceName, securityFee, provisionFee, startDate, endDate  from contract Where contractID = ")
+				.append("\'" + contract.getContractID()+ "\'" )
+				.toString();
+		
+
+		System.out.println(query);
+		return super.retrive(query);
+		
+	}
+
+	public boolean updateProvisionFee(Contract contract) {
+		StringBuilder stringBuilder = new StringBuilder();
+
+		String query = stringBuilder.append("update contract set provisionFee =")
+				.append("\'"+contract.getProvisionFee()+ "\'")
+				.append("where contractID = \'" + contract.getContractID() + "\'")
+				.toString();
+		
+
+		System.out.println(query);
+		return super.update(query);
+	}
 }

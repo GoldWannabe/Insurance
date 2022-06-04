@@ -1,5 +1,9 @@
 package Control.CompensateTeam;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -10,34 +14,53 @@ import Model.Accident.Accident;
 import Model.Accident.AccidentListImpl;
 import Model.Contract.Contract;
 import Model.Contract.ContractListImpl;
+import Model.Customer.Customer;
+import Model.Insurance.GeneralInsurance;
+import Model.Insurance.Insurance;
+import Model.Insurance.Insurance.EInsurance;
+import Model.Provision.Provision;
+import View.Team.CompensateTeamTui;
+import exception.AlreadyPayCompleted;
+import exception.BankfileAcceptException;
+import exception.DBAcceptException;
+import exception.LackInsuranceBank;
+import exception.NonExistAccident;
+import exception.NonExistContract;
+import exception.NotDamageAssessment;
+import exception.WrongInputException;
 
 public class DamageAssessment {
 
+	private CompensateTeamTui compensateTeamTui;
 	private ContractListImpl contractList;
 	private AccidentListImpl accidentList;
 	private Accident accident;
 	private Contract contract;
+	private Customer customer;
 
 	public DamageAssessment() {
 		this.accidentList = new AccidentListImpl();
 		this.accident = new Accident();
 		this.contractList = new ContractListImpl();
 		this.contract = new Contract();
+		this.compensateTeamTui = new CompensateTeamTui();
+		this.customer = new Customer();
 
 	}
 
 	public boolean selectAccidentMenagement(Scanner scanner) {
+			
 		boolean isSearch = false;
 		boolean overcheck = false;
+		try {
 		while (!isSearch) {
-			System.out.println("사고를 접수하기 위한 메뉴 선택해주세요.");
-			System.out.println("1. 검색, 2. 추가, 0. 취소 ");
+			compensateTeamTui.viewbasic();
 			String selectNum = scanner.next();
 			switch (selectNum) {
 			case "1":
-				overcheck = search();
+					overcheck = search();
 				if (!overcheck) {
-					showAccident();
+					compensateTeamTui.viewAccident(accidentList);
 					return compansate(scanner);
 				}
 				break;
@@ -49,123 +72,200 @@ public class DamageAssessment {
 				}
 				break;
 			case "0":
-				System.out.println("취소되었습니다. 전 선택창으로 돌아갑니다");
+				compensateTeamTui.cancelback();
 				return true;
 			default:
-				System.out.println("선택 이상함");
-				break;
+				throw new WrongInputException();
 			}
+		}
+		} catch (NonExistAccident e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NonExistContract e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (WrongInputException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return isSearch;
 
 	}
 
 	private boolean compansate(Scanner scanner) {
-		System.out.println("1. 보상금 지급, 2. 수정");
+		compensateTeamTui.viewCompansate();
 		String selectNum = scanner.next();
 		switch (selectNum) {
 		case "1":
 			return paycompansate(scanner);
-			
+
 		case "2":
 			update(scanner);
 			break;
 		}
 		return false;
 
-	}	
+	}
 
 	private boolean paycompansate(Scanner scanner) {
-		System.out.println("보상금을 지급할 계약을 선택해주세요.");
-		int num;
-		num = scanner.nextInt();
+		int num = compensateTeamTui.viewcomapansateNum(scanner);
 		this.accident = accidentList.getNum(num);
-		System.out.println(" 가입자명 : " + this.accident.getCustomerName()+"\n 연락처: "+ this.accident.getPhoneNum()+ "\n 사고번호 : "+ this.accident.getID() + 
-				"\n 의 사고의"+ this.accident.getLiablityCost() + "원을 지급하겠습니까? \n 지급을 원하시면 1번, 취소를 원하시면 2번을 입력해주세요.");
-		String selectNum = scanner.next();
-		if(selectNum.equals("1")) {
-			requestconstomer();
-		}else if(selectNum.equals("2")) {
-			System.out.println("홈 화면으로 돌아갑니다.");
-			return true;
-		}
+		compensateTeamTui.viewcomapansate(this.accident);
+
+			String selectNum = scanner.next();
+			if (selectNum.equals("1")) {
+				pay();
+			} else if (selectNum.equals("2")) {
+				compensateTeamTui.cancelhome();
+				return true;
+			}
 		return false;
-		
+
 	}
 
-	private void requestconstomer() {
-		
-		// TODO Auto-generated method stub
-		
-	}
+	private void pay() {
+		this.customer.setCustomerID(this.accident.getCustomerID());
+		ResultSet resultBank = this.customer.retrivecustomerBank();
+		this.contract.setContractID(this.accident.getContractID());
+		ResultSet resultlongtermFee = contract.retrivelongtermFee();
+		int liablityCost = 0;
 
-	private void showAccident() {
-		System.out.println(
-				"-------------------------------------------------------------------------------------------------------------------------------------------------------");
-		System.out.printf("%10s %35s %7s %7s %10s %20s %18s %15s %15s %15s %15s %15s", "사고ID", "계약ID", "고객ID", "가입자명",
-				"연락처", "사고날짜", "사고내용", "총비용", "손해정도", "비용종류", "지급여부", "책입비율", "책임비용");
-		System.out.println();
-		System.out.println(
-				"------------------------------------------------------------------------------------------------------------------------------------------------------------");
+		try {
+			File file = new File(".//File//InsuranceBank.txt");
+			Scanner scanner = new Scanner(file);
+			while (scanner.hasNextInt()) {
+				liablityCost = scanner.nextInt();
+			}
+			scanner.close();
 
-		for (Accident accident : this.accidentList.getAll()) {
+			int result = liablityCost - this.accident.getLiablityCost();
+			if (result <= 0) {
+				throw new LackInsuranceBank();
+			} else {
+				FileWriter fileWriter = new FileWriter(file, false);
+				String resultToString = Integer.toString(result);
+				fileWriter.write(resultToString);
+				fileWriter.flush();
+				fileWriter.close();
 
-			System.out.format("%5s %7s %7s %7s %20s %12s %7s %15s %7s %12s %15s %10s",
-					accident.getNum() + "." + accident.getID(), accident.getContractID(), accident.getCustomerID(),
-					accident.getCustomerName(), accident.getPhoneNum(), accident.getAccidentDate(),
-					accident.getContent(), accident.getTotalCost(), accident.getDamagePer(), accident.getKindOfCost(),
-					accident.isPayCompleted(), accident.getLiablityRate(), accident.getLiablityCost());
-			System.out.println();
+				fileWriter = new FileWriter(".//File//CustomerBank.txt", false);
+				String resultToString2 = Integer.toString(this.accident.getLiablityCost());
+				fileWriter.write(resultToString2);
+				fileWriter.flush();
+				fileWriter.close();
+				if(resultToString2 == null) {
+					throw new BankfileAcceptException();
+				}
+			}
 
+			// 지급완료 업데이트 !표 마지막에 붙일것.
+			if (!(this.accident.isPayCompleted())) {
+				this.accident.setPayCompleted(true);
+				this.accident.updatePaycompleted();
+				while (resultlongtermFee.next()) {
+					this.contract.setInsuranceID(resultlongtermFee.getString("insuranceID"));
+					this.contract.setInsuranceName(resultlongtermFee.getString("insuranceName"));
+					this.contract.setProvisionFee(
+							resultlongtermFee.getInt("provisionFee") + this.accident.getLiablityCost());
+					this.contract.setSecurityFee(resultlongtermFee.getInt("securityFee"));
+					this.contract.setStartDate(LocalDate.parse(resultlongtermFee.getString("startDate")));
+					this.contract.setEndDate(LocalDate.parse(resultlongtermFee.getString("endDate")));
+				}
+				while (resultBank.next()) {
+					this.customer.setBankName(resultBank.getString("bankName"));
+					this.customer.setAccountNum(resultBank.getString("accountNum"));
+				}
+				// 사고이력없음.. 없데이트 불가능 나머지 지급액만 업데이트하겠음.
+				this.contract.updateProvisionFee();
+
+				LocalDate startDate = this.contract.getEndDate();
+				int StartYear = startDate.getYear();
+				LocalDate endDate = this.contract.getStartDate();
+				int endYear = endDate.getYear();
+				Insurance generalinsurance = new GeneralInsurance();
+				ResultSet insuranceType = generalinsurance.retriveType(this.contract.getInsuranceName());
+
+//				만료일-시작일이 3년이상이면 false 아니면 true 입력.
+				Provision provision = new Provision();
+				if (endYear - StartYear >= 3) {
+					provision.setLongTerm(true);
+				} else {
+					provision.setLongTerm(false);
+				}
+				while (insuranceType.next()) {
+					EInsurance e = EInsurance.valueOf(insuranceType.getString("insuranceType"));
+					provision.setInsuranceType(e);
+				} //
+				int overCost = this.contract.getSecurityFee() - this.contract.getProvisionFee();
+				if (overCost <= 0) {
+					compensateTeamTui.viewOverCost();
+					provision.setCompensation(this.contract.getSecurityFee());
+				} else {
+					provision.setCompensation(this.accident.getLiablityCost());
+				}
+				provision.setProvisionID(UUID.randomUUID().toString());
+				provision.setCustomerID(this.customer.getCustomerID());
+				provision.setContractID(this.accident.getContractID());
+				provision.setCustomerName(this.accident.getCustomerName());
+				provision.setPhoneNum(this.accident.getPhoneNum());
+				provision.setInsuranceName(this.contract.getInsuranceName());
+				provision.setBankName(this.customer.getBankName());
+				provision.setAccountNum(this.customer.getAccountNum());
+				provision.setCompensationDate(LocalDate.now());
+				// 지급ID, 고객ID, 가입자명, 연락처, 계좌번호,은행명, 보상금액, 지급날짜.보험이름, 장기여부, 보험종류, 계약ID를 저장.
+				provision.creatNew();
+
+				compensateTeamTui.viewNewProvision(provision);
+			} else {
+				throw new AlreadyPayCompleted();
+			}
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (AlreadyPayCompleted e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (LackInsuranceBank e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (BankfileAcceptException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 	}
 
 	private void showConctarct(Scanner scanner) {
 		// CosntractList.
-
-		System.out.println("<사고를 추가할 계약을 선택하세요.>");
-		System.out.println(
-				"------------------------------------------------------------------------------------------------------------------------------");
-		System.out.printf("%5s %7s %7s %7s %10s %20s %18s %15s %15s %15s %15s %15s %15s", "계약ID", "고객ID", "가입자명", "연락처",
-				"보험ID", "보험이름", "납부방식", "보험료", "미납액", "담보액", "지급액", "가입일", "만료일");
-		System.out.println();
-		System.out.println(
-				"------------------------------------------------------------------------------------------------------------------------------");
-		for (Contract contract : this.contractList.getAll()) {
-			System.out.format("%5s %7s %7s %7s %20s %12s %7s %15s %7s %12s %15s %10s %10s", contract.getContractID(),
-					contract.getCustomerID(), contract.getCustomerName(), contract.getPhoneNum(),
-					contract.getInsuranceID(), contract.getInsuranceName(), contract.getPaymentCycle(),
-					contract.getInsuranceFee(), contract.getUnpaidFee(), contract.getSecurityFee(),
-					contract.getProvisionFee(), contract.getStartDate(), contract.getEndDate());
-			System.out.println();
-		}
-
-		// TODO Auto-generated method stub
+		compensateTeamTui.viewContract(contractList);
 
 	}
 
-	private boolean addcheck() {
+	@SuppressWarnings("unused")
+	private boolean addcheck() throws NonExistContract {
 
 		// 가입자명, 사고날짜, 연락처가 해당 고객과 동일하다면 거기에 이어서 사고내역 추가하기 검색은 불러오기.
 		Scanner scanner = new Scanner(System.in);
 		// 계약 DB에서 가져옴.
-		System.out.println("<추가할 가입자명과 연락처를 입력해 주세요.>");
-		System.out.println("가입자명 :");
-		String customerName_inser = scanner.nextLine();
 
-		System.out.println("연락처 :");
-		String phoneNum_inser = scanner.nextLine();
+		String[] inser = compensateTeamTui.viewaddcheck(scanner);
 
-		contract.setCustomerName(customerName_inser);
-		contract.setPhoneNum(phoneNum_inser);
+		contract.setCustomerName(inser[0]);
+		contract.setPhoneNum(inser[1]);
 		//
 		ResultSet resultSet = contract.retrivecontract();
 		// 사고번호ID, 계약ID ,고객ID,가입자명, 연락처,사고날짜,사고내용 ,총비용,손해정도,비용종류,지급여부,책임비율,책임비용
-
+		int num = 1;
 		try {
 			while (resultSet.next()) {
 				Contract contract = new Contract();
+				contract.setNum(num);
 				contract.setContractID(resultSet.getString("contractID"));
 				contract.setCustomerID(resultSet.getString("customerID"));
 				contract.setCustomerName(resultSet.getString("customerName"));
@@ -179,22 +279,23 @@ public class DamageAssessment {
 				contract.setProvisionFee(resultSet.getInt("provisionFee"));
 				contract.setStartDate(LocalDate.parse(resultSet.getString("startDate")));
 				contract.setEndDate(LocalDate.parse(resultSet.getString("endDate")));
+				num++;
 				contractList.add(contract);
 			} // 계약ID, 고객ID, 가입자명, 연락처, 보험ID, 보험이름, 납부방식, 보험료, 미납액, 담보액, 지급액, 가입일, 만료일
+			if(resultSet == null) {
+				throw new DBAcceptException();
+			}
 		} catch (SQLException e) {
-			System.out.println(
-					"파일 접근 중 문제가 생겨 사고정보를 불러오지 못했습니다. 잠시후 다시 실행 해주십시오. 해당 문제가 계속 발생할 시에는 사내 시스템 관리팀(1234-5678)에게 문의 주시기 바랍니다.");
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		boolean overcheck = false;
 		while (!overcheck) {
-			if (this.contractList.getcheck(customerName_inser, phoneNum_inser) != null) {
+			if (this.contractList.getcheck(inser[0], inser[1]) != null) {
 				return overcheck = false;
 			} else {
-				System.out.println("해당 계약이 존재하지 않습니다. 다시 입력해주세요.");
-				return overcheck = true;
+				overcheck = true;
+				throw new NonExistContract();
 			}
 		}
 		return overcheck;
@@ -203,30 +304,20 @@ public class DamageAssessment {
 
 	// 사고정보(사고내용, 비용, 종류, 손해정도, 총비용, 책임 비용, 책임비율 )입력창과 계약 목록 선택창??과 추가, 취소버튼을 출력.
 
-	private boolean search() {
+	private boolean search() throws NonExistAccident {
 		this.accidentList.clear();
 		Scanner scanner = new Scanner(System.in);
 		boolean overcheck = true;
 
-		System.out.println("<사고내역을 출력할 가입자명과 사고날짜를 입력해 주세요.>");
-		System.out.println("가입자명 :");
-		String customerName_inser = scanner.nextLine();
-		System.out.println("<사고날짜>");
-		System.out.println("년도 : ");
-		int year = scanner.nextInt();
-		System.out.println("월 : ");
-		int monty = scanner.nextInt();
-		System.out.println("일 : ");
-		int date = scanner.nextInt();
+		String[] inser = compensateTeamTui.veiwSearch(scanner);
+		String customerName_inser = inser[0];
+		
+		int[] dateArray = new int[inser.length];
+		for (int i = 1; i < inser.length; i++) {
+			dateArray[i] = Integer.parseInt(inser[i]);
 
-//		String[] dateArray = date.split(" ");
-//		int[] intArray = new int[dateArray.length];
-//
-//		for (int i = 0; i < intArray.length; i++) {
-//			intArray[i] = Integer.parseInt(dateArray[i]);
-//
-//		}
-		LocalDate accidentDate_inser = LocalDate.of(year, monty, date);
+		}
+		LocalDate accidentDate_inser = LocalDate.of(dateArray[1], dateArray[2], dateArray[3]);
 		accident.setCustomerName(customerName_inser);
 		accident.setAccidentDate(accidentDate_inser);
 
@@ -257,111 +348,85 @@ public class DamageAssessment {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(accidentList.get(customerName_inser, accidentDate_inser) != null) {
+		if (accidentList.get(customerName_inser, accidentDate_inser) != null) {
+			for(Accident accident : accidentList.get(customerName_inser, accidentDate_inser)) {
+				if( accident.isPayCompleted() != false && accident.isPayCompleted() != true || accident.getDamagePer()  == 0|| accident.getTotalCost()  == 0|| accident.getLiablityRate()  == 0) {
+					throw new NotDamageAssessment();
+				}
+			}
 			return overcheck;
-		}else {
-			System.out.println("사고정보를 찾지못했습니다.사고날짜와 가입자명을 오탈자없이 적어주세요");
+		} else {
+			throw new NonExistAccident();
+			
 		}
+		
 
 //			isSearch = accident.search(customerName_inser, accidentDate_inser, isSearch);
-
-		return overcheck;
 
 	}
 
 	private void update(Scanner scanner) {
-		System.out.println("수정할 보험을 선택해주세요.");
-		int num;
-		num = scanner.nextInt();
-		this.accident = accidentList.getNum(num);
-		
-		if(num != 0) {
-			System.out.println("수정할 항목을 선택해주세요.");
-			System.out.println("1. 사고날짜 : "+ this.accident.getAccidentDate());
-			System.out.println("2. 사고내용 :"+ this.accident.getContent());
-			System.out.println("3. 총비용 : "+this.accident.getTotalCost());
-			System.out.println("4. 손해정도 : "+this.accident.getDamagePer());
-			System.out.println("5. 비용종류 : "+ this.accident.getKindOfCost());
-			System.out.println("6. 책임비용 :"+this.accident.getLiablityCost());
-			System.out.println("7. 책임비율 : "+this.accident.getLiablityRate());	
-			String selectNum = scanner.next();
-			if(selectNum.equals("1")) {
-				System.out.println("수정할 사고날짜를 입력해주세요");
-				System.out.println("년도 : ");
-				int year = scanner.nextInt();
-				System.out.println("월 : ");
-				int monty = scanner.nextInt();
-				System.out.println("일 : ");
-				int date = scanner.nextInt();
-				LocalDate accidentdate = LocalDate.of(year, monty, date);
-				this.accident.updatedate(accidentdate);
-				this.accident.setAccidentDate(accidentdate);
-			}else if(selectNum.equals("2")) {
-				System.out.println("수정할 사고내용을 입력해주세요");
-				String content = scanner.next();
-				accident.updatecontent(content);
-				this.accident.setContent(content);
-			}else if(selectNum.equals("3")) {
-				System.out.println("수정할 총비용을 입력해주세요");
-				int totalCost = scanner.nextInt();
-				accident.updatetotal(totalCost);
-				this.accident.setTotalCost(totalCost);
-			}else if(selectNum.equals("4")) {
-				System.out.println("수정할 손해정도를 입력해주세요");
-				int damagePer = scanner.nextInt();
-				accident.updateDamage(damagePer);
-				this.accident.setDamagePer(damagePer);
-			}else if(selectNum.equals("5")) {
-				System.out.println("수정할 비용종류를 입력해주세요");
-				String kindOfCost = scanner.next();
-				accident.updateKind(kindOfCost);
-				this.accident.setKindOfCost(kindOfCost);
-			}else if(selectNum.equals("6")) {
-				System.out.println("수정할 책임비용을 입력해주세요");
-				int liablityCost= scanner.nextInt();
-				accident.updateLiablityCost(liablityCost);
-				this.accident.setLiablityCost(liablityCost);
-			}else if(selectNum.equals("7")) {
-				System.out.println("수정할 총비율을 입력해주세요");
-				int liablityRate = scanner.nextInt();
-				accident.updateLiablityRate(liablityRate);
-				this.accident.setLiablityRate(liablityRate);
-			}
-			
-			System.out.println("사고정보가 변경되었습니다.");
-			System.out.println(
-					"-------------------------------------------------------------------------------------------------------------------------------------------------------");
-			System.out.printf("%10s %35s %7s %7s %10s %20s %18s %15s %15s %15s %15s %15s", "사고ID", "계약ID", "고객ID", "가입자명",
-					"연락처", "사고날짜", "사고내용", "총비용", "손해정도", "비용종류", "지급여부", "책입비율", "책임비용");
-			System.out.println();
-			System.out.println(
-					"------------------------------------------------------------------------------------------------------------------------------------------------------------");
+		int num = compensateTeamTui.viewUpdateNum(scanner);
 
-				System.out.format("%5s %7s %7s %7s %20s %12s %7s %15s %7s %12s %15s %10s",
-						accident.getNum() + "." + accident.getID(), accident.getContractID(), accident.getCustomerID(),
-						accident.getCustomerName(), accident.getPhoneNum(), accident.getAccidentDate(),
-						accident.getContent(), accident.getTotalCost(), accident.getDamagePer(), accident.getKindOfCost(),
-						accident.isPayCompleted(), accident.getLiablityRate(), accident.getLiablityCost());
-				System.out.println();
-			
+		this.accident = accidentList.getNum(num);
+
+		if (num != 0) {
+			compensateTeamTui.viewUpdateList(scanner, this.accident);
+
+			String selectNum = scanner.next();
+			if (selectNum.equals("1")) {
+				int date[] = compensateTeamTui.viewUpdateDate(scanner);
+
+				LocalDate accidentdate = LocalDate.of(date[0], date[1], date[2]);
+				this.accident.setAccidentDate(accidentdate);
+				this.accident.updatedate();
+			} else if (selectNum.equals("2")) {
+				compensateTeamTui.viewUpdateContent();
+				String content = scanner.next();
+				this.accident.setContent(content);
+				accident.updatecontent();
+			} else if (selectNum.equals("3")) {
+				compensateTeamTui.viewUpdateTotalCost();
+				int totalCost = scanner.nextInt();
+				this.accident.setTotalCost(totalCost);
+				accident.updatetotal();
+			} else if (selectNum.equals("4")) {
+				compensateTeamTui.viewUpdateDamagePer();
+				int damagePer = scanner.nextInt();
+				this.accident.setDamagePer(damagePer);
+				accident.updateDamage();
+			} else if (selectNum.equals("5")) {
+				compensateTeamTui.viewUpdateKindOfCost();
+				String kindOfCost = scanner.next();
+				this.accident.setKindOfCost(kindOfCost);
+				accident.updateKind();
+			} else if (selectNum.equals("6")) {
+				compensateTeamTui.viewUpdateLiablityCost();
+				int liablityCost = scanner.nextInt();
+				this.accident.setLiablityCost(liablityCost);
+				accident.updateLiablityCost();
+			} else if (selectNum.equals("7")) {
+				compensateTeamTui.viewUpdateLiablityRate();
+				int liablityRate = scanner.nextInt();
+				this.accident.setLiablityRate(liablityRate);
+				accident.updateLiablityRate();
+			}
+			compensateTeamTui.viewUpdateAccident(this.accident);
+
 		}
-		
-		
 
 	}
 
-
-	private boolean add(Scanner scanner) {
-
-		String contractID = null;
+	private boolean add(Scanner scanner) throws NonExistContract {
+		int num = 0;
 		boolean isSearch = false;
 		while (!isSearch) {
-			System.out.println("<<사고를 추가할 계약번호(ID)을 입력해주세요.>>");
-			contractID = scanner.next();
-			if (this.contractList.get(contractID) != null) {
+			compensateTeamTui.viewselectNumContract();
+			num = scanner.nextInt();
+			if (this.contractList.get(num) != null) {
 				isSearch = true;
 			} else {
-				System.out.println("해당 계약이 존재하지 않습니다. 다시 입력해주세요.");
+				throw new NonExistContract();
 
 			}
 		}
@@ -374,37 +439,21 @@ public class DamageAssessment {
 			int liablityCost = 0;
 			int liablityRate = 0;
 
-			System.out.println("<사고날짜, 사고내용, 종류, 손해정도, 총비용, 책임 비용, 책임비율을 입력하세요>");
-			System.out.println("<사고날짜>");
-			System.out.println("년도:");
-			int year = scanner.nextInt();
-			System.out.println("월:");
-			int month = scanner.nextInt();
-			System.out.println("일");
-			int date = scanner.nextInt();
+			int[] date = compensateTeamTui.viewAccidentinsert(scanner);
+			LocalDate accidentDate_inser = LocalDate.of(date[0], date[1], date[2]);
 
-			LocalDate accidentDate_inser = LocalDate.of(year, month, date);
+			String[] toStirng = compensateTeamTui.viewToString(scanner);
+			content = toStirng[0];
+			kindOfCost = toStirng[1];
 
-			System.out.println("사고내용 :");
-			content = scanner.next();
-
-			System.out.println("종류 : ");
-			kindOfCost = scanner.next();
-
-			System.out.println("(숫자)손해정도: ");
-			damagePer = scanner.nextInt();
-
-			System.out.println("(숫자)총 비용 :");
-			totalCost = scanner.nextInt();
-
-			System.out.println("(숫자)책임 비용");
-			liablityCost = scanner.nextInt();
-
-			System.out.println("(숫자)책임 비율");
-			liablityRate = scanner.nextInt();
+			int[] toInt = compensateTeamTui.viewToInt(scanner);
+			damagePer = toInt[0];
+			totalCost = toInt[1];
+			liablityCost = toInt[2];
+			liablityRate = toInt[3];
 
 			// accidentList.get(customerName_inser, phoneNum_inser);
-			Contract contract = this.contractList.get(contractID);
+			Contract contract = this.contractList.get(num);
 
 			accident.setID(UUID.randomUUID().toString());
 			accident.setContractID(contract.getContractID());
@@ -421,29 +470,15 @@ public class DamageAssessment {
 			accident.setLiablityRate(liablityRate);
 			accidentList.add(accident);
 		} else {
-			System.out.println("추가가 취소되었습니다. 메인화면으로 돌아갑니다.");
+			compensateTeamTui.cancelhome();
 		}
 		// 사고번호ID, 계약ID ,고객ID,가입자명, 연락처,사고날짜,사고내용 ,총비용,손해정도,비용종류,지급여부,책임비율,책임비용
 //				accidentList.addaccident(accidentDate_inser, content, kindOfCost, damagePer, totalCost, liablityCost, liablityRate);
 
 		if (accident.addaccident()) {
-			System.out.println(
-					"-------------------------------------------------------------------------------------------------------------------------------------------------------");
-			System.out.printf("%5s %7s %7s %7s %10s %20s %18s %15s %15s %15s %15s %15s", "사고ID", "계약ID", "고객ID", "고객이름",
-					"연락처", "사고날짜", "사고내용", "총비용", "손해정도", "비용종류", "지급여부", "책입비율", "책임비용");
-			System.out.println();
-			System.out.println(
-					"-------------------------------------------------------------------------------------------------------------------------------------------------------");
-
-			System.out.format("%5s %7s %7s %7s %20s %12s %7s %15s %7s %12s %15s %10s", accident.getID(),
-					accident.getContractID(), accident.getCustomerID(), accident.getCustomerName(),
-					accident.getPhoneNum(), accident.getAccidentDate(), accident.getContent(), accident.getTotalCost(),
-					accident.getDamagePer(), accident.getKindOfCost(), accident.isPayCompleted(),
-					accident.getLiablityRate(), accident.getLiablityCost());
-			System.out.println();
-			System.out.println("사고정보가 추가되었습니다.");
-			System.out.println("홈화면으로 돌아갑니다.");
+			compensateTeamTui.viewNewAccident(accident);
 		}
+
 		return isSearch;
 
 	}

@@ -1,9 +1,6 @@
 package Model.DB;
 
 import java.sql.ResultSet;
-import java.time.LocalDate;
-
-import com.mysql.cj.protocol.Resultset;
 
 import Model.Accident.Accident;
 
@@ -51,7 +48,6 @@ public class AccidentDao extends Dao {
 				.toString();
 
 		System.out.println(query);
-		// TODO Auto-generated method stub
 		return super.create(query);
 	}
 
@@ -69,11 +65,11 @@ public class AccidentDao extends Dao {
 	}
 
 
-	public boolean updatedate(Accident accident, LocalDate accidentdate) {
+	public boolean updatedate(Accident accident) {
 		StringBuilder stringBuilder = new StringBuilder();
 
 		String query = stringBuilder.append("update accident set accidentDate =")
-				.append("\'"+accidentdate + "\'")
+				.append("\'"+accident.getAccidentDate() + "\'")
 				.append("where accidentID  = \'" + accident.getID() + "\'")
 				.toString();
 
@@ -83,11 +79,11 @@ public class AccidentDao extends Dao {
 	}
 
 
-	public boolean updatecontent(Accident accident, String content) {
+	public boolean updatecontent(Accident accident) {
 		StringBuilder stringBuilder = new StringBuilder();
 
 		String query = stringBuilder.append("update accident set content  =")
-				.append("\'"+content + "\'")
+				.append("\'"+accident.getContent() + "\'")
 				.append("where accidentID  = \'" + accident.getID() + "\'")
 				.toString();
 
@@ -96,11 +92,11 @@ public class AccidentDao extends Dao {
 	}
 
 
-	public boolean updatetotal(Accident accident, int totalCost) {
+	public boolean updatetotal(Accident accident) {
 		StringBuilder stringBuilder = new StringBuilder();
 
 		String query = stringBuilder.append("update accident set totalCost  =")
-				.append("\'"+totalCost + "\'")
+				.append("\'"+accident.getTotalCost() + "\'")
 				.append("where accidentID  = \'" + accident.getID() + "\'")
 				.toString();
 
@@ -109,11 +105,11 @@ public class AccidentDao extends Dao {
 	}
 
 
-	public boolean updateDamage(Accident accident, int damagePer) {
+	public boolean updateDamage(Accident accident) {
 		StringBuilder stringBuilder = new StringBuilder();
 
 		String query = stringBuilder.append("update accident set damagePer =")
-				.append("\'"+damagePer  + "\'")
+				.append("\'"+accident.getDamagePer()  + "\'")
 				.append("where accidentID = \'" + accident.getID() + "\'")
 				.toString();
 
@@ -122,11 +118,11 @@ public class AccidentDao extends Dao {
 	}
 
 
-	public boolean updateKind(Accident accident, String kindOfCost) {
+	public boolean updateKind(Accident accident) {
 		StringBuilder stringBuilder = new StringBuilder();
 
 		String query = stringBuilder.append("update accident set kindOfCost  =")
-				.append("\'"+kindOfCost+ "\'")
+				.append("\'"+accident.getKindOfCost()+ "\'")
 				.append("where accidentID = \'" + accident.getID() + "\'")
 				.toString();
 
@@ -135,11 +131,11 @@ public class AccidentDao extends Dao {
 	}
 
 
-	public boolean updateLiablityCost(Accident accident, int liablityCost) {
+	public boolean updateLiablityCost(Accident accident) {
 		StringBuilder stringBuilder = new StringBuilder();
 
 		String query = stringBuilder.append("update accident set liablityCost =")
-				.append("\'"+liablityCost+ "\'")
+				.append("\'"+accident.getLiablityCost()+ "\'")
 				.append("where accidentID = \'" + accident.getID() + "\'")
 				.toString();
 
@@ -148,15 +144,29 @@ public class AccidentDao extends Dao {
 	}
 
 
-	public boolean updateLiablityRate(Accident accident, int liablityRate) {
+	public boolean updateLiablityRate(Accident accident) {
 		StringBuilder stringBuilder = new StringBuilder();
 
 		String query = stringBuilder.append("update accident set liablityRate =")
-				.append("\'"+liablityRate+ "\'")
+				.append("\'"+accident.getLiablityRate()+ "\'")
 				.append("where accidentID = \'" + accident.getID() + "\'")
 				.toString();
 
 		System.out.println(query);
 		return super.update(query);
+	}
+
+
+	public boolean updatePaycompleted(Accident accident) {
+		StringBuilder stringBuilder = new StringBuilder();
+
+		String query = stringBuilder.append("update accident set payCompleted = ")
+				.append(accident.isPayCompleted())
+				.append(" where accidentID = \'" + accident.getID() + "\'")
+				.toString();
+
+		System.out.println(query);
+		return super.update(query);
+		
 	}
 }

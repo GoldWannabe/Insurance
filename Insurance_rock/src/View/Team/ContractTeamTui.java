@@ -6,11 +6,11 @@ import Model.Insurance.Insurance;
 public class ContractTeamTui {
 
 	public void showStart() {
-		System.out.println("장기여부와 보험 종류를 선택해 주세요.");
+		System.out.println("장기여부와 보험 종류를 선택해 주세요. (해당하는 번호를 입력해주세요.)");
 	}
 
 	public void showSelectLongterm() {
-		System.out.println("장기여부를 선택해주세요.");
+		System.out.println("장기여부를 선택해주세요. (해당하는 번호를 입력해주세요.)");
 		System.out.println("1. 장기 2. 단기 0. 취소");
 
 	}
@@ -45,12 +45,13 @@ public class ContractTeamTui {
 	}
 
 	public void showSelectRate(String standardRate) {
-		System.out.println("기준 요율을 사용하시겠습니까? 기존요율: " + standardRate);
+		System.out.println("기준 요율을 사용하시겠습니까? (해당하는 번호를 입력해주세요.)");
+		System.out.println("기존요율: " + standardRate);
 		System.out.println("1. 예 2. 아니오 0. 취소");
 	}
 
 	public void showEnterPremiumRate() {
-		System.out.println("등급 별 요율을 입력해주세요. (0 이상의 소수를 넣어주세요.)");
+		System.out.println("등급 별 요율을 입력해주세요. (0 이상의 실수를 넣어주세요.)");
 		System.out.println("1등급, 2등급, 3등급의 요율을 차례대로 입력해주세요.");
 	}
 
@@ -63,7 +64,7 @@ public class ContractTeamTui {
 	}
 
 	public void showSelctRegister() {
-		System.out.println("등록하시겠습니까?");
+		System.out.println("등록하시겠습니까? (해당하는 번호 또는 단어를 적어주세요.)");
 		System.out.println("1. 등록 2. 취소");
 	}
 

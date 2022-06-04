@@ -11,16 +11,13 @@ import Control.Policyholder.FeePayment;
 import Control.SalesTeam.ChannelManagement;
 import Control.SalesTeam.CustomerManagement;
 import Control.SalesTeam.InsuranceSales;
-import View.Team.CompensateTeamTui;
-import View.Team.ContractTeamTui;
-import View.Team.FinancialDirectorTui;
-import View.Team.PolicyHolderTui;
-import View.Team.SalesTeamTui;
 import exception.DBAcceptException;
+import exception.WrongInputException;
 
 public class Main {
 
-	public static void main(String[] args) {
+	@SuppressWarnings("resource")
+	public static void main(String[] args) throws WrongInputException {
 		
 		boolean continueSelect = false;
 		while(!continueSelect) {
@@ -45,8 +42,8 @@ public class Main {
 				break;
 			default:
 				//while문 안먹음 사
-				System.out.println("제대로 입력해주세요.");
-				break;
+				throw new WrongInputException();
+				
 			}
 		}
 	}
@@ -105,7 +102,7 @@ public class Main {
 		switch (selectNum) {
 		case "1":
 			InsuranceSales insuranceSales = new InsuranceSales();
-			insuranceSales.searchInsurance();
+			insuranceSales.selectInsuranceType();
 			break;
 		case "2":
 			CustomerManagement customerManagement = new CustomerManagement();

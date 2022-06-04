@@ -45,4 +45,8 @@ public class ApplyContractDao  extends Dao {
 		System.out.println(query);
 		return super.delete(query);
 	}
+
+	
+
+	
 }

@@ -175,9 +175,6 @@ public class Customer {
 			this.sex = Esex.female;
 		} else if (sex.equals(Esex.none)) {
 			this.sex = Esex.none;
-		} else {
-			// default
-			this.sex = Esex.none;
 		}
 	}
 
@@ -207,4 +204,14 @@ public class Customer {
 		return this.customerDao.create(this);
 	}
 
-}// end Customer
+
+	public ResultSet retrivecustomerBank() {
+		this.customerDao = new CustomerDao();
+		return this.customerDao.retrivecustomerBank(this);
+	}
+
+	public boolean updateInsuranceNum() {
+		this.customerDao = new CustomerDao();
+		return this.customerDao.updateInsuranceNum(this);
+	}
+}

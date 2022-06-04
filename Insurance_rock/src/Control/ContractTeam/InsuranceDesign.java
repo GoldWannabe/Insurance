@@ -9,11 +9,11 @@ import java.util.Scanner;
 import Model.Insurance.GeneralInsurance;
 import Model.Insurance.HouseInsurance;
 import Model.Insurance.Insurance;
-import Model.Insurance.fileAcceptException;
 import View.Team.ContractTeamTui;
 import exception.OverlapNameException;
 import exception.WrongInputException;
 import exception.WrongRateException;
+import exception.fileAcceptException;
 
 public class InsuranceDesign {
 
@@ -31,7 +31,8 @@ public class InsuranceDesign {
 
 			@SuppressWarnings("resource")
 			Scanner fileScanner = new Scanner(file);
-
+			System.out.println(fileScanner.next());
+			
 			if (fileScanner.nextInt() == 1) {
 				this.contractTeamTui.showSelectTempInsurance();
 
