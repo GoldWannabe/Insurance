@@ -1,14 +1,15 @@
 package Model.Provision;
 
 import java.time.LocalDate;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.StringTokenizer;
+import java.util.UUID;
 
+import Model.DB.ProvisionDao;
 import Model.Customer.Customer;
 
-/**
- * @author ansm6
- * @version 1.0
- * @created 08-5-2022 ���� 10:34:19
- */
 public class Provision {
 	private String provisionID;
 	private String accountNum;
@@ -17,12 +18,18 @@ public class Provision {
 	private LocalDate compensationDate;
 	private String customerName;
 	private String insuranceID;
+	private String contractID;
 	private boolean longTerm;
-	private String phoneNum;
 	public Customer m_Customer;
 	private enum einsuranceType{generalInsurance, houseInsurace};
 	private einsuranceType insuranceType;
 	
+	public ProvisionDao provisionDao;
+	
+	public ResultSet getProvision() {
+		this.provisionDao = new ProvisionDao();
+		return this.provisionDao.retrive();
+	}
 	public String getProvisionID() {
 		return provisionID;
 	}
@@ -87,14 +94,6 @@ public class Provision {
 		this.longTerm = longTerm;
 	}
 
-	public String getPhoneNum() {
-		return phoneNum;
-	}
-
-	public void setPhoneNum(String phoneNum) {
-		this.phoneNum = phoneNum;
-	}
-
 	public Customer getM_Customer() {
 		return m_Customer;
 	}
@@ -106,7 +105,17 @@ public class Provision {
 	public einsuranceType getInsuranceType() {
 		return insuranceType;
 	}
+	
+	public String getContractID() {
+		return contractID;
+	}
+	
+	public void setContractID(String contractID) {
+		this.contractID = contractID;
+	}
+	
 
+	
 	public Provision(){
 
 	}
@@ -117,4 +126,5 @@ public class Provision {
 	public void checkProvision(){
 
 	}
+
 }//end Provision

@@ -1,33 +1,64 @@
 package Model.Payment;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.StringTokenizer;
+import java.util.UUID;
+
+import Model.DB.PaymentDao;
 
 public class Payment {
 
 	private String paymentID;
 	private String customerID;
+	private String customerName;
+	private String customerPhoneNum;
 	private String accountNum;
 	private String cardOrBankName;
 	private int insuranceFee;
-	private String insuranceID;
+	private String insuranceName;
 	private LocalDate paidDate;
+	private String contractID;
+
+	public PaymentDao paymentDao;
 	
-	private enum EInsuranceType{
-		genralInsurance,
-		houseInsurance
-	}
-	private EInsuranceType insuranceType;
 
 	public Payment(){
-
 	}
 
 	public void finalize() throws Throwable {
 
 	}
-	public void checkPayment(){
+	public ResultSet getPayment() {
+		this.paymentDao = new PaymentDao();
+		return this.paymentDao.retrive(); 
+	}
+	public boolean addPayment() {
+		return this.paymentDao.create(this);
+	}
+	
+	public boolean paymentUpdate() {
+		this.paymentDao = new PaymentDao();
+		this.paidDate = LocalDate.now();
+		return false;
+//		if(this.paymentDao.create(this))
+//			return true;
+//		return false;
+	}
+	//위에말고
+	//밑에로해보자...ㅠ
+	
+	public void createPayment(){
+		this.paymentDao = new PaymentDao();
+		this.paymentID = UUID.randomUUID().toString();
+		this.paidDate = LocalDate.now();
 
 	}
+
+//	public void checkPayment(){
+//
+//	}
 
 	public String getPaymentID() {
 		return paymentID;
@@ -69,14 +100,6 @@ public class Payment {
 		this.insuranceFee = insuranceFee;
 	}
 
-	public String getInsuranceID() {
-		return insuranceID;
-	}
-
-	public void setInsuranceID(String insuranceID) {
-		this.insuranceID = insuranceID;
-	}
-
 	public LocalDate getPaidDate() {
 		return paidDate;
 	}
@@ -85,14 +108,33 @@ public class Payment {
 		this.paidDate = paidDate;
 	}
 
-	public EInsuranceType getInsuranceType() {
-		return insuranceType;
+	public String getCustomerName() {
+		return customerName;
+	}
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+	public String getCustomerPhoneNum() {
+		return customerPhoneNum;
+	}
+	public void setCustomerPhoneNum(String customerPhoneNum) {
+		this.customerPhoneNum = customerPhoneNum;
+	}
+	public String getInsuranceName() {
+		return insuranceName;
+	}
+	public void setInsuranceName(String insuranceName) {
+		this.insuranceName = insuranceName;
 	}
 
-	public void setInsuranceType(String insuranceType) {
-		// set logic
-		this.insuranceType = EInsuranceType.genralInsurance;
+	public void setContractID(String contractID) {
+		this.contractID = contractID;
 	}
+	public String getContractID() {
+		return contractID;
+	}
+
 	
+
 	
 }//end Payment
