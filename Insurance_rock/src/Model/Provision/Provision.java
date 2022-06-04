@@ -145,7 +145,7 @@ public class Provision {
 	public Model.Insurance.Insurance.EInsurance getInsuranceType() {
 		return insuranceType;
 	}
-
+	
 	public Provision(){
 
 	}
@@ -163,5 +163,6 @@ public class Provision {
 		provisionDao.creatNew(this);
 		
 	}
+
 }
 
