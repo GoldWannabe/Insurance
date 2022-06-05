@@ -41,4 +41,11 @@ public class CustomerRankDao  extends Dao {
 		System.out.println(query);
 		return super.retrive(query);
 	}
+
+	public boolean delete(String customerID, String rankID) {
+		String query = "delete from customerRank where customerID=\""+customerID+"\" and RankID=\""+rankID+"\";";
+
+		System.out.println(query);
+		return super.delete(query);		
+	}
 }

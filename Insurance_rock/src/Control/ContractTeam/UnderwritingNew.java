@@ -79,7 +79,9 @@ public class UnderwritingNew {
 		this.contract.setProvisionFee(0);
 		this.contract.setStartDate(startDate);
 		this.contract.setEndDate(endDate);
-		
+
+		this.customer.setInsuranceNum(this.customer.getInsuranceNum() + 0.9);
+		this.customer.updateInsuranceNum();
 		return this.contract.permit();
 
 	}
@@ -89,11 +91,21 @@ public class UnderwritingNew {
 		String reason = scanner.next();
 		return saveFailContract(reason);
 	}
+
 	private boolean saveFailContract(String reason) {
-		
-		//return this.contract.fail();
-		return false;
+		this.contract.setReason(reason);
+		this.customer.setInsuranceNum(this.customer.getInsuranceNum() - 0.1);
+
+		if (this.customer.getInsuranceNum() == 0) {
+			this.customer.delete();
+
+		} else {
+			this.customer.updateInsuranceNum();
+
+		}
+		return this.contract.fail();
 	}
+
 	private boolean getCustomer() {
 		this.customer = new Customer();
 		ResultSet resultSet = this.customer.getCustomerByID(this.contract.getCustomerID());
@@ -383,6 +395,5 @@ public class UnderwritingNew {
 			return 1.1;
 		}
 	}
-
 
 }

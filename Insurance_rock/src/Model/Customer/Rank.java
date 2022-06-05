@@ -132,4 +132,8 @@ public class Rank {
 		return this.rankDao.retriveByID(rankID);
 	}
 
+	public void delete() {
+		this.rankDao.deleteByID(this.rankID);
+	}
+
 }// end Rank
