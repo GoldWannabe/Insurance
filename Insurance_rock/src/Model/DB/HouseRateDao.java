@@ -37,4 +37,11 @@ public class HouseRateDao  extends Dao {
 		System.out.println(query);
 		return super.delete(query);
 	}
+
+	public ResultSet retriveRate(String insuranceID) {
+		String query = "select housePremiumRate from houseRate where insuranceID=\""+insuranceID+"\";";
+
+		System.out.println(query);
+		return super.retrive(query);
+	}
 }

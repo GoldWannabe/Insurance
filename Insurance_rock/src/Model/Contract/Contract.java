@@ -2,9 +2,11 @@ package Model.Contract;
 
 import java.sql.ResultSet;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import Model.DB.ApplyContractDao;
+import Model.DB.ContractAccidentDao;
 import Model.DB.ContractDao;
 
 public class Contract {
@@ -25,6 +27,8 @@ public class Contract {
 	private int unpaidFee;
 	private ContractDao contractDao;
 	private ApplyContractDao applyContractDao;
+	private ContractAccidentDao  contractAccidentDao;
+	private ArrayList<String> accidentHistory  = new ArrayList<String>();	
 	private int num;
 	
 	//심사 탈락 이유
@@ -42,6 +46,14 @@ public class Contract {
 		return num;
 	}
 
+	public ArrayList<String> getAccidentHistory() {
+		return accidentHistory;
+	}
+
+	public void setAccidentHistory(ArrayList<String> accidentHistory) {
+		this.accidentHistory = accidentHistory;
+	}
+
 	public void setNum(int num) {
 		this.num = num;
 	}
@@ -53,8 +65,7 @@ public class Contract {
 	}
 
 	public Contract(String contract) {
-		
-		
+
 	}
 
 	public void finalize() throws Throwable {
@@ -82,9 +93,9 @@ public class Contract {
 	}
 
 	public void renew() {
-		//갱신 내용 적고 저장
+		// 갱신 내용 적고 저장
 	}
-	
+
 	public void permit() {
 		// Customer customer = new Customer(); 고객 정보 저장
 		// 계약 정보 저장
@@ -94,8 +105,6 @@ public class Contract {
 	public void allowRenew() {
 		// DB에 갱신 정보 저장
 	}
-
-	
 
 	public void underwrite() {
 		// 심사 대기 DB에서 받아옴
@@ -121,7 +130,7 @@ public class Contract {
 	public void setContractID() {
 		this.contractID = UUID.randomUUID().toString();
 	}
-	
+
 	public void setContractID(String contractID) {
 		this.contractID = contractID;
 	}
@@ -230,15 +239,16 @@ public class Contract {
 		this.insuranceName = insuranceName;
 	}
 
-
 	public ResultSet retrivecontract() {
+
 		return contractDao.retrivecontract(this.getCustomerName(), this.getPhoneNum());
 		
 	}
+
 	public void register() {
 		this.contractDao = new ContractDao();
 	}
-	
+
 	public void registerApplyContract() {
 		this.applyContractDao = new ApplyContractDao();
 		this.applyContractDao.create(this);
@@ -249,15 +259,26 @@ public class Contract {
 		return this.contractDao.retrivelongtermFee(this);
 	}
 
-	public void updateProvisionFee() {
+	public void updateProvisionFee(int lablityCost) {
 		this.contractDao = new ContractDao();
-		this.contractDao.updateProvisionFee(this);
+		this.contractDao.updateProvisionFee(this, lablityCost);
 		
 	}
 
 	public ResultSet getContract() {
 		this.contractDao = new ContractDao();
 		return this.contractDao.retrive();
+	}
+
+	public ResultSet getApply() {
+		return this.applyContractDao.retrive();
+	}
+
+	public void createContractAccident(String AccidentID) {
+		this.contractAccidentDao = new ContractAccidentDao();
+		this.contractAccidentDao.createContractAccident(this, AccidentID);
+		// TODO Auto-generated method stub
+		
 	}
 
 	public ResultSet getFailContract() {

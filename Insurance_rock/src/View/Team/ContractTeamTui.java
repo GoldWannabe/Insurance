@@ -1,6 +1,8 @@
 package View.Team;
 
 import java.util.Arrays;
+
+import Model.Contract.Contract;
 import Model.Insurance.Insurance;
 
 public class ContractTeamTui {
@@ -74,6 +76,45 @@ public class ContractTeamTui {
 
 	public void showSelectTempInsurance() {
 		System.out.println("이전에 작업하던 설계가 있습니다. 이어서 하시길 원하면 1을 입력해주세요.");
+	}
+
+	public void showSelectContractMethods() {
+		System.out.println("인수심사할 계약 방식을 고르세요.");
+		System.out.println("1. 신규 2. 갱신 0. 취소");
+
+	}
+
+	public void showNoApplyContract() {
+		System.out.println("심사할 계약이 없습니다.");
+		System.out.println("메인화면으로 돌아갑니다.");
+	}
+
+	public void showSelectApplyContract() {
+		System.out.println("심사할 계약 번호를 입력해 주세요.");
+
+	}
+
+	public void showConractColumn() {
+		System.out.println(
+				"-------------------------------------------------------------------------------------------------");
+		System.out.printf("%10s %10s %10s %10s %15s %10s %10s", "계약번호(순번)", "보험이름", "가입자명", "연락처", "담보액", "보험료",
+				"가입기간(달)");
+		System.out.println();
+		System.out.println(
+				"--------------------------------------------------------------------------------------------------");
+	}
+
+	public void showContracts(int length, Contract contract) {
+		System.out.format("%10s %10s %12s %15s %15d %10d %10d", length + "번", contract.getInsuranceName(),
+				contract.getCustomerName(), contract.getPhoneNum(), contract.getSecurityFee(),
+				contract.getInsuranceFee(), contract.getPeriod());
+		System.out.println();
+	}
+
+	public void showSelectVerification() {
+		System.out.println("해당 보험을 검증하시겠습니까?");
+		System.out.println("1. 검증 2. 취소");
+
 	}
 
 }

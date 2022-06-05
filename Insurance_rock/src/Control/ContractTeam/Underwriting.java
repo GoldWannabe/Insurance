@@ -1,141 +1,259 @@
 package Control.ContractTeam;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Scanner;
+
 import Model.Contract.Contract;
 import Model.Contract.ContractList;
+import Model.Contract.ContractListImpl;
+import Model.Customer.Customer;
+import Model.Insurance.GeneralInsurance;
+import Model.Insurance.HouseInsurance;
+
 import Model.Insurance.Insurance;
+import View.Team.ContractTeamTui;
+import exception.DBAcceptException;
+import exception.WrongInputException;
 
 public class Underwriting {
 
-	Contract contract; 
-	ContractList contractList;
-	Insurance insurance;
-	
+	public Contract contract;
+	public ContractList contractList;
+	public Insurance insurance;
+	public ContractTeamTui contractTeamTui;
+	public Customer customer;
+
+	public Underwriting() {
+		this.contractTeamTui = new ContractTeamTui();
+		this.contract = new Contract();
+		this.contractList = new ContractListImpl();
+	}
+
+	@SuppressWarnings("resource")
 	public boolean selectUnderwrite() {
-//		this.contract = new Contract();
-//		this.contractList = new ContractListImpl();
-//		
-//		Scanner scanner = new Scanner(System.in);
-//		boolean correctInput = false;
-//		String select;
-//		System.out.println("인수심사할 계약 방식을 고르세요.");
-//		while (!correctInput) {
-//			System.out.println("1. 신규 2. 갱신");
-//			select = scanner.next();
-//			if (select.equals("1") || select.equals("신규")) {
-//				
-//				return selectApply(scanner);
-//			} else if (select.equals("2") || select.equals("갱신")) {
-//				
-//				return selectRenew(scanner);
-//			} else {
-//				System.out.println("형식에 맞지 않습니다. 다시 입력해주세요.");
-//			}
-//		}
-//		
+
+		Scanner scanner = new Scanner(System.in);
+		int flag = -1;
+		String selectList[] = new String[] { "1", "신규", "2", "갱신", "0", "취소" };
+		this.contractTeamTui.showSelectContractMethods();
+		while (flag == -1) {
+			try {
+				flag = getflag(selectList, scanner.next());
+
+				if (flag == 1) {
+
+					return selectApply(scanner);
+				} else if (flag == 2) {
+
+					return selectRenew(scanner);
+				} else if (flag == 0) {
+					this.contractTeamTui.showCancel();
+					return true;
+				}
+
+			} catch (WrongInputException e) {
+				System.err.println(e.getMessage());
+			}
+		}
+		return false;
+
+	}
+
+	private int getflag(String[] selectList, String select) throws WrongInputException {
+		for (int i = 0; i < selectList.length; i = i + 2) {
+			if (selectList[i].equals(select) || selectList[i + 1].equals(select)) {
+				return Integer.parseInt(selectList[i]);
+			}
+		}
+		throw new WrongInputException();
+	}
+
+	private boolean selectApply(Scanner scanner) {
+		ResultSet resultSet = this.contract.getApply();
+		try {
+			while (resultSet.next()) {
+				Contract applyContract = new Contract();
+				applyContract.setContractID(resultSet.getString("contractID"));
+				applyContract.setCustomerID(resultSet.getString("customerID"));
+				applyContract.setCustomerName(resultSet.getString("customerName"));
+				applyContract.setPhoneNum(resultSet.getString("customerPhoneNum"));
+				applyContract.setInsuranceID(resultSet.getString("insuranceID"));
+				applyContract.setInsuranceName(resultSet.getString("insuranceName"));
+				applyContract.setPaymentCycle(resultSet.getInt("paymentCycle"));
+				applyContract.setInsuranceFee(resultSet.getInt("insuranceFee"));
+				applyContract.setSecurityFee(resultSet.getInt("securityFee"));
+				applyContract.setPeriod(resultSet.getInt("period"));
+				this.contractList.add(applyContract);
+			}
+
+			if (this.contractList.getAll().isEmpty()) {
+				this.contractTeamTui.showNoApplyContract();
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		int length = showApply();
+		this.contractTeamTui.showSelectApplyContract();
+
+		int select = -1;
+
+		while (length < select || select < 1) {
+			try {
+				select = checkNum(scanner);
+			} catch (WrongInputException e) {
+				System.err.println(e.getMessage());
+			}
+		}
+
+		this.contract = this.contractList.getCount(select - 1);
+		return selectVerify(scanner);
+
+	}
+
+	private int showApply() {
+		this.contractTeamTui.showConractColumn();
+		int length = 1;
+
+		for (Contract contract : this.contractList.getAll()) {
+			this.contractTeamTui.showContracts(length, contract);
+			length++;
+		}
+		return length;
+	}
+
+	private int checkNum(Scanner scanner) throws WrongInputException {
+		if (scanner.hasNextInt()) {
+			return scanner.nextInt();
+		}
+		scanner.next();
+		throw new WrongInputException();
+	}
+
+	private boolean selectVerify(Scanner scanner) {
+		this.contractTeamTui.showSelectVerification();
+		int flag = -1;
+		String selectList[] = new String[] { "1", "검증", "2", "취소" };
+
+		while (flag == -1) {
+			try {
+				flag = getflag(selectList, scanner.next());
+			} catch (WrongInputException e) {
+				System.err.println(e.getMessage());
+			}
+		}
+
+		if (flag == 1) {
+			return verifyInsurance();
+		} else if (flag == 2) {
+			return true;
+		}
 		return false;
 	}
 
-//	private boolean selectApply(Scanner scanner) {
-//		ResultSet resultSet = this.contract.getApply();
-//		try {
-//			while (resultSet.next()) {
-//				Contract applyContract = null;
-//				applyContract.setContractID(resultSet.getString("contractID"));
-//				applyContract.setCustomerID(resultSet.getString("customerID"));
-//				applyContract.setCustomerName(resultSet.getString("customerName"));
-//				applyContract.setPhoneNum(resultSet.getString("customerPhoneNum"));
-//				applyContract.setInsuranceID(resultSet.getString("insuranceID"));
-//				applyContract.setInsuranceName(resultSet.getString("insuranceName"));
-//				applyContract.setPaymentCycle(resultSet.getInt("paymentCycle"));
-//				applyContract.setInsuranceFee(resultSet.getInt("insuranceFee"));
-//				applyContract.setSecurityFee(resultSet.getInt("securityFee"));
-//				applyContract.setPeriod(resultSet.getInt("period"));
-//				this.contractList.add(applyContract);
-//			}
-//			
-//			if(this.contractList.getAll().isEmpty()) {
-//				System.out.println("심사할 신규 계약이 없습니다.");
-//				return true;
-//			}
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		
-//		int length = showApply();
-//		
-//		System.out.println("심사할 계약 번호를 입력해 주세요.");
-//		int select=checkNum(scanner);
-//		
-//		while(length < select || select < 0) {
-//			System.out.println("해당 번호는 존재하지 않습니다. 다시 입력해 주세요.");
-//			select=checkNum(scanner);
-//		}
-//		
-//		
-//		this.contract = this.contractList.get(select);
-//		System.out.println("계약 정보 입력 예정");
-//		
-//		
-//		System.out.println("검증을 하시려면 1을 입력해주세요.(다른 버튼을 입력하면 검증이 취소 됩니다.)");
-//		
-//		if(scanner.next().equals("1")) {
-//		verifyPremium();
-//		
-//		permitApply();
-//		
-//		} else {
-//		System.out.println("검증이 취소되었습니다. 메인화면으로 돌아갑니다.");
-//		return true;
-//		}
-//	}
-//
-//	private boolean verifyPremium() {
-//		this.insurance = new GeneralInsurance();
-//		ResultSet resultSet = this.insurance.getInsurance();
-//		if(resultSet.getString("insuranceType").equals("house")) {
-//		this.insurance = new HouseInsurance();	
-//		}
-//		
-//		this.insurance.setInsuranceID(resultSet.getString("insuranceID"));
-//		this.insurance.setInsuranceName(resultSet.getString("insuranceName"));
-//		this.insurance.setStandardFee(resultSet.getInt("StandradFee"));
-//		this.insurance.setSpecialContract(resultSet.getString("specialContract"));
-//		this.insurance.setLongTerm(resultSet.getBoolean("longTerm"));
-//		this.insurance.setApplyCondition(resultSet.getString("applyCondition"));
-//		this.insurance.setCompensateCondition(resultSet.getString("compensateCondition"));
-//		this.insurance.setExplanation(resultSet.getString("explanation"));
-//		//+장기여부 비교
-//		boolean a =this.insurance.verifyPremium(this.contract.getSecurityFee(),this.contract.getInsuranceFee());
-//		selectPermit(a);
-//		
-//	}
-//
-//	private int checkNum(Scanner scanner) {
-//		while(!scanner.hasNextInt()) {
-//			scanner.next();
-//			System.out.println("숫자를 입력해주세요.");
-//		}
-//		return scanner.nextInt();
-//	}
-//
-//	private int showApply() {
-//		int length = 0; 
-//		System.out.println("---------------------------------------------------------------------------------------");
-//		System.out.printf("%10s %10s %10s", "보험명", "보험종류", "기준보험료");
-//		System.out.println();
-//		System.out.println("---------------------------------------------------------------------------------------");
-//		for (Contract contract : this.contractList.getAll()) {
-//			System.out.format("%10s %12s %12d", contract.getInsuranceName(), contract.getCustomerID(),contract.getPeriod());
-//			System.out.println();
-//			length++;
-//		}		
-//		return length;
-//	}
-//
-//	private boolean selectRenew(Scanner scanner) {
-//		//ResultSet resultSet = this.contract.getRenew();
-//		return false;
-//	}
+	private boolean verifyInsurance() {
+		if (!getInsurance() || !getCustomer()) {
+			throw new DBAcceptException();
+		}
 
+		if (!verifyPremium() && !verifyPeriod()) {
+			return false;
+		}
+
+		return false;
+	}
+
+	private boolean getCustomer() {
+		this.customer = new Customer();
+		ResultSet resultSet = this.customer.getCustomerByID(this.contract.getCustomerID());
+		ResultSet rankResultSet = this.customer.getRankSet(this.contract.getCustomerID());
+		try {
+			resultSet.next();
+			this.customer.setCustomerID(resultSet.getString("customerID"));
+			this.customer.setName(resultSet.getString("Name"));
+			this.customer.setSSN(resultSet.getString("SSN"));
+			this.customer.setSex(resultSet.getString("Sex"));
+			this.customer.setPhoneNum(resultSet.getString("phoneNum"));
+			this.customer.setAddress(resultSet.getString("address"));
+			this.customer.setBankName(resultSet.getString("bankName"));
+			this.customer.setAccountNum(resultSet.getString("accountNum"));
+			this.customer.setInsuranceNum(resultSet.getDouble("insuranceNum"));
+
+			while (rankResultSet.next()) {
+				this.customer.addCustomerIDRankID(rankResultSet.getString("contractID"),
+						rankResultSet.getString("RankID"));
+			}
+			
+			this.customer.setRankByID(this.contract.getContractID());
+			
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+
+	}
+
+	private boolean getInsurance() {
+		this.insurance = new GeneralInsurance();
+		ResultSet resultSet = this.insurance.getInsuranceByID(this.contract.getInsuranceID());
+
+		try {
+			resultSet.next();
+			if (resultSet.getString("insuranceType").equals("house")) {
+				this.insurance = new HouseInsurance();
+			}
+
+			this.insurance.setInsuranceID(resultSet.getString("insuranceID"));
+			this.insurance.setInsuranceName(resultSet.getString("insuranceName"));
+			this.insurance.setStandardFee(resultSet.getInt("StandradFee"));
+			this.insurance.setSpecialContract(resultSet.getString("specialContract"));
+			this.insurance.setLongTerm(resultSet.getBoolean("longTerm"));
+			this.insurance.setApplyCondition(resultSet.getString("applyCondition"));
+			this.insurance.setCompensateCondition(resultSet.getString("compensateCondition"));
+			this.insurance.setExplanation(resultSet.getString("explanation"));
+			this.insurance.getRate(this.contract.getInsuranceID());
+
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	private boolean verifyPeriod() {
+
+		if ((this.contract.getPeriod() >= 36) && (this.insurance.isLongTerm() != true)) {
+			String reason = "장기 계약 불가능한 보험";
+
+			return saveFailContract(reason);
+		}
+
+
+
+		return true;
+	}
+
+	private boolean verifyPremium() {
+		
+		
+		
+//		boolean a = this.insurance.verifyPremium(this.contract.getSecurityFee(), this.contract.getInsuranceFee());
+//		selectPermit(a);		
+		
+		return true;
+	}
+
+	private boolean saveFailContract(String reason) {
+		return false;
+		// this.contract.saveFailContract();
+	}
+
+	private boolean selectRenew(Scanner scanner) {
+		// ResultSet resultSet = this.contract.getRenew();
+		return false;
+	}
 
 }
