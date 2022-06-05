@@ -96,7 +96,7 @@ public class ContractDao  extends Dao {
 	}
 
 	public ResultSet retriveByID(String contractID) {
-		String query = "select * from failcontract where customerID = \""+contractID+"\"";
+		String query = "select * from contract where contractID = \""+contractID+"\"";
 		System.out.println(query);
 		return super.retrive(query);
 	}
