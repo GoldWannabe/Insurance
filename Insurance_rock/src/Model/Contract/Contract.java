@@ -12,8 +12,10 @@ public class Contract {
 	private String customerID;
 	private String customerName;
 	private String phoneNum;
+
 	private String insuranceID;
 	private String insuranceName;
+
 	private String contractID;
 	private int insuranceFee;
 	private int paymentCycle;
@@ -25,6 +27,7 @@ public class Contract {
 	private int unpaidFee;
 	private ContractDao contractDao;
 	private ApplyContractDao applyContractDao;
+
 	private int num;
 	
 	public int getNum() {
@@ -42,8 +45,7 @@ public class Contract {
 	}
 
 	public Contract(String contract) {
-		
-		
+
 	}
 
 	public void finalize() throws Throwable {
@@ -71,9 +73,9 @@ public class Contract {
 	}
 
 	public void renew() {
-		//갱신 내용 적고 저장
+		// 갱신 내용 적고 저장
 	}
-	
+
 	public void permit() {
 		// Customer customer = new Customer(); 고객 정보 저장
 		// 계약 정보 저장
@@ -83,8 +85,6 @@ public class Contract {
 	public void allowRenew() {
 		// DB에 갱신 정보 저장
 	}
-
-	
 
 	public void underwrite() {
 		// 심사 대기 DB에서 받아옴
@@ -110,7 +110,7 @@ public class Contract {
 	public void setContractID() {
 		this.contractID = UUID.randomUUID().toString();
 	}
-	
+
 	public void setContractID(String contractID) {
 		this.contractID = contractID;
 	}
@@ -219,15 +219,16 @@ public class Contract {
 		this.insuranceName = insuranceName;
 	}
 
-
 	public ResultSet retrivecontract() {
+
 		return contractDao.retrivecontract(this.getCustomerName(), this.getPhoneNum());
 		
 	}
+
 	public void register() {
 		this.contractDao = new ContractDao();
 	}
-	
+
 	public void registerApplyContract() {
 		this.applyContractDao = new ApplyContractDao();
 		this.applyContractDao.create(this);
@@ -249,5 +250,8 @@ public class Contract {
 		return this.contractDao.retrive();
 	}
 
+	public ResultSet getApply() {
+		return this.applyContractDao.retrive();
+	}
 
 }// end Contract

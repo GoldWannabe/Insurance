@@ -4,47 +4,53 @@ import java.util.ArrayList;
 
 public class ContractListImpl implements ContractList {
 	private ArrayList<Contract> contractList;
-	
-	public ContractListImpl(){
+
+	public ContractListImpl() {
 		this.contractList = new ArrayList<Contract>();
 
 	}
-	
 
 	public void finalize() throws Throwable {
 
 	}
-	public boolean add(Contract contract){
-		if(this.contractList.add(contract)) return true;
+
+	public boolean add(Contract contract) {
+		if (this.contractList.add(contract))
+			return true;
 		return false;
 
 	}
 
 	@SuppressWarnings("unlikely-arg-type")
-	public boolean delete(String contractID){
-		if(this.contractList.remove(contractID)) return true;
+	public boolean delete(String contractID) {
+		if (this.contractList.remove(contractID))
+			return true;
 		return false;
 	}
-
 
 	public ArrayList<Contract> getAll() {
 		return this.contractList;
 	}
 
-
-	
-
-
 	public Contract getcheck(String customerName_inser, String phoneNum_inser) {
 		for (Contract contract : this.contractList) {
-			if (contract.getCustomerName().equals(customerName_inser) && contract.getPhoneNum().equals(phoneNum_inser)) {
+			if (contract.getCustomerName().equals(customerName_inser)
+					&& contract.getPhoneNum().equals(phoneNum_inser)) {
 				return contract;
 			}
 		}
 		return null;
 	}
 
+	@Override
+	public Contract getCount(int select) {
 
+		return this.contractList.get(select);
+	}
+
+//	public boolean update(){
+//
+//	}
 	public Contract get(int num) {
 		for (Contract contract : this.contractList) {
 			if (contract.getNum() == num) {
@@ -54,4 +60,5 @@ public class ContractListImpl implements ContractList {
 		return null;
 	}
 
-}//end ContractListImpl
+	
+}// end ContractListImpl

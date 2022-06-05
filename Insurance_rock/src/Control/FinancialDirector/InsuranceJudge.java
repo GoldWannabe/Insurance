@@ -48,7 +48,7 @@ public class InsuranceJudge {
 				this.insuranceList.add(registerInsurance);
 			}
 
-			if (this.insuranceList.getAll().isEmpty()) {
+			if (this.insuranceList.isEmpty()) {
 				this.financialDirectorTui.showNoRegisterInsurance();
 				return true;
 			}
@@ -77,7 +77,7 @@ public class InsuranceJudge {
 			this.insurance = this.insuranceList.get(scanner.next());
 		}
 
-		this.insurance.setRate();
+		this.insurance.getRegisterRate();
 
 		this.financialDirectorTui.showInsuranceAttribute(this.insurance);
 
@@ -90,16 +90,15 @@ public class InsuranceJudge {
 			try {
 				select = scanner.next();
 				if (select.equals("1") || select.equals("승인")) {
-					
+
 					return permitInsurance();
-					
+
 				} else if (select.equals("2") || select.equals("비승인")) {
 					return notPermitInsurance();
-					
+
 				} else if (select.equals("3") || select.equals("보류")) {
 					this.financialDirectorTui.showPostponePermit(this.insurance.getInsuranceName());
-					
-					
+
 					return true;
 				} else {
 					throw new WrongInputException();
@@ -111,22 +110,22 @@ public class InsuranceJudge {
 		return false;
 	}
 
-	private boolean notPermitInsurance() {
-if(this.insurance.notPermitRate()) {
-	this.financialDirectorTui.showCompletePermit();
-	return true;
-}
+	private boolean permitInsurance() {
+		if (this.insurance.permitRate()) {
+			this.financialDirectorTui.showCompletePermit();
+			return true;
+		}
 		return false;
 
 	}
 
-	private boolean permitInsurance() {
-		if(this.insurance.permitRate()) {
+	private boolean notPermitInsurance() {
+		if (this.insurance.notPermitRate()) {
 			this.financialDirectorTui.showNoCompletePermit();
 			return true;
-		} 
-		return false; 
-		
+		}
+		return false;
+
 	}
 
 }

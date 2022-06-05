@@ -37,4 +37,11 @@ public class GeneralRateDao  extends Dao {
 		System.out.println(query);
 		return super.delete(query);
 	}
+
+	public ResultSet retriveRate(String insuranceID) {
+		String query = "select generalPremiumRate from generalRate where insuranceID=\""+insuranceID+"\";";
+
+		System.out.println(query);
+		return super.retrive(query);
+	}
 }

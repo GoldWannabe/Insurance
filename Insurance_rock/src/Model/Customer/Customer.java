@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import Model.DB.CustomerDao;
+import Model.DB.CustomerRankDao;
+import Model.DB.InsuranceDao;
 
 public class Customer {
 
@@ -26,7 +28,8 @@ public class Customer {
 	};
 	
 	private CustomerDao customerDao;
-
+	private CustomerRankDao customerRankDao;
+	
 	public Customer() {
 		this.customerID = UUID.randomUUID().toString();
 	}
@@ -173,7 +176,7 @@ public class Customer {
 			this.sex = Esex.male;
 		} else if (sex.equals(Esex.female.toString())) {
 			this.sex = Esex.female;
-		} else if (sex.equals(Esex.none)) {
+		} else if (sex.equals(Esex.none.toString())) {
 			this.sex = Esex.none;
 		}
 	}
@@ -202,6 +205,22 @@ public class Customer {
 	public boolean register() {
 		this.customerDao = new CustomerDao();
 		return this.customerDao.create(this);
+	}
+
+	public ResultSet getCustomerByID(String cCustomerID) {
+		this.customerDao = new CustomerDao();
+		return this.customerDao.retriveID(cCustomerID);
+		
+	}
+
+	public ResultSet setRank(String cCustomerID) {
+		this.customerRankDao = new CustomerRankDao();
+		return this.customerRankDao.retriveID(cCustomerID);
+	}
+
+	public boolean addCustomerIDRankID(String contractID, String rankID) {
+		return (this.contractID.add(contractID) && this.rankID.add(rankID));
+		
 	}
 
 
