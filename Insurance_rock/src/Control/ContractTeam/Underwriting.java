@@ -7,22 +7,14 @@ import java.util.Scanner;
 import Model.Contract.Contract;
 import Model.Contract.ContractList;
 import Model.Contract.ContractListImpl;
-import Model.Customer.Customer;
-import Model.Insurance.GeneralInsurance;
-import Model.Insurance.HouseInsurance;
-
-import Model.Insurance.Insurance;
 import View.Team.ContractTeamTui;
-import exception.DBAcceptException;
 import exception.WrongInputException;
 
 public class Underwriting {
 
 	public Contract contract;
 	public ContractList contractList;
-	public Insurance insurance;
 	public ContractTeamTui contractTeamTui;
-	public Customer customer;
 
 	public Underwriting() {
 		this.contractTeamTui = new ContractTeamTui();
@@ -146,110 +138,15 @@ public class Underwriting {
 		}
 
 		if (flag == 1) {
-			return verifyInsurance();
+			UnderwritingNew underwritingNew= new UnderwritingNew();
+			return underwritingNew.verifyInsurance(this.contract);
 		} else if (flag == 2) {
 			return true;
 		}
 		return false;
 	}
 
-	private boolean verifyInsurance() {
-		if (!getInsurance() || !getCustomer()) {
-			throw new DBAcceptException();
-		}
-
-		if (!verifyPremium() && !verifyPeriod()) {
-			return false;
-		}
-
-		return false;
-	}
-
-	private boolean getCustomer() {
-		this.customer = new Customer();
-		ResultSet resultSet = this.customer.getCustomerByID(this.contract.getCustomerID());
-		ResultSet rankResultSet = this.customer.getRankSet(this.contract.getCustomerID());
-		try {
-			resultSet.next();
-			this.customer.setCustomerID(resultSet.getString("customerID"));
-			this.customer.setName(resultSet.getString("Name"));
-			this.customer.setSSN(resultSet.getString("SSN"));
-			this.customer.setSex(resultSet.getString("Sex"));
-			this.customer.setPhoneNum(resultSet.getString("phoneNum"));
-			this.customer.setAddress(resultSet.getString("address"));
-			this.customer.setBankName(resultSet.getString("bankName"));
-			this.customer.setAccountNum(resultSet.getString("accountNum"));
-			this.customer.setInsuranceNum(resultSet.getDouble("insuranceNum"));
-
-			while (rankResultSet.next()) {
-				this.customer.addCustomerIDRankID(rankResultSet.getString("contractID"),
-						rankResultSet.getString("RankID"));
-			}
-			
-			this.customer.setRankByID(this.contract.getContractID());
-			
-			return true;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		}
-
-	}
-
-	private boolean getInsurance() {
-		this.insurance = new GeneralInsurance();
-		ResultSet resultSet = this.insurance.getInsuranceByID(this.contract.getInsuranceID());
-
-		try {
-			resultSet.next();
-			if (resultSet.getString("insuranceType").equals("house")) {
-				this.insurance = new HouseInsurance();
-			}
-
-			this.insurance.setInsuranceID(resultSet.getString("insuranceID"));
-			this.insurance.setInsuranceName(resultSet.getString("insuranceName"));
-			this.insurance.setStandardFee(resultSet.getInt("StandradFee"));
-			this.insurance.setSpecialContract(resultSet.getString("specialContract"));
-			this.insurance.setLongTerm(resultSet.getBoolean("longTerm"));
-			this.insurance.setApplyCondition(resultSet.getString("applyCondition"));
-			this.insurance.setCompensateCondition(resultSet.getString("compensateCondition"));
-			this.insurance.setExplanation(resultSet.getString("explanation"));
-			this.insurance.getRate(this.contract.getInsuranceID());
-
-			return true;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-
-	private boolean verifyPeriod() {
-
-		if ((this.contract.getPeriod() >= 36) && (this.insurance.isLongTerm() != true)) {
-			String reason = "장기 계약 불가능한 보험";
-
-			return saveFailContract(reason);
-		}
-
-
-
-		return true;
-	}
-
-	private boolean verifyPremium() {
-		
-		
-		
-//		boolean a = this.insurance.verifyPremium(this.contract.getSecurityFee(), this.contract.getInsuranceFee());
-//		selectPermit(a);		
-		
-		return true;
-	}
-
-	private boolean saveFailContract(String reason) {
-		return false;
-		// this.contract.saveFailContract();
-	}
+	
 
 	private boolean selectRenew(Scanner scanner) {
 		// ResultSet resultSet = this.contract.getRenew();

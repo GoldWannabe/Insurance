@@ -3,6 +3,8 @@ package View.Team;
 import java.util.Arrays;
 
 import Model.Contract.Contract;
+import Model.Customer.Customer;
+import Model.Customer.Rank;
 import Model.Insurance.Insurance;
 
 public class ContractTeamTui {
@@ -115,6 +117,34 @@ public class ContractTeamTui {
 		System.out.println("해당 보험을 검증하시겠습니까?");
 		System.out.println("1. 검증 2. 취소");
 
+	}
+
+	public void showDetailContract(Contract contract) {
+		System.out.println("고객명: "+ contract.getCustomerName()+"   전화번호: "+contract.getPhoneNum());
+		System.out.println("보험료: "+contract.getInsuranceFee());
+		System.out.println("담보액: "+contract.getSecurityFee()+"   기간: "+contract.getPeriod());
+	}
+
+	public void showDetailInsurance(Insurance insurance) {
+		System.out.println("보험명: "+ insurance.getInsuranceName());
+		System.out.println("보험종류: "+insurance.getInsuranceType().toString()+"   장기여부: "+insurance.isLongTerm());
+		System.out.println("가입조건: "+insurance.getApplyCondition());
+		System.out.println("특약: "+insurance.getSpecialContract());
+	}
+
+	public void showDetailRank(Rank rank) {
+		System.out.println("재질: "+rank.getMaterial()+"   용도: "+rank.getPurpose());
+		System.out.println("크기(평수): "+rank.getScale()+"   고층여부: "+rank.isHeight());
+		System.out.println("소방시설 점수: "+ rank.getFireFacilities()+"   주변시설 점수: "+rank.getSurroundingFacilities());
+	}
+
+	public void showSelectPermit() {
+		System.out.println("가입을 허가시키겠습니까?");
+		System.out.println("1.계약 2.반려 0.취소");
+	}
+
+	public void showEnterReason() {
+		System.out.println("반려 사유를 입력해 주세요.");
 	}
 
 }

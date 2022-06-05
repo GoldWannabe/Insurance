@@ -10,7 +10,9 @@ public class ContractDao  extends Dao {
 	}
 
 	public boolean create(Contract contract) {
-		String query = "";
+		String query = "insert into contract(contractID, customerID, customerName, customerPhoneNum, insuranceID, insuranceName, paymentCycle, insuranceFee, unpaidFee, securityFee, provisionFee, startDate, endDate) values "
+				+ "(\""+contract.getContractID()+"\", \""+contract.getCustomerID()+"\", \""+contract.getCustomerName()+"\", \""+contract.getPhoneNum()+"\", \""+contract.getInsuranceID()+"\", \""+contract.getInsuranceName()+"\", "+contract.getPaymentCycle()+", "+contract.getInsuranceFee()+", "+contract.getUnpaidFee()+", "+contract.getSecurityFee()+", "+contract.getProvisionFee()+", \""+contract.getStartDate()+"\", \""+contract.getEndDate()+"\");";
+
 
 		System.out.println(query);
 		return super.create(query);

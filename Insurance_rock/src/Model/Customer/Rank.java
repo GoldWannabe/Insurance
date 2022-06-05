@@ -14,11 +14,11 @@ public class Rank {
 	private double surroundingFacilities;
 
 	private enum EMaterial {
-		wood, rock, concrete, iron
+		wood, rock, concrete, iron, brick
 	};
 
 	private enum EPurpose {
-		living, factory, culturalAsset, store, office, carPark
+		living, factory, culturalAsset, store, office, carPark, warehouse
 	};
 
 	private EPurpose purpose;
@@ -94,12 +94,13 @@ public class Rank {
 			this.material = EMaterial.concrete;
 		} else if (material.equals(EMaterial.iron.toString())) {
 			this.material = EMaterial.iron;
+		}else if (material.equals(EMaterial.brick.toString())) {
+			this.material = EMaterial.brick;
 		}
-
 	}
 
-	public EPurpose getPurpose() {
-		return this.purpose;
+	public String getPurpose() {
+		return this.purpose.toString();
 	}
 
 	public void setPurpose(String purpose) {
@@ -111,10 +112,12 @@ public class Rank {
 			this.purpose = EPurpose.culturalAsset;
 		} else if (purpose.equals(EPurpose.store.toString())) {
 			this.purpose = EPurpose.store;
-		}else if (purpose.equals(EPurpose.office.toString())) {
+		} else if (purpose.equals(EPurpose.office.toString())) {
 			this.purpose = EPurpose.office;
 		} else if (purpose.equals(EPurpose.carPark.toString())) {
 			this.purpose = EPurpose.carPark;
+		} else if (purpose.equals(EPurpose.warehouse.toString())) {
+			this.purpose = EPurpose.warehouse;
 		}
 	}
 
@@ -127,6 +130,10 @@ public class Rank {
 	public ResultSet retriveByID(String rankID) {
 		this.rankDao = new IRankDao();
 		return this.rankDao.retriveByID(rankID);
+	}
+
+	public void delete() {
+		this.rankDao.deleteByID(this.rankID);
 	}
 
 }// end Rank
