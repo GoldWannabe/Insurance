@@ -17,7 +17,7 @@ public class ContractDao  extends Dao {
 	}
 
 	public ResultSet retrive() {
-		String query = "SELECT * FROM Contract";
+		String query = "SELECT * FROM Contract;";
 
 		System.out.println(query);
 		return super.retrive(query);

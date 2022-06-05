@@ -51,4 +51,14 @@ public class ProvisionListImpl implements ProvisionList {
 		return false;
 	}
 
+	@Override
+	public Provision get(String name, String phoneNum) {
+		for (Provision provision : this.provisionList) {
+			if(provision.getCustomerName().equals(name) && provision.getPhoneNum().equals(phoneNum)) {
+				return provision;
+			}
+		}
+		return null;
+	}
+
 }//end ProvisionListImpl

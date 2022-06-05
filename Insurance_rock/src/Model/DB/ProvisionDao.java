@@ -17,7 +17,7 @@ public class ProvisionDao  extends Dao {
 	}
 
 	public ResultSet retrive() {
-		String query = "";
+		String query = "select * from provision;";
 
 		System.out.println(query);
 		return super.retrive(query);
