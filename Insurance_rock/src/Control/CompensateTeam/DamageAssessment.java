@@ -73,7 +73,7 @@ public class DamageAssessment {
 					}
 					break;
 				case "0":
-					compensateTeamTui.cancelback();
+					compensateTeamTui.cancelhome();
 					return true;
 				default:
 					throw new WrongInputException();
