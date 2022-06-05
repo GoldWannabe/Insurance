@@ -248,9 +248,9 @@ public class Contract {
 		return this.contractDao.retrivelongtermFee(this);
 	}
 
-	public void updateProvisionFee() {
+	public void updateProvisionFee(int lablityCost) {
 		this.contractDao = new ContractDao();
-		this.contractDao.updateProvisionFee(this);
+		this.contractDao.updateProvisionFee(this, lablityCost);
 		
 	}
 
