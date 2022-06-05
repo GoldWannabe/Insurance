@@ -31,6 +31,17 @@ public class Contract {
 	private ArrayList<String> accidentHistory  = new ArrayList<String>();	
 	private int num;
 	
+	//심사 탈락 이유
+	private String reason;
+	
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
 	public int getNum() {
 		return num;
 	}
@@ -269,5 +280,17 @@ public class Contract {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public ResultSet getFailContract() {
+		this.contractDao = new ContractDao();
+		return this.contractDao.retriveFailContract(this);
+	}
+
+	public ResultSet getFailContractID() {
+		this.contractDao = new ContractDao();
+		return this.contractDao.retriveFailContractID(this);
+	}
+
+
 
 }// end Contract

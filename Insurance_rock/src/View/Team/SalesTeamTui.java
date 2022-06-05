@@ -2,10 +2,12 @@ package View.Team;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Scanner;
 
 import Model.Channel.Channel;
 import Model.Channel.ChannelListImpl;
+import Model.Contract.Contract;
+import Model.Contract.ContractList;
+//github.com/GoldWannabe/Insurance.git
 import Model.Insurance.Insurance;
 import Model.Insurance.InsuranceList;
 
@@ -150,9 +152,28 @@ public class SalesTeamTui {
 	}
 
 	public void showReInput() {
-		System.out.print("재입력: ");
-
+		System.out.println("재입력: ");
 	}
+	
+
+	public void showSelectContract() {
+		System.out.println("재신청할 ContractID를 입력하여 주십시오.");
+	}
+	
+	public void showFailContractList(ContractList contractFailList) {
+		System.out.println("-------------------------------------------------------------------------------------------------------------------");
+		System.out.printf("%10s %10s %10s %10s %10s %10s %10s %10s", "가입자 이름", "연락처", "보험 이름", "납부 방식", "보험료", "담보액", "가입기간", "탈락 이유");
+		System.out.println();
+		System.out.println("-------------------------------------------------------------------------------------------------------------------");
+		for (Contract contract : contractFailList.getAll()) {
+			System.out.format("%10s %15s %10s %10s %10s %15s %5s %13s",
+					contract.getCustomerName(), contract.getPhoneNum(), contract.getInsuranceName(), contract.getPaymentCycle(),
+					contract.getInsuranceFee(), contract.getSecurityFee(), contract.getPeriod(), contract.getReason());
+			System.out.println();
+		}
+		
+	}
+
 
 	public void viewSelectChannel() {
 		System.out.println("판매 채널 관리 메뉴를 선택해주세요.");
@@ -179,7 +200,6 @@ public class SalesTeamTui {
 		System.out.println("수정할 채널번호(ID)을 입력해주세요.");
 	}
 
-	
 
 	public void viewChannel(ChannelListImpl channelList) {
 		if (!(channelList == null)) {
@@ -291,6 +311,7 @@ public class SalesTeamTui {
 
 	public void viewNonSearch() {//이건 에러중 하나인데... false로 줘서 다시 입력하게 만들었길래 그냥 여기로 뺌. 다른거는 에러로 줌
 		System.out.println("검색된 채널이 없습니다. 정확하게 입력하여 주시기 바랍니다");
-	}
+		System.out.print("재입력: ");
 
+	}
 }

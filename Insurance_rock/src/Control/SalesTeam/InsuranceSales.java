@@ -32,10 +32,12 @@ public class InsuranceSales {
 	private CustomerList customerList = new CustomerListImpl();
 
 	private Contract contract;
-	private ContractList contractList = new ContractListImpl();
+	private ContractList contractFailList = new ContractListImpl();
 
 	private Rank rank;
 
+	private RejoinContract rejoinContract;
+	
 	public InsuranceSales() {
 		this.salesTeamTui = new SalesTeamTui();
 	}
@@ -120,7 +122,9 @@ public class InsuranceSales {
 				if (flag == 1) {
 					return selectCustomer(scanner, this.insurance);
 				} else if (flag == 2) {
-					return rejoinContract(scanner, this.insurance);
+					if(rejoinContract(scanner, this.insurance)) {
+						return true;
+					}
 				} else if (flag == 0) {
 					this.salesTeamTui.showCancel();
 					return true;
@@ -132,7 +136,8 @@ public class InsuranceSales {
 	}
 
 	private boolean rejoinContract(Scanner scanner, Insurance insurance) {
-		return false;
+		this.rejoinContract = new RejoinContract();
+		return this.rejoinContract.rejoinStart(this.salesTeamTui, this.contractFailList, scanner, insurance);
 	}
 
 	public boolean selectCustomer(Scanner scanner, Insurance insurance) {
@@ -363,7 +368,4 @@ public class InsuranceSales {
 			this.salesTeamTui.showEnterSex();
 		}
 	}
-	
-
-
 }
