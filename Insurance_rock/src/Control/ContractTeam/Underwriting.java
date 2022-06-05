@@ -111,7 +111,6 @@ public class Underwriting {
 		this.contract = this.contractList.getCount(select - 1);
 		return selectVerify(scanner);
 
-
 	}
 
 	private int showApply() {
@@ -159,20 +158,17 @@ public class Underwriting {
 			throw new DBAcceptException();
 		}
 
-		if (verifyPremium() && verifyPeriod()) {
+		if (!verifyPremium() && !verifyPeriod()) {
 			return false;
 		}
-		return false;
-	}
 
-	private boolean verifyPremium() {
 		return false;
 	}
 
 	private boolean getCustomer() {
 		this.customer = new Customer();
 		ResultSet resultSet = this.customer.getCustomerByID(this.contract.getCustomerID());
-		ResultSet rankResultSet = this.customer.setRank(this.contract.getCustomerID());
+		ResultSet rankResultSet = this.customer.getRankSet(this.contract.getCustomerID());
 		try {
 			resultSet.next();
 			this.customer.setCustomerID(resultSet.getString("customerID"));
@@ -184,10 +180,13 @@ public class Underwriting {
 			this.customer.setBankName(resultSet.getString("bankName"));
 			this.customer.setAccountNum(resultSet.getString("accountNum"));
 			this.customer.setInsuranceNum(resultSet.getDouble("insuranceNum"));
-			
-			while(rankResultSet.next()) {
-				this.customer.addCustomerIDRankID(rankResultSet.getString("contractID"), rankResultSet.getString("RankID"));
+
+			while (rankResultSet.next()) {
+				this.customer.addCustomerIDRankID(rankResultSet.getString("contractID"),
+						rankResultSet.getString("RankID"));
 			}
+			
+			this.customer.setRankByID(this.contract.getContractID());
 			
 			return true;
 		} catch (SQLException e) {
@@ -232,9 +231,18 @@ public class Underwriting {
 			return saveFailContract(reason);
 		}
 
-//		boolean a = this.insurance.verifyPremium(this.contract.getSecurityFee(), this.contract.getInsuranceFee());
-//		selectPermit(a);
 
+
+		return true;
+	}
+
+	private boolean verifyPremium() {
+		
+		
+		
+//		boolean a = this.insurance.verifyPremium(this.contract.getSecurityFee(), this.contract.getInsuranceFee());
+//		selectPermit(a);		
+		
 		return true;
 	}
 
