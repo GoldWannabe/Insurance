@@ -185,35 +185,35 @@ public class Accident {
 		return accidentDAO.updatedate(this);
 	}
 
-	public void updatecontent() {
-		accidentDAO.updatecontent(this);
+	public boolean updatecontent() {
+		return accidentDAO.updatecontent(this);
 		
 	}
-	public void updatetotal() {
-		 accidentDAO.updatetotal(this);
-		
-	}
-
-	public void updateDamage() {
-		 accidentDAO.updateDamage(this);
+	public boolean updatetotal() {
+		return accidentDAO.updatetotal(this);
 		
 	}
 
-	public void updateKind() {
-		 accidentDAO.updateKind(this);
-	}
-
-	public void updateLiablityCost() {
-		 accidentDAO.updateLiablityCost(this);
-	}
-
-	public void updateLiablityRate() {
-		 accidentDAO.updateLiablityRate(this);
+	public boolean updateDamage() {
+		return accidentDAO.updateDamage(this);
 		
 	}
 
-	public void updatePaycompleted() {
-		 accidentDAO.updatePaycompleted(this);
+	public boolean updateKind() {
+		return accidentDAO.updateKind(this);
+	}
+
+	public boolean updateLiablityCost() {
+		return accidentDAO.updateLiablityCost(this);
+	}
+
+	public boolean updateLiablityRate() {
+		return accidentDAO.updateLiablityRate(this);
+		
+	}
+
+	public boolean updatePaycompleted() {
+		return accidentDAO.updatePaycompleted(this);
 	}
 
 }// end Accident
