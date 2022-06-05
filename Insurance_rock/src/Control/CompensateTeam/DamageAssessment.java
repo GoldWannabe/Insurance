@@ -122,7 +122,7 @@ public class DamageAssessment {
 		} else if (selectNum.equals("2")) {
 			compensateTeamTui.cancelhome();
 			return true;
-		}else {
+		} else {
 			throw new WrongInputChannel();
 		}
 		return false;
@@ -163,70 +163,74 @@ public class DamageAssessment {
 					throw new BankfileAcceptException();
 				}
 			}
-			if (resultBank != null && resultlongtermFee != null) {
-				if (!(this.accident.isPayCompleted())) {
-					this.accident.setPayCompleted(true);
-					this.accident.updatePaycompleted();
-					while (resultlongtermFee.next()) {
-						this.contract.setInsuranceID(resultlongtermFee.getString("insuranceID"));
-						this.contract.setInsuranceName(resultlongtermFee.getString("insuranceName"));
-						this.contract.setProvisionFee(
-								resultlongtermFee.getInt("provisionFee") + this.accident.getLiablityCost());
-						this.contract.setSecurityFee(resultlongtermFee.getInt("securityFee"));
-						this.contract.setStartDate(LocalDate.parse(resultlongtermFee.getString("startDate")));
-						this.contract.setEndDate(LocalDate.parse(resultlongtermFee.getString("endDate")));
-					}
-					while (resultBank.next()) {
-						this.customer.setBankName(resultBank.getString("bankName"));
-						this.customer.setAccountNum(resultBank.getString("accountNum"));
-					}
-					// 사고이력없음.. 없데이트 불가능 나머지 지급액만 업데이트하겠음.
-					this.contract.updateProvision();
-					this.contract.createContractAccident(this.accident.getID());
-					
-					LocalDate startDate = this.contract.getEndDate();
-					int StartYear = startDate.getYear();
-					LocalDate endDate = this.contract.getStartDate();
-					int endYear = endDate.getYear();
-					Insurance generalinsurance = new GeneralInsurance();
-					ResultSet insuranceType = generalinsurance.retriveType(this.contract.getInsuranceName());
+			if (!(this.accident.isPayCompleted())) {
+				this.accident.setPayCompleted(true);
+				this.accident.updatePaycompleted();
+				while (resultlongtermFee.next()) {
+					this.contract.setInsuranceID(resultlongtermFee.getString("insuranceID"));
+					this.contract.setInsuranceName(resultlongtermFee.getString("insuranceName"));
+					this.contract.setProvisionFee(
+							resultlongtermFee.getInt("provisionFee") + this.accident.getLiablityCost());
+					this.contract.setSecurityFee(resultlongtermFee.getInt("securityFee"));
+					this.contract.setStartDate(LocalDate.parse(resultlongtermFee.getString("startDate")));
+					this.contract.setEndDate(LocalDate.parse(resultlongtermFee.getString("endDate")));
+				}
+				while (resultBank.next()) {
+					this.customer.setBankName(resultBank.getString("bankName"));
+					this.customer.setAccountNum(resultBank.getString("accountNum"));
+				}
+				LocalDate startDate = this.contract.getEndDate();
+				int StartYear = startDate.getYear();
+				LocalDate endDate = this.contract.getStartDate();
+				int endYear = endDate.getYear();
+				Insurance generalinsurance = new GeneralInsurance();
+				ResultSet insuranceType = generalinsurance.retriveType(this.contract.getInsuranceName());
+
+				Provision provision = new Provision();
 
 //					만료일-시작일이 3년이상이면 false 아니면 true 입력.
-					Provision provision = new Provision();
-					if (endYear - StartYear >= 3) {
-						provision.setLongTerm(true);
-					} else {
-						provision.setLongTerm(false);
-					}
-					while (insuranceType.next()) {
-						EInsurance e = EInsurance.valueOf(insuranceType.getString("insuranceType"));
-						provision.setInsuranceType(e);
-					} //
-					int overCost = this.contract.getSecurityFee() - this.contract.getProvisionFee();
-					if (overCost <= 0) {
-						compensateTeamTui.viewOverCost();
-						provision.setCompensation(this.contract.getSecurityFee());
-					} else {
-						provision.setCompensation(this.accident.getLiablityCost());
-					}
-					provision.setProvisionID(UUID.randomUUID().toString());
-					provision.setCustomerID(this.customer.getCustomerID());
-					provision.setContractID(this.accident.getContractID());
-					provision.setCustomerName(this.accident.getCustomerName());
-					provision.setPhoneNum(this.accident.getPhoneNum());
-					provision.setInsuranceName(this.contract.getInsuranceName());
-					provision.setBankName(this.customer.getBankName());
-					provision.setAccountNum(this.customer.getAccountNum());
-					provision.setCompensationDate(LocalDate.now());
-					// 지급ID, 고객ID, 가입자명, 연락처, 계좌번호,은행명, 보상금액, 지급날짜.보험이름, 장기여부, 보험종류, 계약ID를 저장.
-					provision.creatNew();
-
-					compensateTeamTui.viewNewProvision(provision);
+				if (endYear - StartYear >= 3) {
+					provision.setLongTerm(true);
 				} else {
-					throw new AlreadyPayCompleted();
+					provision.setLongTerm(false);
 				}
+				
+				while (insuranceType.next()) {
+					EInsurance e = EInsurance.valueOf(insuranceType.getString("insuranceType"));
+					provision.setInsuranceType(e);
+				} 
+				
+				//A2. 담보액을 넘는 비용을 보상해 줘야 하는 경우
+				int overCost = this.contract.getSecurityFee() - this.contract.getProvisionFee();
+				if (overCost <= 0) {
+					compensateTeamTui.viewOverCost();
+					provision.setCompensation(this.contract.getSecurityFee());
+				} else {
+					provision.setCompensation(this.accident.getLiablityCost());
+				}
+				// A3. 장기 가입자이고 책임 비용이 담보액의 20% 미만인 경우
+				if (!provision.isLongTerm() && this.accident.getLiablityCost() < this.contract.getSecurityFee() * 0.2) {
+					this.contract.setProvisionFee(resultlongtermFee.getInt("provisionFee"));
+				} else {
+					this.contract.updateProvisionFee();
+				}
+				this.contract.createContractAccident(this.accident.getID());
+
+				provision.setProvisionID(UUID.randomUUID().toString());
+				provision.setCustomerID(this.customer.getCustomerID());
+				provision.setContractID(this.accident.getContractID());
+				provision.setCustomerName(this.accident.getCustomerName());
+				provision.setPhoneNum(this.accident.getPhoneNum());
+				provision.setInsuranceName(this.contract.getInsuranceName());
+				provision.setBankName(this.customer.getBankName());
+				provision.setAccountNum(this.customer.getAccountNum());
+				provision.setCompensationDate(LocalDate.now());
+				// 지급ID, 고객ID, 가입자명, 연락처, 계좌번호,은행명, 보상금액, 지급날짜.보험이름, 장기여부, 보험종류, 계약ID를 저장.
+				provision.creatNew();
+
+				compensateTeamTui.viewNewProvision(provision);
 			} else {
-				throw new DBAcceptException();
+				throw new AlreadyPayCompleted();
 			}
 
 		} catch (FileNotFoundException e) {
@@ -368,7 +372,6 @@ public class DamageAssessment {
 
 //			isSearch = accident.search(customerName_inser, accidentDate_inser, isSearch);
 
-
 	private void update(Scanner scanner) throws WrongInputChannel {
 		boolean updateCompleted = false;
 		int num = compensateTeamTui.viewUpdateNum(scanner);
@@ -415,7 +418,7 @@ public class DamageAssessment {
 				int liablityRate = scanner.nextInt();
 				this.accident.setLiablityRate(liablityRate);
 				updateCompleted = accident.updateLiablityRate();
-			}else {
+			} else {
 				throw new WrongInputChannel();
 			}
 			if (updateCompleted) {
