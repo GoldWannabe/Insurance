@@ -34,4 +34,11 @@ public class CustomerRankDao  extends Dao {
 		System.out.println(query);
 		return super.delete(query);
 	}
+
+	public ResultSet retriveID(String customerID) {
+		String query = "select * from customerRank where customerID = \""+customerID+ "\";";
+
+		System.out.println(query);
+		return super.retrive(query);
+	}
 }
