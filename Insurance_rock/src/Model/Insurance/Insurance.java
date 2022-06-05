@@ -254,4 +254,9 @@ public abstract class Insurance {
 
 	public abstract void getRate(String cInsuranceID);
 
+	public ResultSet retriveType(String insuranceName) {
+		this.insuranceDao = new InsuranceDao();
+		return this.insuranceDao.retriveType(insuranceName);
+
+	}
 }// end Insurance

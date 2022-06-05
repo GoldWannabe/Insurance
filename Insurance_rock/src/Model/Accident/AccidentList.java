@@ -1,7 +1,6 @@
 package Model.Accident;
 
 import java.sql.ResultSet;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 
@@ -17,6 +16,7 @@ public interface AccidentList {
 	
 	public ArrayList<Accident> get(String customerName_inser, String phoneNum_inser);
 	public ArrayList<Accident>  getAll();
+	
 	
 	
 }//end AccidentList

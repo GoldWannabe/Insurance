@@ -15,4 +15,5 @@ public interface ProvisionList {
 	public boolean update(String provisionID);
 
 	public void finalize() throws Throwable;
+	public Provision get(String name, String phoneNum);
 }//end ProvisionList

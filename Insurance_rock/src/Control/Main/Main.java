@@ -11,16 +11,13 @@ import Control.Policyholder.FeePayment;
 import Control.SalesTeam.ChannelManagement;
 import Control.SalesTeam.CustomerManagement;
 import Control.SalesTeam.InsuranceSales;
-import View.Team.CompensateTeamTui;
-import View.Team.ContractTeamTui;
-import View.Team.FinancialDirectorTui;
-import View.Team.PolicyHolderTui;
-import View.Team.SalesTeamTui;
 import exception.DBAcceptException;
+import exception.WrongInputException;
 
 public class Main {
 
-	public static void main(String[] args) {
+	@SuppressWarnings("resource")
+	public static void main(String[] args) throws WrongInputException {
 		
 		boolean continueSelect = false;
 		while(!continueSelect) {
@@ -41,12 +38,12 @@ public class Main {
 				selectCompensateTeam(scanner);
 				break;
 			case "5":
-				selectCustomer(scanner);
+				selectPolicyholder(scanner);
 				break;
 			default:
 				//while문 안먹음 사
-				System.out.println("제대로 입력해주세요.");
-				break;
+				throw new WrongInputException();
+				
 			}
 		}
 	}
@@ -105,7 +102,7 @@ public class Main {
 		switch (selectNum) {
 		case "1":
 			InsuranceSales insuranceSales = new InsuranceSales();
-			insuranceSales.searchInsurance();
+			insuranceSales.selectInsuranceType();
 			break;
 		case "2":
 			CustomerManagement customerManagement = new CustomerManagement();
@@ -123,16 +120,19 @@ public class Main {
 
 	}
 
-	private static void selectCustomer(Scanner scanner) {
-		System.out.println("1. 보험료 납부");
+	private static void selectPolicyholder(Scanner scanner) {
+		//2. 납부기록확인도분리하기
+		System.out.println("1. 보험료 납부  2. 지급 기록 확인");
 		String selectNum = scanner.next();
-		
+		FeePayment feePayment = new FeePayment();
+
 			switch (selectNum) {
 			case "1":
-				FeePayment feePayment = new FeePayment();
 				feePayment.checkFee();
 				break;
-
+			case "2":
+				feePayment.checkProvision();
+			
 			default:
 				System.out.println("선택 이상함");
 				break;

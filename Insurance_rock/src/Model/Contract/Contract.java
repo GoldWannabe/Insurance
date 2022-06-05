@@ -1,8 +1,5 @@
 package Model.Contract;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -20,20 +17,29 @@ public class Contract {
 	private String insuranceName;
 
 	private String contractID;
-	private String accidentHistory;
-	private LocalDate endDate;
 	private int insuranceFee;
 	private int paymentCycle;
-	private int period;
 	private int provisionFee;
 	private int securityFee;
+	private int period;
 	private LocalDate startDate;
+	private LocalDate endDate;
 	private int unpaidFee;
-	private ContractDao contractDAO;
+	private ContractDao contractDao;
 	private ApplyContractDao applyContractDao;
 
+	private int num;
+	
+	public int getNum() {
+		return num;
+	}
+
+	public void setNum(int num) {
+		this.num = num;
+	}
+
 	public Contract() {
-		this.contractDAO = new ContractDao();
+		this.contractDao = new ContractDao();
 		this.applyContractDao = new ApplyContractDao();
 		this.contractID = UUID.randomUUID().toString();
 	}
@@ -95,14 +101,6 @@ public class Contract {
 
 	public void search() {
 
-	}
-
-	public String getAccidentHistory() {
-		return accidentHistory;
-	}
-
-	public void setAccidentHistory(String accidentHistory) {
-		this.accidentHistory = accidentHistory;
 	}
 
 	public String getContractID() {
@@ -222,17 +220,34 @@ public class Contract {
 	}
 
 	public ResultSet retrivecontract() {
-		return contractDAO.retrivecontract(this.getCustomerName(), this.getPhoneNum());
 
+		return contractDao.retrivecontract(this.getCustomerName(), this.getPhoneNum());
+		
 	}
 
 	public void register() {
-		this.contractDAO = new ContractDao();
+		this.contractDao = new ContractDao();
 	}
 
 	public void registerApplyContract() {
 		this.applyContractDao = new ApplyContractDao();
 		this.applyContractDao.create(this);
+	}
+
+	public ResultSet retrivelongtermFee() {
+		this.contractDao = new ContractDao();
+		return this.contractDao.retrivelongtermFee(this);
+	}
+
+	public void updateProvisionFee() {
+		this.contractDao = new ContractDao();
+		this.contractDao.updateProvisionFee(this);
+		
+	}
+
+	public ResultSet getContract() {
+		this.contractDao = new ContractDao();
+		return this.contractDao.retrive();
 	}
 
 	public ResultSet getApply() {

@@ -9,5 +9,5 @@ public interface PaymentList {
 	public boolean delete(String paymentID);
 	public Payment get(String paymentID);
 	public boolean update(String paymentID);
-	
+	public Payment get(String CustomerName, String CustomerPhoneNum);
 }//end PaymentList

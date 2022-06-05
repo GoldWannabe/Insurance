@@ -1,6 +1,5 @@
 package Model.Customer;
 
-import java.util.StringTokenizer;
 import java.util.UUID;
 
 import Model.DB.IRankDao;
@@ -102,9 +101,5 @@ public class Rank {
 		this.rankDao = new IRankDao();
 		this.rankDao.create(this);
 	}
-
-
-
-
 
 }//end Rank

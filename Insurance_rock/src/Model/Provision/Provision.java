@@ -1,17 +1,23 @@
+
 package Model.Provision;
 
 import java.time.LocalDate;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.StringTokenizer;
+import java.util.UUID;
+
 
 import Model.Customer.Customer;
+import Model.DB.ProvisionDao;
 
-/**
- * @author ansm6
- * @version 1.0
- * @created 08-5-2022 ���� 10:34:19
- */
 public class Provision {
 	private String provisionID;
+	private String customerID;
 	private String accountNum;
+	private String contractID;
+	private String insuranceName;
 	private String bankName;
 	private int compensation;
 	private LocalDate compensationDate;
@@ -20,8 +26,37 @@ public class Provision {
 	private boolean longTerm;
 	private String phoneNum;
 	public Customer m_Customer;
-	private enum einsuranceType{generalInsurance, houseInsurace};
-	private einsuranceType insuranceType;
+	@SuppressWarnings("unused")
+	private enum EInsurance{generalInsurance, houseInsurace};
+	private Model.Insurance.Insurance.EInsurance insuranceType;
+	public ProvisionDao provisionDao;
+
+	public ResultSet getProvision() {
+		this.provisionDao = new ProvisionDao();
+		return this.provisionDao.retrive();
+	}
+	public String getContractID() {
+		return contractID;
+	}
+
+	public void setContractID(String contractID) {
+		this.contractID = contractID;
+	}
+	
+	public String getCustomerID() {
+		return customerID;
+	}
+
+	public void setCustomerID(String customerID) {
+		this.customerID = customerID;
+	}
+	public String getInsuranceName() {
+		return insuranceName;
+	}
+	
+	public void setInsuranceName(String insuranceName) {
+		this.insuranceName = insuranceName;
+	}
 	
 	public String getProvisionID() {
 		return provisionID;
@@ -95,6 +130,7 @@ public class Provision {
 		this.phoneNum = phoneNum;
 	}
 
+
 	public Customer getM_Customer() {
 		return m_Customer;
 	}
@@ -102,11 +138,14 @@ public class Provision {
 	public void setM_Customer(Customer m_Customer) {
 		this.m_Customer = m_Customer;
 	}
-
-	public einsuranceType getInsuranceType() {
-		return insuranceType;
+	public void setInsuranceType(Model.Insurance.Insurance.EInsurance e) {
+		this.insuranceType = e;
 	}
 
+	public Model.Insurance.Insurance.EInsurance getInsuranceType() {
+		return insuranceType;
+	}
+	
 	public Provision(){
 
 	}
@@ -117,4 +156,13 @@ public class Provision {
 	public void checkProvision(){
 
 	}
-}//end Provision
+
+
+	public void creatNew() {
+		ProvisionDao provisionDao = new ProvisionDao();
+		provisionDao.creatNew(this);
+		
+	}
+
+}
+

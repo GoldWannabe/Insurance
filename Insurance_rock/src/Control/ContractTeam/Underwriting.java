@@ -2,7 +2,6 @@ package Control.ContractTeam;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.Scanner;
 
 import Model.Contract.Contract;
@@ -11,6 +10,7 @@ import Model.Contract.ContractListImpl;
 import Model.Customer.Customer;
 import Model.Insurance.GeneralInsurance;
 import Model.Insurance.HouseInsurance;
+
 import Model.Insurance.Insurance;
 import View.Team.ContractTeamTui;
 import exception.DBAcceptException;
