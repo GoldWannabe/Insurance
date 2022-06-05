@@ -95,4 +95,16 @@ public class ContractDao  extends Dao {
 		return super.update(query);
 	}
 
+	public ResultSet retriveByID(String contractID) {
+		String query = "select * from failcontract where customerID = \""+contractID+"\"";
+		System.out.println(query);
+		return super.retrive(query);
+	}
+
+	public boolean updateRenew(Contract contract) {
+		String query = "update contract set paymentCycle=" + contract.getPaymentCycle() +", insuranceFee ="+ contract.getInsuranceFee()+", securityFee ="+ contract.getSecurityFee()+", endDate =\""+ contract.getEndDate()+"\" where contractID= \""
+				+ contract.getContractID() + "\"";
+		return super.update(query);
+	}
+
 }
