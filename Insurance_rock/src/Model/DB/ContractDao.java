@@ -54,6 +54,11 @@ public class ContractDao  extends Dao {
 		System.out.println(query);
 		return super.retrive(query);
 	}
+	
+	public ResultSet retriveFailContractID(Contract contract) {
+		String query = "select * from failcontract where contractID =\""+contract.getContractID()+"\"";
+		return super.retrive(query);
+	}
 
 	public ResultSet retrivelongtermFee(Contract contract) {
 		StringBuilder stringBuilder = new StringBuilder();
@@ -67,17 +72,25 @@ public class ContractDao  extends Dao {
 		return super.retrive(query);
 		
 	}
+	
+	public ResultSet retriveFailContract(Contract contract) {
+		String query = "select * from failcontract where customerName =\""+contract.getCustomerName()+"\" and customerPhoneNum = \""+contract.getPhoneNum()+"\"";
+		System.out.println(query);
+		return super.retrive(query);
+	}
 
-	public boolean updateProvisionFee(Contract contract) {
+	public boolean updateProvisionFee(Contract contract, int lablityCost) {
 		StringBuilder stringBuilder = new StringBuilder();
 
 		String query = stringBuilder.append("update contract set provisionFee =")
-				.append("\'"+contract.getProvisionFee()+ "\'")
-				.append("where contractID = \'" + contract.getContractID() + "\'")
+				.append(+contract.getProvisionFee() +"+")
+				.append(lablityCost)
+				.append(" where contractID = \'" + contract.getContractID() + "\'")
 				.toString();
 		
 
 		System.out.println(query);
 		return super.update(query);
 	}
+
 }
