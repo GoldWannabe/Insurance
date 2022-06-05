@@ -1,6 +1,7 @@
 package Model.Customer;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -20,16 +21,17 @@ public class Customer {
 	private String accountNum;
 	private Double insuranceNum;
 
+	private Rank rank;
 	private ArrayList<String> contractID = new ArrayList<String>();
 	private ArrayList<String> rankID = new ArrayList<String>();
 
 	private enum Esex {
 		male, female, none,
 	};
-	
+
 	private CustomerDao customerDao;
 	private CustomerRankDao customerRankDao;
-	
+
 	public Customer() {
 		this.customerID = UUID.randomUUID().toString();
 	}
@@ -169,7 +171,7 @@ public class Customer {
 	public String getSex() {
 		return sex.toString();
 	}
-	
+
 	public void setSex(String sex) {
 		// set logic
 		if (sex.equals(Esex.male.toString())) {
@@ -201,7 +203,7 @@ public class Customer {
 		this.customerDao = new CustomerDao();
 		return this.customerDao.retrive();
 	}
-	
+
 	public boolean register() {
 		this.customerDao = new CustomerDao();
 		return this.customerDao.create(this);
@@ -210,19 +212,18 @@ public class Customer {
 	public ResultSet getCustomerByID(String cCustomerID) {
 		this.customerDao = new CustomerDao();
 		return this.customerDao.retriveID(cCustomerID);
-		
+
 	}
 
-	public ResultSet setRank(String cCustomerID) {
+	public ResultSet getRankSet(String cCustomerID) {
 		this.customerRankDao = new CustomerRankDao();
 		return this.customerRankDao.retriveID(cCustomerID);
 	}
 
 	public boolean addCustomerIDRankID(String contractID, String rankID) {
 		return (this.contractID.add(contractID) && this.rankID.add(rankID));
-		
-	}
 
+	}
 
 	public ResultSet retrivecustomerBank() {
 		this.customerDao = new CustomerDao();
@@ -232,5 +233,36 @@ public class Customer {
 	public boolean updateInsuranceNum() {
 		this.customerDao = new CustomerDao();
 		return this.customerDao.updateInsuranceNum(this);
+	}
+
+	public boolean setRankByID(String contractID) {
+		this.rank = new Rank();
+		for (int i = 0; i < this.contractID.size(); i++) {
+			if (this.contractID.get(i).equals(contractID)) {
+				ResultSet resultSet = this.rank.retriveByID(this.rankID.get(i));
+				return setRank(resultSet);
+			}
+		}
+		return false;
+	}
+
+	private boolean setRank(ResultSet resultSet) {
+
+		try {
+			resultSet.next();
+			this.rank.setRankID(resultSet.getString("RankID"));
+			this.rank.setMaterial(resultSet.getString("material"));
+			this.rank.setFireFacilities(resultSet.getDouble("fireFacilities"));
+			this.rank.setHeight(resultSet.getBoolean("height"));
+			this.rank.setScale(resultSet.getInt("scale"));
+			this.rank.setSurroundingFacilities(resultSet.getFloat("surroundingFacilities"));
+			this.rank.setPurpose(resultSet.getString("purpose"));
+
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return false;
 	}
 }
