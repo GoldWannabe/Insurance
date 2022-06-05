@@ -181,8 +181,9 @@ public class DamageAssessment {
 						this.customer.setAccountNum(resultBank.getString("accountNum"));
 					}
 					// 사고이력없음.. 없데이트 불가능 나머지 지급액만 업데이트하겠음.
-					this.contract.updateProvisionFee();
-
+					this.contract.updateProvision();
+					this.contract.createContractAccident(this.accident.getID());
+					
 					LocalDate startDate = this.contract.getEndDate();
 					int StartYear = startDate.getYear();
 					LocalDate endDate = this.contract.getStartDate();
