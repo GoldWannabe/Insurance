@@ -27,6 +27,17 @@ public class Contract {
 	private ApplyContractDao applyContractDao;
 	private int num;
 	
+	//심사 탈락 이유
+	private String reason;
+	
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
 	public int getNum() {
 		return num;
 	}
@@ -248,6 +259,17 @@ public class Contract {
 		this.contractDao = new ContractDao();
 		return this.contractDao.retrive();
 	}
+
+	public ResultSet getFailContract() {
+		this.contractDao = new ContractDao();
+		return this.contractDao.retriveFailContract(this);
+	}
+
+	public ResultSet getFailContractID() {
+		this.contractDao = new ContractDao();
+		return this.contractDao.retriveFailContractID(this);
+	}
+
 
 
 }// end Contract

@@ -2,6 +2,8 @@ package View.Team;
 
 import java.util.Arrays;
 
+import Model.Contract.Contract;
+import Model.Contract.ContractList;
 import Model.Insurance.Insurance;
 import Model.Insurance.InsuranceList;
 
@@ -148,6 +150,24 @@ public class SalesTeamTui {
 	public void showReInput() {
 		System.out.print("재입력: ");
 		
+	}
+
+	public void showFailContractList(ContractList contractFailList) {
+		System.out.println("-------------------------------------------------------------------------------------------------------------------");
+		System.out.printf("%10s %10s %10s %10s %10s %10s %10s %10s", "가입자 이름", "연락처", "보험 이름", "납부 방식", "보험료", "담보액", "가입기간", "탈락 이유");
+		System.out.println();
+		System.out.println("-------------------------------------------------------------------------------------------------------------------");
+		for (Contract contract : contractFailList.getAll()) {
+			System.out.format("%10s %15s %10s %10s %10s %15s %5s %13s",
+					contract.getCustomerName(), contract.getPhoneNum(), contract.getInsuranceName(), contract.getPaymentCycle(),
+					contract.getInsuranceFee(), contract.getSecurityFee(), contract.getPeriod(), contract.getReason());
+			System.out.println();
+		}
+		
+	}
+
+	public void showSelectContract() {
+		System.out.println("재신청할 ContractID를 입력하여 주십시오.");
 	}
 	
 }
