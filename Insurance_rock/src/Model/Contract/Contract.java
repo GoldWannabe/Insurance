@@ -2,9 +2,11 @@ package Model.Contract;
 
 import java.sql.ResultSet;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import Model.DB.ApplyContractDao;
+import Model.DB.ContractAccidentDao;
 import Model.DB.ContractDao;
 
 public class Contract {
@@ -12,10 +14,8 @@ public class Contract {
 	private String customerID;
 	private String customerName;
 	private String phoneNum;
-
 	private String insuranceID;
 	private String insuranceName;
-
 	private String contractID;
 	private int insuranceFee;
 	private int paymentCycle;
@@ -27,11 +27,20 @@ public class Contract {
 	private int unpaidFee;
 	private ContractDao contractDao;
 	private ApplyContractDao applyContractDao;
-
+	private ContractAccidentDao  contractAccidentDao;
+	private ArrayList<String> accidentHistory  = new ArrayList<String>();	
 	private int num;
 	
 	public int getNum() {
 		return num;
+	}
+
+	public ArrayList<String> getAccidentHistory() {
+		return accidentHistory;
+	}
+
+	public void setAccidentHistory(ArrayList<String> accidentHistory) {
+		this.accidentHistory = accidentHistory;
 	}
 
 	public void setNum(int num) {
@@ -239,7 +248,7 @@ public class Contract {
 		return this.contractDao.retrivelongtermFee(this);
 	}
 
-	public void updateProvisionFee() {
+	public void updateProvision() {
 		this.contractDao = new ContractDao();
 		this.contractDao.updateProvisionFee(this);
 		
@@ -252,6 +261,13 @@ public class Contract {
 
 	public ResultSet getApply() {
 		return this.applyContractDao.retrive();
+	}
+
+	public void createContractAccident(String AccidentID) {
+		this.contractAccidentDao = new ContractAccidentDao();
+		this.contractAccidentDao.createContractAccident(this, AccidentID);
+		// TODO Auto-generated method stub
+		
 	}
 
 }// end Contract
