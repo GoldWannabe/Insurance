@@ -259,4 +259,6 @@ public abstract class Insurance {
 		return this.insuranceDao.retriveType(insuranceName);
 
 	}
+
+	public abstract double getPremiumRate(int rank);
 }// end Insurance

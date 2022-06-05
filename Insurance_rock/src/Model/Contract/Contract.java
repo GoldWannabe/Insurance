@@ -50,7 +50,7 @@ public class Contract {
 	public Contract() {
 		this.contractDao = new ContractDao();
 		this.applyContractDao = new ApplyContractDao();
-		this.contractID = UUID.randomUUID().toString();
+		
 	}
 
 	public Contract(String contract) {
@@ -85,9 +85,13 @@ public class Contract {
 		// 갱신 내용 적고 저장
 	}
 
-	public void permit() {
-		// Customer customer = new Customer(); 고객 정보 저장
-		// 계약 정보 저장
+	public boolean permit() {
+		if(this.contractDao.create(this)) {
+			return this.applyContractDao.delete(this.contractID);
+		}
+		
+		return false;
+	
 
 	}
 
@@ -239,6 +243,7 @@ public class Contract {
 	}
 
 	public void registerApplyContract() {
+		this.contractID = UUID.randomUUID().toString();
 		this.applyContractDao = new ApplyContractDao();
 		this.applyContractDao.create(this);
 	}

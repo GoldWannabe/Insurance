@@ -265,4 +265,9 @@ public class Customer {
 
 		return false;
 	}
+
+	public Rank getRank() {
+		
+		return this.rank;
+	}
 }
