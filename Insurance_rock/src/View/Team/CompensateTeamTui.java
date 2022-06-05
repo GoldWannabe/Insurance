@@ -200,13 +200,13 @@ public class CompensateTeamTui {
 		System.out.println(
 				"------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
-		System.out.format("%5s %20s %12s %8s %10s %10s %10s %10s %10s %10s",
+		System.out.format("%5s %20s %12s %8s %11s %8s %10s %10s %12s %10s",
 				accident.getNum() + "." + accident.getCustomerName(), accident.getPhoneNum(),
 				accident.getAccidentDate(), accident.getContent(), accident.getTotalCost(), accident.getDamagePer(),
 				accident.getKindOfCost(), accident.isPayCompleted(), accident.getLiablityRate(),
 				accident.getLiablityCost());
 		System.out.println();
-
+		System.out.println("-------------------홈화면으로 돌아갑니다.-------------------");
 	}
 
 
@@ -226,7 +226,7 @@ public class CompensateTeamTui {
 				provision.getCompensation(), provision.getCompensationDate(), provision.getInsuranceName(),
 				provision.isLongTerm(), provision.getInsuranceType());
 		System.out.println();
-
+		System.out.println("-------------------홈화면으로 돌아갑니다.-------------------");
 	}
 
 	public void viewOverCost() {
@@ -281,6 +281,7 @@ public class CompensateTeamTui {
 	}
 
 	public void viewNewAccident(Accident accident) {
+		System.out.println("<<사고정보가 추가되었습니다.>>");
 		System.out.println(
 				"------------------------------------------------------새로 기록된 사고내역------------------------------------------------------------------------------------------");
 		System.out.printf("%10s %10s %20s %20s %15s %15s %15s %15s %15s %15s", "가입자명", "연락처", "사고날짜", "사고내용", "총비용",
@@ -296,8 +297,7 @@ public class CompensateTeamTui {
 				accident.getLiablityCost());
 		System.out.println();
 		System.out.println();
-		System.out.println("<<사고정보가 추가되었습니다.>>");
-		System.out.println("---------홈화면으로 돌아갑니다.----------");
+		System.out.println("-------------------홈화면으로 돌아갑니다.-------------------");
 
 	}
 

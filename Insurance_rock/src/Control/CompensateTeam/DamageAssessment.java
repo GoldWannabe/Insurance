@@ -27,6 +27,7 @@ import exception.LackInsuranceBank;
 import exception.NonExistAccident;
 import exception.NonExistContract;
 import exception.NotDamageAssessment;
+import exception.WrongInputChannel;
 import exception.WrongInputException;
 
 public class DamageAssessment {
@@ -49,35 +50,35 @@ public class DamageAssessment {
 	}
 
 	public boolean selectAccidentMenagement(Scanner scanner) {
-			
+
 		boolean isSearch = false;
 		boolean overcheck = false;
 		try {
-		while (!isSearch) {
-			compensateTeamTui.viewbasic();
-			String selectNum = scanner.next();
-			switch (selectNum) {
-			case "1":
+			while (!isSearch) {
+				compensateTeamTui.viewbasic();
+				String selectNum = scanner.next();
+				switch (selectNum) {
+				case "1":
 					overcheck = search();
-				if (!overcheck) {
-					compensateTeamTui.viewAccident(accidentList);
-					return compansate(scanner);
+					if (!overcheck) {
+						compensateTeamTui.viewAccident(accidentList);
+						return compansate(scanner);
+					}
+					break;
+				case "2":
+					overcheck = addcheck();
+					if (!overcheck) {
+						showConctarct(scanner);
+						return add(scanner);
+					}
+					break;
+				case "0":
+					compensateTeamTui.cancelhome();
+					return true;
+				default:
+					throw new WrongInputException();
 				}
-				break;
-			case "2":
-				overcheck = addcheck();
-				if (!overcheck) {
-					showConctarct(scanner);
-					return add(scanner);
-				}
-				break;
-			case "0":
-				compensateTeamTui.cancelback();
-				return true;
-			default:
-				throw new WrongInputException();
 			}
-		}
 		} catch (NonExistAccident e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -87,12 +88,15 @@ public class DamageAssessment {
 		} catch (WrongInputException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (WrongInputChannel e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return isSearch;
 
 	}
 
-	private boolean compansate(Scanner scanner) {
+	private boolean compansate(Scanner scanner) throws WrongInputChannel {
 		compensateTeamTui.viewCompansate();
 		String selectNum = scanner.next();
 		switch (selectNum) {
@@ -107,18 +111,20 @@ public class DamageAssessment {
 
 	}
 
-	private boolean paycompansate(Scanner scanner) {
+	private boolean paycompansate(Scanner scanner) throws WrongInputChannel {
 		int num = compensateTeamTui.viewcomapansateNum(scanner);
 		this.accident = accidentList.getNum(num);
 		compensateTeamTui.viewcomapansate(this.accident);
 
-			String selectNum = scanner.next();
-			if (selectNum.equals("1")) {
-				pay();
-			} else if (selectNum.equals("2")) {
-				compensateTeamTui.cancelhome();
-				return true;
-			}
+		String selectNum = scanner.next();
+		if (selectNum.equals("1")) {
+			pay();
+		} else if (selectNum.equals("2")) {
+			compensateTeamTui.cancelhome();
+			return true;
+		} else {
+			throw new WrongInputChannel();
+		}
 		return false;
 
 	}
@@ -153,12 +159,10 @@ public class DamageAssessment {
 				fileWriter.write(resultToString2);
 				fileWriter.flush();
 				fileWriter.close();
-				if(resultToString2 == null) {
+				if (resultToString2 == null) {
 					throw new BankfileAcceptException();
 				}
 			}
-
-			// 지급완료 업데이트 !표 마지막에 붙일것.
 			if (!(this.accident.isPayCompleted())) {
 				this.accident.setPayCompleted(true);
 				this.accident.updatePaycompleted();
@@ -175,9 +179,6 @@ public class DamageAssessment {
 					this.customer.setBankName(resultBank.getString("bankName"));
 					this.customer.setAccountNum(resultBank.getString("accountNum"));
 				}
-				// 사고이력없음.. 없데이트 불가능 나머지 지급액만 업데이트하겠음.
-				this.contract.updateProvisionFee();
-
 				LocalDate startDate = this.contract.getEndDate();
 				int StartYear = startDate.getYear();
 				LocalDate endDate = this.contract.getStartDate();
@@ -185,17 +186,21 @@ public class DamageAssessment {
 				Insurance generalinsurance = new GeneralInsurance();
 				ResultSet insuranceType = generalinsurance.retriveType(this.contract.getInsuranceName());
 
-//				만료일-시작일이 3년이상이면 false 아니면 true 입력.
 				Provision provision = new Provision();
+
+//					만료일-시작일이 3년이상이면 false 아니면 true 입력.
 				if (endYear - StartYear >= 3) {
 					provision.setLongTerm(true);
 				} else {
 					provision.setLongTerm(false);
 				}
+				
 				while (insuranceType.next()) {
 					EInsurance e = EInsurance.valueOf(insuranceType.getString("insuranceType"));
 					provision.setInsuranceType(e);
-				} //
+				} 
+				
+				//A2. 담보액을 넘는 비용을 보상해 줘야 하는 경우
 				int overCost = this.contract.getSecurityFee() - this.contract.getProvisionFee();
 				if (overCost <= 0) {
 					compensateTeamTui.viewOverCost();
@@ -203,6 +208,14 @@ public class DamageAssessment {
 				} else {
 					provision.setCompensation(this.accident.getLiablityCost());
 				}
+				// A3. 장기 가입자이고 책임 비용이 담보액의 20% 미만인 경우
+				if (!provision.isLongTerm() && this.accident.getLiablityCost() < this.contract.getSecurityFee() * 0.2) {
+					this.contract.setProvisionFee(resultlongtermFee.getInt("provisionFee"));
+				} else {
+					this.contract.updateProvisionFee();
+				}
+				this.contract.createContractAccident(this.accident.getID());
+
 				provision.setProvisionID(UUID.randomUUID().toString());
 				provision.setCustomerID(this.customer.getCustomerID());
 				provision.setContractID(this.accident.getContractID());
@@ -247,7 +260,6 @@ public class DamageAssessment {
 
 	}
 
-	@SuppressWarnings("unused")
 	private boolean addcheck() throws NonExistContract {
 
 		// 가입자명, 사고날짜, 연락처가 해당 고객과 동일하다면 거기에 이어서 사고내역 추가하기 검색은 불러오기.
@@ -282,11 +294,8 @@ public class DamageAssessment {
 				num++;
 				contractList.add(contract);
 			} // 계약ID, 고객ID, 가입자명, 연락처, 보험ID, 보험이름, 납부방식, 보험료, 미납액, 담보액, 지급액, 가입일, 만료일
-			if(resultSet == null) {
-				throw new DBAcceptException();
-			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new DBAcceptException();
 		}
 
 		boolean overcheck = false;
@@ -311,7 +320,7 @@ public class DamageAssessment {
 
 		String[] inser = compensateTeamTui.veiwSearch(scanner);
 		String customerName_inser = inser[0];
-		
+
 		int[] dateArray = new int[inser.length];
 		for (int i = 1; i < inser.length; i++) {
 			dateArray[i] = Integer.parseInt(inser[i]);
@@ -345,27 +354,26 @@ public class DamageAssessment {
 				accidentList.add(accident);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DBAcceptException();
 		}
 		if (accidentList.get(customerName_inser, accidentDate_inser) != null) {
-			for(Accident accident : accidentList.get(customerName_inser, accidentDate_inser)) {
-				if( accident.isPayCompleted() != false && accident.isPayCompleted() != true || accident.getDamagePer()  == 0|| accident.getTotalCost()  == 0|| accident.getLiablityRate()  == 0) {
+			for (Accident accident : accidentList.get(customerName_inser, accidentDate_inser)) {
+				if (accident.isPayCompleted() != false && accident.isPayCompleted() != true
+						|| accident.getDamagePer() == 0 || accident.getTotalCost() == 0
+						|| accident.getLiablityRate() == 0) {
 					throw new NotDamageAssessment();
 				}
 			}
 			return overcheck;
 		} else {
 			throw new NonExistAccident();
-			
 		}
-		
+	}
 
 //			isSearch = accident.search(customerName_inser, accidentDate_inser, isSearch);
 
-	}
-
-	private void update(Scanner scanner) {
+	private void update(Scanner scanner) throws WrongInputChannel {
+		boolean updateCompleted = false;
 		int num = compensateTeamTui.viewUpdateNum(scanner);
 
 		this.accident = accidentList.getNum(num);
@@ -379,40 +387,45 @@ public class DamageAssessment {
 
 				LocalDate accidentdate = LocalDate.of(date[0], date[1], date[2]);
 				this.accident.setAccidentDate(accidentdate);
-				this.accident.updatedate();
+				updateCompleted = this.accident.updatedate();
 			} else if (selectNum.equals("2")) {
 				compensateTeamTui.viewUpdateContent();
 				String content = scanner.next();
 				this.accident.setContent(content);
-				accident.updatecontent();
+				updateCompleted = accident.updatecontent();
 			} else if (selectNum.equals("3")) {
 				compensateTeamTui.viewUpdateTotalCost();
 				int totalCost = scanner.nextInt();
 				this.accident.setTotalCost(totalCost);
-				accident.updatetotal();
+				updateCompleted = accident.updatetotal();
 			} else if (selectNum.equals("4")) {
 				compensateTeamTui.viewUpdateDamagePer();
 				int damagePer = scanner.nextInt();
 				this.accident.setDamagePer(damagePer);
-				accident.updateDamage();
+				updateCompleted = accident.updateDamage();
 			} else if (selectNum.equals("5")) {
 				compensateTeamTui.viewUpdateKindOfCost();
 				String kindOfCost = scanner.next();
 				this.accident.setKindOfCost(kindOfCost);
-				accident.updateKind();
+				updateCompleted = accident.updateKind();
 			} else if (selectNum.equals("6")) {
 				compensateTeamTui.viewUpdateLiablityCost();
 				int liablityCost = scanner.nextInt();
 				this.accident.setLiablityCost(liablityCost);
-				accident.updateLiablityCost();
+				updateCompleted = accident.updateLiablityCost();
 			} else if (selectNum.equals("7")) {
 				compensateTeamTui.viewUpdateLiablityRate();
 				int liablityRate = scanner.nextInt();
 				this.accident.setLiablityRate(liablityRate);
-				accident.updateLiablityRate();
+				updateCompleted = accident.updateLiablityRate();
+			} else {
+				throw new WrongInputChannel();
 			}
-			compensateTeamTui.viewUpdateAccident(this.accident);
-
+			if (updateCompleted) {
+				compensateTeamTui.viewUpdateAccident(this.accident);
+			} else {
+				throw new DBAcceptException();
+			}
 		}
 
 	}
