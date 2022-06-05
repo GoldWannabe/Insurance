@@ -88,15 +88,12 @@ public class DamageAssessment {
 		} catch (WrongInputException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (WrongInputChannel e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return isSearch;
 
 	}
 
-	private boolean compansate(Scanner scanner) throws WrongInputChannel {
+	private boolean compansate(Scanner scanner) throws  WrongInputException  {
 		compensateTeamTui.viewCompansate();
 		String selectNum = scanner.next();
 		switch (selectNum) {
@@ -106,12 +103,14 @@ public class DamageAssessment {
 		case "2":
 			update(scanner);
 			break;
+		default:
+			throw new WrongInputException();
 		}
 		return false;
 
 	}
 
-	private boolean paycompansate(Scanner scanner) throws WrongInputChannel {
+	private boolean paycompansate(Scanner scanner) throws WrongInputException  {
 		int num = compensateTeamTui.viewcomapansateNum(scanner);
 		this.accident = accidentList.getNum(num);
 		compensateTeamTui.viewcomapansate(this.accident);
@@ -123,7 +122,7 @@ public class DamageAssessment {
 			compensateTeamTui.cancelhome();
 			return true;
 		} else {
-			throw new WrongInputChannel();
+			throw new WrongInputException();
 		}
 		return false;
 
@@ -135,19 +134,19 @@ public class DamageAssessment {
 		this.contract.setContractID(this.accident.getContractID());
 		ResultSet resultlongtermFee = contract.retrivelongtermFee();
 		int liablityCost = 0;
-
 		try {
 			File file = new File(".//File//InsuranceBank.txt");
+			@SuppressWarnings("resource")
 			Scanner scanner = new Scanner(file);
-			while (scanner.hasNextInt()) {
-				liablityCost = scanner.nextInt();
-			}
-			scanner.close();
+			liablityCost = scanner.nextInt();
 
 			int result = liablityCost - this.accident.getLiablityCost();
+			System.out.println(liablityCost);
 			if (result <= 0) {
 				throw new LackInsuranceBank();
+				
 			} else {
+				System.out.println("asf");
 				FileWriter fileWriter = new FileWriter(file, false);
 				String resultToString = Integer.toString(result);
 				fileWriter.write(resultToString);
@@ -169,8 +168,7 @@ public class DamageAssessment {
 				while (resultlongtermFee.next()) {
 					this.contract.setInsuranceID(resultlongtermFee.getString("insuranceID"));
 					this.contract.setInsuranceName(resultlongtermFee.getString("insuranceName"));
-					this.contract.setProvisionFee(
-							resultlongtermFee.getInt("provisionFee") + this.accident.getLiablityCost());
+					this.contract.setProvisionFee(resultlongtermFee.getInt("provisionFee"));
 					this.contract.setSecurityFee(resultlongtermFee.getInt("securityFee"));
 					this.contract.setStartDate(LocalDate.parse(resultlongtermFee.getString("startDate")));
 					this.contract.setEndDate(LocalDate.parse(resultlongtermFee.getString("endDate")));
@@ -210,9 +208,9 @@ public class DamageAssessment {
 				}
 				// A3. 장기 가입자이고 책임 비용이 담보액의 20% 미만인 경우
 				if (!provision.isLongTerm() && this.accident.getLiablityCost() < this.contract.getSecurityFee() * 0.2) {
-					this.contract.setProvisionFee(resultlongtermFee.getInt("provisionFee"));
+					System.out.println(this.accident.getCustomerName()+ "님은 장기가입자이며 현재 보상금액이 담보액의 20%미만이므로 무료 대상자이십니다.");
 				} else {
-					this.contract.updateProvisionFee();
+					this.contract.updateProvisionFee(this.accident.getLiablityCost());
 				}
 				this.contract.createContractAccident(this.accident.getID());
 
@@ -372,7 +370,7 @@ public class DamageAssessment {
 
 //			isSearch = accident.search(customerName_inser, accidentDate_inser, isSearch);
 
-	private void update(Scanner scanner) throws WrongInputChannel {
+	private void update(Scanner scanner) throws WrongInputException {
 		boolean updateCompleted = false;
 		int num = compensateTeamTui.viewUpdateNum(scanner);
 
@@ -419,7 +417,7 @@ public class DamageAssessment {
 				this.accident.setLiablityRate(liablityRate);
 				updateCompleted = accident.updateLiablityRate();
 			} else {
-				throw new WrongInputChannel();
+				throw new WrongInputException();
 			}
 			if (updateCompleted) {
 				compensateTeamTui.viewUpdateAccident(this.accident);
