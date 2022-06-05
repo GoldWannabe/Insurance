@@ -14,13 +14,15 @@ import View.Team.ContractTeamTui;
 import exception.DBAcceptException;
 import exception.WrongInputException;
 
-public class UnderwritingNew {
+public class UnderwritingRenew {
 	public Contract contract;
 	public ContractTeamTui contractTeamTui;
 	public Customer customer;
 	public Insurance insurance;
-
-	public UnderwritingNew() {
+	public Contract originContract;
+	public int accidentNum;
+	
+	public UnderwritingRenew() {
 		this.contractTeamTui = new ContractTeamTui();
 	}
 
@@ -28,22 +30,22 @@ public class UnderwritingNew {
 	public boolean verifyInsurance(Contract contract) {
 		this.contract = contract;
 
-		if (!getInsurance() || !getCustomer()) {
+		if (!getContract() || !getInsurance() || !getCustomer()) {
 			throw new DBAcceptException();
 		}
 
-		if (!verifyPeriod() || !verifyPremium()) {
+		if (!verifyPeriod() || !verifyPremium() || !checkRiseFee()) {
 			return false;
 		}
 
-		this.contractTeamTui.showDetailContract(this.contract);
+		this.contractTeamTui.showDetailRenewContract(this.contract, this.originContract);
 		this.contractTeamTui.showDetailInsurance(this.insurance);
 		this.contractTeamTui.showDetailRank(this.customer.getRank());
 
 		int flag = -1;
-		String selectList[] = new String[] { "1", "계약", "2", "반려", "0", "취소" };
+		String selectList[] = new String[] { "1", "갱신", "2", "반려", "0", "취소" };
 		Scanner scanner = new Scanner(System.in);
-		this.contractTeamTui.showSelectPermit();
+		this.contractTeamTui.showSelectRenewPermit();
 		while (flag == -1) {
 			try {
 				flag = getflag(selectList, scanner.next());
@@ -64,6 +66,15 @@ public class UnderwritingNew {
 		return false;
 	}
 
+	private boolean checkRiseFee() {
+		int minFee = (int) (this.originContract.getInsuranceFee()*(1.1+0.1*this.accidentNum));
+		if(this.contract.getInsuranceFee() <= minFee) {
+		return false;
+		} else {
+			return true;
+		}
+	}
+
 	private int getflag(String[] selectList, String select) throws WrongInputException {
 		for (int i = 0; i < selectList.length; i = i + 2) {
 			if (selectList[i].equals(select) || selectList[i + 1].equals(select)) {
@@ -73,37 +84,27 @@ public class UnderwritingNew {
 		throw new WrongInputException();
 	}
 
-	private boolean permitContract() {
-		LocalDate startDate = LocalDate.now();
-		LocalDate endDate = startDate.plusMonths(this.contract.getPeriod());
-		this.contract.setProvisionFee(0);
-		this.contract.setStartDate(startDate);
-		this.contract.setEndDate(endDate);
-
-		this.customer.setInsuranceNum(this.customer.getInsuranceNum() + 0.9);
-		this.customer.updateInsuranceNum();
-		return this.contract.permit();
-
-	}
-
-	private boolean FailContract(Scanner scanner) {
-		this.contractTeamTui.showEnterReason();
-		String reason = scanner.next();
-		return saveFailContract(reason);
-	}
-
-	private boolean saveFailContract(String reason) {
-		this.contract.setReason(reason);
-		this.customer.setInsuranceNum(this.customer.getInsuranceNum() - 0.1);
-
-		if (this.customer.getInsuranceNum() == 0) {
-			this.customer.delete();
-
-		} else {
-			this.customer.updateInsuranceNum();
-
+	private boolean getContract() {
+		this.originContract = new Contract();
+		ResultSet resultSet = this.originContract.getContractByID(this.contract.getContractID());
+		ResultSet accidentResultSet = this.originContract.getAccidentNum();
+		try {
+			resultSet.next();
+			this.originContract.setContractID(resultSet.getString("contractID"));
+			this.originContract.setCustomerID(resultSet.getString("customerID"));
+			this.originContract.setInsuranceID(resultSet.getString("insuranceID"));
+			this.originContract.setPaymentCycle(resultSet.getInt("paymentCycle"));
+			this.originContract.setInsuranceFee(resultSet.getInt("insuranceFee"));
+			this.originContract.setSecurityFee(resultSet.getInt("securityFee"));
+			this.originContract.setPeriod(resultSet.getInt("period"));
+			accidentResultSet.next();
+			this.accidentNum = accidentResultSet.getInt("accidentNum");
+				
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
 		}
-		return this.contract.fail();
 	}
 
 	private boolean getCustomer() {
@@ -164,12 +165,35 @@ public class UnderwritingNew {
 		}
 	}
 
+	private boolean permitContract() {
+		this.originContract.setPaymentCycle(this.contract.getPaymentCycle());
+		this.originContract.setInsuranceFee(this.contract.getInsuranceFee());
+		this.originContract.setSecurityFee(this.contract.getSecurityFee());
+		LocalDate endDate = this.originContract.getEndDate().plusMonths(this.contract.getPeriod());
+		this.originContract.setEndDate(endDate);
+
+		return this.originContract.permitRenew();
+
+	}
+
+	private boolean FailContract(Scanner scanner) {
+		this.contractTeamTui.showEnterReason();
+		String reason = scanner.next();
+		return deleteFailRenewContract(reason);
+	}
+
+	private boolean deleteFailRenewContract(String reason) {
+		this.contractTeamTui.showFailRenewReason(reason);
+		
+		return this.contract.failRenew();
+	}
+
 	private boolean verifyPeriod() {
 
 		if ((this.contract.getPeriod() >= 36) && (this.insurance.isLongTerm() != true)) {
 			String reason = "장기 계약 불가능한 보험";
 
-			return saveFailContract(reason);
+			return deleteFailRenewContract(reason);
 		}
 
 		return true;
@@ -190,7 +214,7 @@ public class UnderwritingNew {
 
 		if (standardFee > this.contract.getInsuranceFee()) {
 			String reason = "보험료가 기준보험료 보다 적습니다.";
-			return saveFailContract(reason);
+			return deleteFailRenewContract(reason);
 		} else {
 
 			return true;

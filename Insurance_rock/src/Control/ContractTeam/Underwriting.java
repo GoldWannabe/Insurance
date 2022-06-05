@@ -149,8 +149,77 @@ public class Underwriting {
 	
 
 	private boolean selectRenew(Scanner scanner) {
-		// ResultSet resultSet = this.contract.getRenew();
+		ResultSet resultSet = this.contract.getRenew();
+		try {
+			while (resultSet.next()) {
+				Contract renewContract = new Contract();
+				renewContract.setContractID(resultSet.getString("contractID"));
+				renewContract.setCustomerID(resultSet.getString("customerID"));
+				renewContract.setInsuranceID(resultSet.getString("insuranceID"));
+				renewContract.setPaymentCycle(resultSet.getInt("paymentCycle"));
+				renewContract.setInsuranceFee(resultSet.getInt("insuranceFee"));
+				renewContract.setSecurityFee(resultSet.getInt("securityFee"));
+				renewContract.setPeriod(resultSet.getInt("period"));
+				this.contractList.add(renewContract);
+			}
+
+			if (this.contractList.getAll().isEmpty()) {
+				this.contractTeamTui.showNoApplyContract();
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		int length = showRenew();
+		this.contractTeamTui.showSelectRenewContract();
+
+		int select = -1;
+
+		while (length < select || select < 1) {
+			try {
+				select = checkNum(scanner);
+			} catch (WrongInputException e) {
+				System.err.println(e.getMessage());
+			}
+		}
+
+		this.contract = this.contractList.getCount(select - 1);
+		return selectRenewVerify(scanner);
+	}
+
+	private boolean selectRenewVerify(Scanner scanner) {
+		this.contractTeamTui.showSelectVerification();
+		int flag = -1;
+		String selectList[] = new String[] { "1", "검증", "2", "취소" };
+
+		while (flag == -1) {
+			try {
+				flag = getflag(selectList, scanner.next());
+			} catch (WrongInputException e) {
+				System.err.println(e.getMessage());
+			}
+		}
+
+		if (flag == 1) {
+			UnderwritingRenew underwritingRenew= new UnderwritingRenew();
+			return underwritingRenew.verifyInsurance(this.contract);
+		} else if (flag == 2) {
+			return true;
+		}
 		return false;
+	}
+
+	private int showRenew() {
+		this.contractTeamTui.showRenewConractColumn();
+		int length = 1;
+
+		for (Contract contract : this.contractList.getAll()) {
+			this.contractTeamTui.showRenewContracts(length, contract);
+			length++;
+		}
+		return length;
+
 	}
 
 }

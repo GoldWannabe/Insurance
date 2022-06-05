@@ -9,6 +9,7 @@ import Model.DB.ApplyContractDao;
 import Model.DB.ContractAccidentDao;
 import Model.DB.ContractDao;
 import Model.DB.FailContractDao;
+import Model.DB.RenewContractDao;
 
 public class Contract {
 
@@ -29,6 +30,7 @@ public class Contract {
 	private ContractDao contractDao;
 	private ApplyContractDao applyContractDao;
 	private ContractAccidentDao contractAccidentDao;
+	private RenewContractDao renewContractDao;
 	private FailContractDao failContractDao;
 	private ArrayList<String> accidentHistory = new ArrayList<String>();
 	private int num;
@@ -304,6 +306,31 @@ public class Contract {
 	public ResultSet getFailContractID() {
 		this.contractDao = new ContractDao();
 		return this.contractDao.retriveFailContractID(this);
+	}
+
+	public ResultSet getRenew() {
+		this.renewContractDao = new RenewContractDao();
+		return this.renewContractDao.retrive();
+	}
+
+	public ResultSet getContractByID(String contractID) {
+		this.contractDao = new ContractDao();
+		return this.contractDao.retriveByID(contractID);
+	}
+
+	public ResultSet getAccidentNum() {
+		this.contractAccidentDao = new ContractAccidentDao();
+		return this.contractAccidentDao.retriveCount(this.contractID);
+	}
+
+	public boolean permitRenew() {
+		this.contractDao = new ContractDao();
+		return this.contractDao.updateRenew(this);
+	}
+
+	public boolean failRenew() {
+		this.renewContractDao = new RenewContractDao();
+		return this.renewContractDao.deleteByID(this.contractID);
 	}
 
 }// end Contract
