@@ -77,4 +77,9 @@ public class InsuranceListImpl implements InsuranceList {
 		}
 		return null;
 	}
+
+	@Override
+	public boolean isEmpty() {
+		return this.insuranceList.isEmpty();
+	}
 }// end InsuranceListImpl

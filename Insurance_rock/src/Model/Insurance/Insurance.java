@@ -167,7 +167,7 @@ public abstract class Insurance {
 		try {
 			return this.registerInsuranceDao.retriveName(this.insuranceName).next();
 		} catch (SQLException e) {
-			
+
 			throw new DBAcceptException();
 		}
 	}
@@ -233,6 +233,11 @@ public abstract class Insurance {
 		return this.insuranceDao.retrive(this.insuranceType);
 	}
 
+	public ResultSet getInsuranceByID(String cInsuranceID) {
+		this.insuranceDao = new InsuranceDao();
+		return this.insuranceDao.retriveID(cInsuranceID);
+	}
+
 	public abstract void verifyPremium();
 
 	public abstract void setPremiumRate(double[] rate);
@@ -241,10 +246,12 @@ public abstract class Insurance {
 
 	public abstract boolean registerRate();
 
-	public abstract void setRate();
+	public abstract void getRegisterRate();
 
 	public abstract boolean notPermitRate();
 
 	public abstract boolean permitRate();
+
+	public abstract void getRate(String cInsuranceID);
 
 }// end Insurance

@@ -26,7 +26,7 @@ public class ApplyContractDao  extends Dao {
 	}
 
 	public ResultSet retrive() {
-		String query = "";
+		String query = "select * from applyContract";
 
 		System.out.println(query);
 		return super.retrive(query);

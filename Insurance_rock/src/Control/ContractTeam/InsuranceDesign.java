@@ -90,7 +90,7 @@ public class InsuranceDesign {
 		while (flag == -1) {
 			this.contractTeamTui.showSelectLongterm();
 			try {
-				flag = (getflag(scanner));
+				flag = (getflag(scanner.next()));
 			} catch (WrongInputException e) {
 				System.err.println(e.getMessage());
 			}
@@ -109,7 +109,7 @@ public class InsuranceDesign {
 		while (flag == -1) {
 			this.contractTeamTui.showSelectInsuranceType();
 			try {
-				flag = (getflag(scanner));
+				flag = (getflag(scanner.next()));
 			} catch (WrongInputException e) {
 				System.err.println(e.getMessage());
 			}
@@ -157,7 +157,7 @@ public class InsuranceDesign {
 			this.contractTeamTui.showSelectRate(Arrays.toString(this.insurance.getPremiumRate()));
 
 			try {
-				flag = (getflag(scanner));
+				flag = (getflag(scanner.next()));
 			} catch (WrongInputException e) {
 				System.err.println(e.getMessage());
 			}
@@ -196,14 +196,14 @@ public class InsuranceDesign {
 		return false;
 	}
 
-	private int getflag(Scanner scanner) throws WrongInputException {
-		String flag = scanner.next();
+	private int getflag(String select) throws WrongInputException {
+		
 
-		if (flag.equals("1")) {
+		if (select.equals("1")) {
 			return 1;
-		} else if (flag.equals("2")) {
+		} else if (select.equals("2")) {
 			return 2;
-		} else if (flag.equals("0")) {
+		} else if (select.equals("0")) {
 			return 0;
 		} else {
 			throw new WrongInputException();

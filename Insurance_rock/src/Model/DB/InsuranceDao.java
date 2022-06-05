@@ -49,4 +49,9 @@ public class InsuranceDao  extends Dao {
 		String query = "select * from Insurance where insuranceType =\""+insuranceType.toString()+"\";";
 		return super.retrive(query);
 	}
+
+	public ResultSet retriveID(String insuranceID) {
+		String query = "select * from Insurance where insuranceID =\""+insuranceID+"\";";
+		return super.retrive(query);
+	}
 }

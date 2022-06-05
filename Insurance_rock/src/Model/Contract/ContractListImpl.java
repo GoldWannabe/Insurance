@@ -65,6 +65,13 @@ public class ContractListImpl implements ContractList {
 		return null;
 	}
 
+
+	@Override
+	public Contract getCount(int select) {
+
+		return this.contractList.get(select);
+	}
+
 //	public boolean update(){
 //
 //	}

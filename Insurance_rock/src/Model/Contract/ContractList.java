@@ -12,4 +12,6 @@ public interface ContractList {
 //	public boolean update(){
 //
 //	}
+	public ArrayList<Contract> getAll();
+	public Contract getCount(int select);
 }//end ContractList

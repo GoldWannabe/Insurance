@@ -18,6 +18,7 @@ public interface InsuranceList {
 	public Insurance get(String name, EInsurance insuranceType);
 	public ArrayList<Insurance> getAll();
 	public Insurance get(String name);
+	public boolean isEmpty();
 	
 //	}
 

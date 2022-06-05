@@ -44,4 +44,11 @@ public class CustomerDao  extends Dao {
 		return super.delete(query);
 	}
 
+	public ResultSet retriveID(String CustomerID) {
+		String query = "select * from customer where customerID=\""+CustomerID+"\";";
+
+		System.out.println(query);
+		return super.retrive(query);
+	}
+
 }
