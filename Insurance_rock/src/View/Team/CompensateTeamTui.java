@@ -11,19 +11,19 @@ import Model.Provision.Provision;
 public class CompensateTeamTui {
 
 	public void viewbasic() {
-		System.out.println("사고를 접수하기 위한 메뉴 선택해주세요.");
+		System.out.println("<사고를 접수하기 위한 메뉴 선택해주세요.>");
 		System.out.println("1. 검색, 2. 추가, 0. 취소 ");
 
 	}
 
 	public void cancelback() {
-		System.out.println("취소되었습니다. 전 선택창으로 돌아갑니다");
+		System.out.println("<<<<< 취소되었습니다. 전 선택창으로 돌아갑니다 >>>>>");
 
 	}
 
 	public int viewcomapansateNum(Scanner scanner) {
 
-		System.out.println("보상금을 지급할 계약을 선택해주세요.");
+		System.out.println("<보상금을 지급할 계약을 선택해주세요.>");
 		int num;
 		num = scanner.nextInt();
 		return num;
@@ -31,7 +31,7 @@ public class CompensateTeamTui {
 
 	public void cancelhome() {
 
-		System.out.println("취소되었습니다. 홈 화면으로 돌아갑니다.");
+		System.out.println("<<<<<<< 취소되었습니다. 홈 화면으로 돌아갑니다. >>>>>>>>>>");
 
 	}
 
@@ -74,7 +74,7 @@ public class CompensateTeamTui {
 
 	public void viewAccident(AccidentListImpl accidentList) {
 		System.out.println(
-				"-------------------------------------------------------------------------------------------------------------------------------------------------------");
+				"---------------------------------------------------사고내역------------------------------------------------------------------------------------------------");
 		System.out.printf("%10s %10s %20s %20s %10s %15s %15s %15s %15s %15s", "가입자명", "연락처", "사고날짜", "사고내용", "총비용",
 				"손해정도", "비용종류", "지급여부", "책입비율", "책임비용");
 		System.out.println();
@@ -97,7 +97,7 @@ public class CompensateTeamTui {
 		System.out.println("<사고내역을 출력할 가입자명과 사고날짜를 입력해 주세요.>");
 		System.out.println("가입자명 :");
 		String customerName_inser = scanner.next();
-		System.out.println("<사고날짜>");
+		System.out.println("---사고날짜 입력란---");
 		System.out.println("년도 : ");
 		String year = scanner.next();
 		System.out.println("월 : ");
@@ -115,7 +115,7 @@ public class CompensateTeamTui {
 	}
 
 	public int viewUpdateNum(Scanner scanner) {
-		System.out.println("수정할 보험을 선택해주세요.");
+		System.out.println("<수정할 보험을 선택해주세요.>");
 		int num;
 		num = scanner.nextInt();
 		return num;
@@ -123,7 +123,7 @@ public class CompensateTeamTui {
 	}
 
 	public void viewUpdateList(Scanner scanner, Accident accident) {
-		System.out.println("수정할 항목을 선택해주세요.");
+		System.out.println("<수정할 항목을 선택해주세요.>");
 		System.out.println("1. 사고날짜 : " + accident.getAccidentDate());
 		System.out.println("2. 사고내용 :" + accident.getContent());
 		System.out.println("3. 총비용 : " + accident.getTotalCost());
@@ -135,9 +135,10 @@ public class CompensateTeamTui {
 	}
 
 	public void viewcomapansate(Accident accident) {
-		System.out.println(" 가입자명 : " + accident.getCustomerName() + "\n 연락처: " + accident.getPhoneNum() + "\n 사고내용: "
-				+ accident.getContent() + "\n 책임비용: " + accident.getLiablityCost() + "\n 위의 사고의 책임비용"
-				+ accident.getLiablityCost() + "원을 지급하겠습니까? \n 지급을 원하시면 1번, 취소를 원하시면 2번을 입력해주세요.");
+		System.out.println(" 가입자명 : " + accident.getCustomerName() + "\n 연락처   : " + accident.getPhoneNum() + "\n 사고내용: "
+				+ accident.getContent() + "\n 책임비용: " + accident.getLiablityCost());
+		System.out.println("---------------------------------------------------------------------");
+		System.out.println("위의 사고의 책임비용" + accident.getLiablityCost() + "원을 지급하겠습니까? \n 지급을 원하시면 1번, 취소를 원하시면 2번을 입력해주세요.");
 	}
 
 	public void viewCompansate() {
@@ -147,7 +148,7 @@ public class CompensateTeamTui {
 
 	public int[] viewUpdateDate(Scanner scanner) {
 		int[] date = new int[3];
-		System.out.println("수정할 사고날짜를 입력해주세요");
+		System.out.println("<수정할 사고날짜를 입력해주세요>");
 		System.out.println("년도 : ");
 		date[0] = scanner.nextInt();
 		System.out.println("월 : ");
@@ -160,39 +161,39 @@ public class CompensateTeamTui {
 	}
 
 	public void viewUpdateContent() {
-		System.out.println("수정할 사고내용을 입력해주세요");
+		System.out.println("<수정할 사고내용을 입력해주세요>");
 
 	}
 
 	public void viewUpdateTotalCost() {
-		System.out.println("수정할 총비용을 입력해주세요");
+		System.out.println("<수정할 총비용을 입력해주세요>");
 
 	}
 
 	public void viewUpdateDamagePer() {
-		System.out.println("수정할 손해정도를 입력해주세요");
+		System.out.println("<수정할 손해정도를 입력해주세요>");
 
 	}
 
 	public void viewUpdateKindOfCost() {
-		System.out.println("수정할 비용종류를 입력해주세요");
+		System.out.println("<수정할 비용종류를 입력해주세요>");
 
 	}
 
 	public void viewUpdateLiablityCost() {
-		System.out.println("수정할 책임비용을 입력해주세요");
+		System.out.println("<수정할 책임비용을 입력해주세요>");
 
 	}
 
 	public void viewUpdateLiablityRate() {
-		System.out.println("수정할 책임비율을 입력해주세요");
+		System.out.println("<수정할 책임비율을 입력해주세요>");
 
 	}
 
 	public void viewUpdateAccident(Accident accident) {
-		System.out.println("사고정보가 변경되었습니다.");
+		System.out.println("<<사고정보가 변경되었습니다.>>");
 		System.out.println(
-				"-------------------------------------------------------------------------------------------------------------------------------------------------------");
+				"-----------------------------------------------변경 된 사고정보 확인------------------------------------------------------------------------------------------------");
 		System.out.printf("%10s %10s %20s %20s %15s %15s %15s %15s %15s %15s", "가입자명", "연락처", "사고날짜", "사고내용", "총비용",
 				"손해정도", "비용종류", "지급여부", "책입비율", "책임비용");
 		System.out.println();
@@ -208,15 +209,12 @@ public class CompensateTeamTui {
 
 	}
 
-	public void viewAlreadyPayCompleted() {
-
-	}
 
 	public void viewNewProvision(Provision provision) {
 		// 지급ID, 고객ID, 가입자명, 연락처, 계좌번호,은행명, 보상금액, 지급날짜, 보험이름, 장기여부, 보험종류, 계약ID를 저장.
-		System.out.println("보험금 지급이 완료되었습니다.");
+		System.out.println("<<보험금 지급이 완료되었습니다.>>");
 		System.out.println(
-				"-------------------------------------------------------------------------------------------------------------------------------------------------------");
+				"---------------------------------------------------새로 기록된 지급내역-------------------------------------------------------------------------------------------------");
 		System.out.printf("%10s %10s %20s %20s %15s %15s %15s %15s %15s", "가입자명", "연락처", "계좌번호", "은행명", "보상금액", "지급날짜",
 				"보험이름", "장기여부", "보험종류");
 		System.out.println();
@@ -232,19 +230,19 @@ public class CompensateTeamTui {
 	}
 
 	public void viewOverCost() {
-		System.out.println("담보액을 넘는 금액입니다. 담보액까지만 지급합니다. ");
+		System.out.println("<<담보액을 넘는 금액입니다. 담보액까지만 지급합니다.>>");
 
 	}
 
 	public void viewselectNumContract() {
-		System.out.println("<<사고를 추가할 계약을 선택해주세요.>>");
+		System.out.println("<사고를 추가할 계약을 선택해주세요.>");
 
 	}
 
 	public int[] viewAccidentinsert(Scanner scanner) {
 		int[] inser = new int[3];
 		System.out.println("<사고날짜, 사고내용, 종류, 손해정도, 총비용, 책임 비용, 책임비율을 입력하세요>");
-		System.out.println("<사고날짜>");
+		System.out.println("----사고날짜 입력란----");
 
 		System.out.println("년도 : ");
 		inser[0] = scanner.nextInt();
@@ -284,7 +282,7 @@ public class CompensateTeamTui {
 
 	public void viewNewAccident(Accident accident) {
 		System.out.println(
-				"-------------------------------------------------------------------------------------------------------------------------------------------------------");
+				"------------------------------------------------------새로 기록된 사고내역------------------------------------------------------------------------------------------");
 		System.out.printf("%10s %10s %20s %20s %15s %15s %15s %15s %15s %15s", "가입자명", "연락처", "사고날짜", "사고내용", "총비용",
 				"손해정도", "비용종류", "지급여부", "책입비율", "책임비용");
 		System.out.println();
@@ -298,8 +296,8 @@ public class CompensateTeamTui {
 				accident.getLiablityCost());
 		System.out.println();
 		System.out.println();
-		System.out.println("사고정보가 추가되었습니다.");
-		System.out.println("홈화면으로 돌아갑니다.");
+		System.out.println("<<사고정보가 추가되었습니다.>>");
+		System.out.println("---------홈화면으로 돌아갑니다.----------");
 
 	}
 

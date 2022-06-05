@@ -1,1 +1,5 @@
+<<<<<<< HEAD
+0
+=======
 ￿0
+>>>>>>> branch 'main' of https://github.com/GoldWannabe/Insurance.git
