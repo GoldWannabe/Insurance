@@ -162,7 +162,7 @@ public class InsuranceSales {
 		this.rank = new Rank();
 
 		this.contract.setCustomerID(customer.getCustomerID());
-		this.rank.setCustomerID(customer.getCustomerID());
+		//this.rank.setCustomerID(customer.getCustomerID());
 
 		this.contract.setInsuranceName(insurance.getInsuranceName());
 		this.contract.setInsuranceID(insurance.getInsuranceID());
