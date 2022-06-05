@@ -34,8 +34,8 @@ public class ChannelDao  extends Dao {
 	public boolean delete(String ID) {
 		StringBuilder stringBuilder = new StringBuilder();
 
-		String query = stringBuilder.append("delete channel")
-				.append("where channelID"+ ID+"\'")
+		String query = stringBuilder.append("delete from channel")
+				.append(" where channelID = \'"+ ID+"\'")
 				.toString();
 
 		System.out.println(query);

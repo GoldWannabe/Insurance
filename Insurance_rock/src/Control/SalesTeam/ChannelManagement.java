@@ -124,7 +124,7 @@ public class ChannelManagement {
 		boolean isSearch = false;
 		String channelName;
 		while (!isSearch) {
-			this.salesTeamTui.viewChannelName();
+			this.salesTeamTui.viewInputName();
 			
 			channelName = scanner.next();
 			isSearch = this.searchChannel(channelName);
@@ -205,6 +205,7 @@ public class ChannelManagement {
 			sumOfExpense = checkInt(scanner);
 			this.channel.setSumOfExpense(sumOfExpense);
 		}
+		this.channelList.add(channel);
 
 	}
 
@@ -286,7 +287,7 @@ public class ChannelManagement {
 			updateCompleted = this.channel.updateID();
 			break;
 		case 2:
-			this.salesTeamTui.viewChannelName();
+			this.salesTeamTui.viewInputName();
 			tempChannel.setChannelName(scanner.next());
 			this.channel.setChannelName(tempChannel.getChannelName());
 			updateCompleted = this.channel.updateName();
@@ -355,7 +356,6 @@ public class ChannelManagement {
 		ArrayList<Channel> tempChannelList = this.channelList.getName(name);
 		if (!(tempChannelList == null)) {
 			this.salesTeamTui.viewSearchChannel(tempChannelList);
-			
 			return true;
 		} else {
 			this.salesTeamTui.viewNonSearch();

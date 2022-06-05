@@ -179,21 +179,18 @@ public class SalesTeamTui {
 		System.out.println("수정할 채널번호(ID)을 입력해주세요.");
 	}
 
-	public void viewChannelName() {
-		System.out.println("채널이름을 입력해주세요.");
-
-	}
+	
 
 	public void viewChannel(ChannelListImpl channelList) {
 		if (!(channelList == null)) {
 			System.out
 					.println("---------------------------------------------------------------------------------------");
-			System.out.printf("%10s %10s %10s %10s %15s %15s", "채널ID", "채널명", "등록일", "가입자수", "월지출", "총지출");
+			System.out.printf("%10s %10s %15s %20s %20s %20s", "채널ID", "채널명", "등록일", "가입자수", "월지출", "총지출");
 			System.out.println();
 			System.out
 					.println("---------------------------------------------------------------------------------------");
 			for (Channel channel : channelList.getAll()) {
-				System.out.format("%10s %10s %15s %10d %15d %15d", channel.getChannelID(), channel.getChannelName(),
+				System.out.format("%5s %10s %20s %10d %15d %15d", channel.getChannelID(), channel.getChannelName(),
 						channel.getRegisterDate().toString(), channel.getNumOfRegister(), channel.getMonthlyExpense(),
 						channel.getSumOfExpense());
 				System.out.println();
@@ -206,14 +203,13 @@ public class SalesTeamTui {
 		System.out.println("채널 번호(ID)를 입력해주세요.");
 
 	}
-
-	public void viewOverlapID() {
-		System.out.println("채널번호가 중복됩니다. 다른 번호로 지정해 주시기 바랍니다.");
+	public void viewInputName() {
+		System.out.println("채널이름을 입력해주세요.");
 
 	}
 
-	public void viewInputName() {
-		System.out.println("이름을 입력해주세요.");
+	public void viewOverlapID() {
+		System.out.println("채널번호가 중복됩니다. 다른 번호로 지정해 주시기 바랍니다.");
 
 	}
 
@@ -282,7 +278,7 @@ public class SalesTeamTui {
 
 	public void viewSearchChannel(ArrayList<Channel> tempChannelList) {
 		System.out.println("---------------------------------------------------------------------------------------");
-		System.out.printf("%10s %10s %10s %10s %15s %15s", "채널ID", "채널명", "등록일", "가입자수", "월지출", "총지출");
+		System.out.printf("%10s %10s %15s %20s %20s %20s", "채널ID", "채널명", "등록일", "가입자수", "월지출", "총지출");
 		System.out.println();
 		System.out.println("---------------------------------------------------------------------------------------");
 		for (Channel channel : tempChannelList) {
