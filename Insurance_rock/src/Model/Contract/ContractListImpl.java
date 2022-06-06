@@ -62,24 +62,38 @@ public class ContractListImpl implements ContractList {
 	}
 	
 	
-//이거 세개 없애던가 해야함...
-	@Override
-	public Contract get(String name, String phoneNum) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	 public Contract get(int num) {
+	      for (Contract contract : this.contractList) {
+	         if (contract.getNum() == num) {
+	            return contract;
+	         }
+	      }
+	      return null;
+	   }
+	   
+	   public Contract get(String CustomerName, String CustomerPhoneNum) {
+	      for(Contract contract : this.contractList) {
+	         if(contract.getCustomerName().equals(CustomerName) && contract.getPhoneNum().equals(CustomerPhoneNum)) return contract;
+	      }
+	      return null;
+	   }
 
-	@Override
-	public ArrayList<Contract> getContractByNameAndNUm(String CustomerName, String CustomerPhoneNum) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public Contract get(int num) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	   @Override
+	   public ArrayList<Contract> getContractByNameAndNUm(String CustomerName, String CustomerPhoneNum) {
+	      // TODO Auto-generated method stub
+	      ArrayList<Contract> contracts = new ArrayList<Contract>();
+	      for(Contract contract : this.contractList) {
+	         if(contract.getCustomerName().equals(CustomerName) && contract.getPhoneNum().equals(CustomerPhoneNum)) {
+//	            return contractList;
+	            contracts.add(contract);
+	         }
+	      }
+	      if(!(contracts.isEmpty())) {
+	         return contracts;
+	      }
+	      return null;
+	   }
 
 
 

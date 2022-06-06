@@ -45,11 +45,6 @@ public class PaymentListImpl implements PaymentList {
 		return false;
 	}
 
-	@Override
-	public Payment get(String paymentID) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public ArrayList<Payment> getPaymentBySearch(String CustomerName, String CustomerPhoneNum) {
