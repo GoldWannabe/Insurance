@@ -181,11 +181,11 @@ public class ContractTeamTui {
 	}
 
 	public void viewcancelHome() {
-		System.out.println("취소되었습니다.보험사 홈화면으로 돌아갑니다.");
+		System.out.println("보험사 홈화면으로 돌아갑니다.");
 	}
 
 	public void veiwselectContract() {
-		System.out.println("<갱신 혹은 해치할 계약을 선택해주세요.>");
+		System.out.println("<갱신 혹은 해지할 계약을 선택해주세요.>");
 	}
 
 	public void veiwNotAccidentHistory() {
