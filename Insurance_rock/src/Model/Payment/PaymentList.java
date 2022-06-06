@@ -1,5 +1,9 @@
 package Model.Payment;
 
+import java.util.ArrayList;
+
+import Model.Contract.Contract;
+
 public interface PaymentList {
 
 
@@ -10,4 +14,6 @@ public interface PaymentList {
 	public Payment get(String paymentID);
 	public boolean update(String paymentID);
 	public Payment get(String CustomerName, String CustomerPhoneNum);
+	public ArrayList<Payment> getPaymentBySearch(String CustomerName, String CustomerPhoneNum);
+
 }//end PaymentList

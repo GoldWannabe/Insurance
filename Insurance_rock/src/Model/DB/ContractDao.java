@@ -95,6 +95,12 @@ public class ContractDao  extends Dao {
 		return super.update(query);
 	}
 
+	public boolean updateUnpaidFee(int newUnpaidFee, String contractID) {
+		String query = "update contract set unpaidFee = " + "'" + newUnpaidFee + "'" + "where contractID = " + "'" + contractID + "';";
+
+		System.out.println(query);
+		return super.update(query);
+	}
 	public ResultSet retriveByID(String contractID) {
 		String query = "select * from contract where contractID = \""+contractID+"\"";
 		System.out.println(query);

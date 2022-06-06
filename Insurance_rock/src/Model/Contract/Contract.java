@@ -287,6 +287,12 @@ public class Contract {
 		return this.contractDao.retrive();
 	}
 
+	public boolean updateUnpaidFee(int newUnpaidFee, String contractID) {
+		// TODO Auto-generated method stub
+		this.contractDao = new ContractDao();
+		return this.contractDao.updateUnpaidFee(newUnpaidFee, contractID);
+	}
+
 	public ResultSet getApply() {
 		return this.applyContractDao.retrive();
 	}
