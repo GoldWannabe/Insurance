@@ -332,4 +332,8 @@ public class SalesTeamTui {
 
 	}
 
+	public void showRegisterSuccess() {
+		System.out.println("보험 가입이 완료되었습니다.");
+	}
+
 }

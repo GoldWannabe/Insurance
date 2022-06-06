@@ -310,4 +310,10 @@ public class Customer {
 		this.customerDao = new CustomerDao();
 		return this.customerDao.deleteCustomer(this);
 	}
+
+	public boolean updateAddApplyInsuranceNum() {
+		this.customerDao = new CustomerDao();
+		return this.customerDao.updateAddApplyInsuranceNum(this);
+		
+	}
 }

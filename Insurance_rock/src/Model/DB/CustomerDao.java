@@ -44,6 +44,11 @@ public class CustomerDao extends Dao {
 				+ customer.getCustomerID() + "\"";
 		return super.update(query);
 	}
+	
+	public boolean updateAddApplyInsuranceNum(Customer customer) {
+		String query = "update customer set insuranceNum=insuranceNum+0.1 where customerID=\""+customer.getCustomerID()+"\"";
+		return super.update(query);
+	}
 
 	public boolean delete() {
 		String query = "";
