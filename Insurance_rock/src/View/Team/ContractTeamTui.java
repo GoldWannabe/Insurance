@@ -186,4 +186,9 @@ public class ContractTeamTui {
 		System.out.println("사유:"+reason);
 	}
 
+	public void showContinue() {
+		System.out.println("인수심사가 완료되었습니다. 인수심사를 계속하시겠습니까?");
+		System.out.println("1. 예 2. 아니오");
+	}
+
 }

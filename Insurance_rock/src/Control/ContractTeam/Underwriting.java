@@ -35,10 +35,10 @@ public class Underwriting {
 
 				if (flag == 1) {
 
-					return selectApply(scanner);
+					return continueApply(scanner);
 				} else if (flag == 2) {
 
-					return selectRenew(scanner);
+					return continueRenew(scanner);
 				} else if (flag == 0) {
 					this.contractTeamTui.showCancel();
 					return false;
@@ -50,6 +50,52 @@ public class Underwriting {
 		}
 		return false;
 
+	}
+
+	private boolean continueApply(Scanner scanner) {
+		if (selectApply(scanner)) {
+
+			int flag = -1;
+			while (flag == -1) {
+				try {
+					this.contractTeamTui.showContinue();
+					String selectList[] = new String[] { "1", "예", "2", "아니오" };
+
+					flag = getflag(selectList, scanner.next());
+				} catch (WrongInputException e) {
+					e.printStackTrace();
+				}
+			}
+			if (flag == 1) {
+				return selectUnderwrite();
+			} else if (flag == 2) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean continueRenew(Scanner scanner) {
+		if (selectRenew(scanner)) {
+
+			int flag = -1;
+			while (flag == -1) {
+				try {
+					this.contractTeamTui.showContinue();
+					String selectList[] = new String[] { "1", "예", "2", "아니오" };
+
+					flag = getflag(selectList, scanner.next());
+				} catch (WrongInputException e) {
+					e.printStackTrace();
+				}
+			}
+			if (flag == 1) {
+				return selectUnderwrite();
+			} else if (flag == 2) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private int getflag(String[] selectList, String select) throws WrongInputException {
@@ -138,15 +184,13 @@ public class Underwriting {
 		}
 
 		if (flag == 1) {
-			UnderwritingNew underwritingNew= new UnderwritingNew();
+			UnderwritingNew underwritingNew = new UnderwritingNew();
 			return underwritingNew.verifyInsurance(this.contract);
 		} else if (flag == 2) {
-			return true;
+			return false;
 		}
 		return false;
 	}
-
-	
 
 	private boolean selectRenew(Scanner scanner) {
 		ResultSet resultSet = this.contract.getRenew();
@@ -202,7 +246,7 @@ public class Underwriting {
 		}
 
 		if (flag == 1) {
-			UnderwritingRenew underwritingRenew= new UnderwritingRenew();
+			UnderwritingRenew underwritingRenew = new UnderwritingRenew();
 			return underwritingRenew.verifyInsurance(this.contract);
 		} else if (flag == 2) {
 			return false;
