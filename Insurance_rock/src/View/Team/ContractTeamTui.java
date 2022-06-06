@@ -3,7 +3,6 @@ package View.Team;
 import java.util.Arrays;
 
 import Model.Contract.Contract;
-import Model.Customer.Customer;
 import Model.Customer.Rank;
 import Model.Insurance.Insurance;
 
