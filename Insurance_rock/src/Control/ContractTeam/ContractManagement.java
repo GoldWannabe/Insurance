@@ -11,6 +11,7 @@ import Model.Contract.ContractListImpl;
 import Model.Customer.Customer;
 import Model.Customer.Rank;
 import View.Team.ContractTeamTui;
+import exception.ChangedDateException;
 import exception.DBAcceptException;
 import exception.NonContractException;
 import exception.WrongInputException;
@@ -153,13 +154,16 @@ public class ContractManagement {
 					isSearch = false;
 				}
 				if(currDate != LocalDate.now()) {
+					throw new ChangedDateException();
 				}
 			} catch (SQLException e) {
 				
-				System.out.println("날짜가 변경 되었습니다. 해당 계약은 이전의 날짜를 기준으로 한 정보이니 새로운 정보를 얻으려면 재접속 해주시기 바랍니다");
 				throw new DBAcceptException();
 			} // 계약ID, 고객ID, 가입자명, 연락처, 보험ID, 보험이름, 납부방식, 보험료, 미납액, 담보액, 지급액, 가입일, 만료일
 			catch (NonContractException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ChangedDateException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -177,25 +181,21 @@ public class ContractManagement {
 			this.customer.updateInsuranceNum();
 			boolean cancelCheck = this.contract.deleteContract();
 			if (this.customer.getInsuranceNum() <= 0 && cancelCheck) {
-				System.out.println(this.contract.getInsuranceName() + "삭제 후 \n 고객명 : " + this.customer.getName()
-						+ "\n 연락처 : " + this.contract.getPhoneNum() + "\n 위의 고객님이 계약  중인 보험이 없어 고객 데이터를 정상적으로 삭제했습니다.");
+				this.contractTeamTui.viewDeleteCustoemr(this.contract, this.customer);
+				this.customer.deleteCustomer();
 			} else {
-				System.out
-						.println(this.customer.getName() + "님이 가입한 " + this.contract.getInsuranceName() + "를 삭제했습니다.");
+				this.contractTeamTui.viewDeleteContract(this.contract, this.customer);
 			}
 		} catch (SQLException e) {
-			System.out.println("이보험에 계약된 고객이 조회되지 않았습니다.");
-			System.out.println("DB오류");
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DBAcceptException();
 		}
 
 	}
 
-	private void renewContract(Scanner scanner) {
-		System.out.println("갱신할 내용에 해당하는 번호를 입력하세요. ");
-		System.out.println("1. 등급 갱신, 2. 그외계약내용 갱신");// 선택이 아닌 계약내용을 갱신하면~ 거기에 해당하는 등급과 사고이력도 다시 적도록! 그리고
-														// 기존에 이력 다 없애기. 사고이력은 갱신한다고 안바뀜.
+	private void renewContract(Scanner scanner) throws WrongInputException {
+		
+		this.contractTeamTui.viewrenew();
+		
 		String selectNum = scanner.next();
 		if (selectNum.equals("1")) {
 			createRank(scanner);
@@ -203,7 +203,7 @@ public class ContractManagement {
 			createBesidesContract(scanner);
 			showRenewContract();
 		} else {
-			System.out.println("잘못입력하셨습니다 다시 입력해주세요.");
+			throw new WrongInputException();
 		}
 	}
 
@@ -222,16 +222,10 @@ public class ContractManagement {
 			contract.setSecurityFee(resultSet.getInt("securityFee"));
 			contract.setPeriod(resultSet.getInt("period"));
 
-			System.out.println("-------------------------추가된 계약 신청 확인란---------------------------------");
-			System.out.printf("%15s %15s %15s %20s ", "납부방식", "보험료", "담보액", "가입기간");
-			System.out.println();
-			System.out.println("--------------------------------------------------------------------");
-			System.out.format("%10s %10s %15s %8s", contract.getPaymentCycle(), contract.getInsuranceFee(),
-					contract.getSecurityFee(), contract.getPeriod());
-			System.out.println();
+			this.contractTeamTui.viewNewRenewContract(contract);
+			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DBAcceptException();
 		}
 
 	}
@@ -260,7 +254,7 @@ public class ContractManagement {
 		}
 
 		// create Rank
-		System.out.println("등급을 다시 기입해주십시오");
+		this.contractTeamTui.viewAgainRank();
 
 		if (this.customer.setRankByID(contractID)) {
 			this.rank = new Rank();
@@ -296,9 +290,9 @@ public class ContractManagement {
 		// 맵핑 테이블 CustomerRank의 Rank도 갱신함.
 		boolean rankCheck = this.customer.updateCustomerRank(this.rank.getRankID(), rankID);
 		if (rankCheck) {
-			System.out.println("계약 갱신 신청이 완료되었습니다.");
+			this.contractTeamTui.viewCompletedRenew();
 		} else {
-			System.out.println("DB오류");
+			throw new DBAcceptException();
 		}
 		// delete Rank
 		this.customer.deleteRank(contractID);
@@ -355,35 +349,39 @@ public class ContractManagement {
 
 	private void createBesidesContract(Scanner scanner) {
 		// 계약 선택한 상태
-		System.out.println("갱신할 계약의 내용을 새롭게 입력해주세요");
+		this.contractTeamTui.viewNewRenew();
 		// 계약번호는 그대로
-		System.out.println("담보액    : ");
+		
+		this.contractTeamTui.viewSecurityFee();
 		int securityFee = scanner.nextInt();
 		this.contract.setSecurityFee(securityFee);
-		System.out.println("보험료    : ");
+		
+		this.contractTeamTui.viewInsuranceFee();
 		int insuranceFee = scanner.nextInt();
 		this.contract.setInsuranceFee(insuranceFee);
-		System.out.println("납부방식 : ");
+		
+		this.contractTeamTui.viewPaymentCycle();
 		int paymentCycle = scanner.nextInt();
 		this.contract.setPaymentCycle(paymentCycle);
-		System.out.println("갱신기간 : ");
+
+		this.contractTeamTui.viewPeriod();
 		int period = scanner.nextInt();
 		this.contract.setPeriod(period);
 		if (period == 0 || period < 6) {
-			System.out.println("갱신 기간이 올바르지 않습니다. 6개월 이상으로 입력하여 주십시오.");
+			this.contractTeamTui.viewOverPeriod();
 		}
 		boolean createCheck = this.contract.createBesidesConstract();
 		if (!createCheck) {
-			System.out.println("DB문제");
+			throw new DBAcceptException();
 		} else {
-			System.out.println("계약 갱신신청이 완료되었습니다.");
+			this.contractTeamTui.viewCompletedRenew();
 			// 홈화면으로 가기. or 종료
 		}
 		boolean deleteCheck = this.contract.deleteContract();
 		if (!deleteCheck) {
-			System.out.println("DB문제");
+			throw new DBAcceptException();
 		} else {
-			System.out.println("기존 계약이 삭제되었습니다.");
+			this.contractTeamTui.viewDelete();
 		}
 	}
 

@@ -18,7 +18,6 @@ public class ContractListImpl implements ContractList {
 		if (this.contractList.add(contract))
 			return true;
 		return false;
-
 	}
 
 	@SuppressWarnings("unlikely-arg-type")
