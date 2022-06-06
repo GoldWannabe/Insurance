@@ -327,7 +327,9 @@ public class FeePayment {
 		this.policyholderTUI.enterPhoneNum();
 		String phoneNum = scanner.next();
 		this.provision = this.provisionList.get(name, phoneNum);
-
+//		for(Provision provision : this.provisionList.getProvisionBySearch(name, phoneNum)) {
+//			System.out.println(provision.getProvisionID());
+//		}
 		this.policyholderTUI.showProvisionRecords(this.provisionList, name, phoneNum);
 		//여기 지급 기록 보여주고 홈 화면으로 가는거 처리
 		return false;
