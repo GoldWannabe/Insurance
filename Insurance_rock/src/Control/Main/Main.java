@@ -121,8 +121,7 @@ public class Main {
 	}
 
 	private static void selectPolicyholder(Scanner scanner) {
-		//2. 납부기록확인도분리하기
-		System.out.println("1. 보험료 납부  2. 지급 기록 확인");
+		System.out.println("1. 보험료 납부  2. 납부 기록 확인 3. 지급 기록 확인");
 		String selectNum = scanner.next();
 		FeePayment feePayment = new FeePayment();
 
@@ -130,9 +129,12 @@ public class Main {
 			case "1":
 				feePayment.checkFee();
 				break;
-			case "2":
+			case "2" :
+				feePayment.checkPayment();
+				break;
+			case "3":
 				feePayment.checkProvision();
-			
+				break;
 			default:
 				System.out.println("선택 이상함");
 				break;
