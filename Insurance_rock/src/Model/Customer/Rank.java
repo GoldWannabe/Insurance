@@ -1,47 +1,59 @@
 package Model.Customer;
 
+import java.sql.ResultSet;
 import java.util.UUID;
 
 import Model.DB.IRankDao;
 
 public class Rank {
 	private String rankID;
-	private String customerID;
 	private EMaterial material;
-	private float fireFacilities;
+	private double fireFacilities;
 	private boolean height;
 	private int scale;
-	private float surroundingFacilities;
-	private enum EMaterial{rock, wood, gold, money};
-	private String purpose;
-	
-	private IRankDao rankDao; 
-	
-	public Rank(){
-		this.rankID = UUID.randomUUID().toString();
+	private double surroundingFacilities;
+
+	private enum EMaterial {
+		wood, rock, concrete, iron, brick
+	};
+
+	private enum EPurpose {
+		living, factory, culturalAsset, store, office, carPark, warehouse
+	};
+
+	private EPurpose purpose;
+
+	private IRankDao rankDao;
+
+	public Rank() {
+
 	}
 
 	public void finalize() throws Throwable {
 
 	}
-	
+
 	public String getRankID() {
 		return this.rankID;
 	}
-	
-	public String getCustomerID() {
-		return customerID;
-	}
-	
-	public void setCustomerID(String customerID) {
-		this.customerID = customerID;
+
+	public IRankDao getRankDao() {
+		return rankDao;
 	}
 
-	public float getFireFacilities() {
+	public void setRankDao(IRankDao rankDao) {
+		this.rankDao = rankDao;
+	}
+
+	public void setRankID(String rankID) {
+		this.rankID = rankID;
+	}
+
+	public double getFireFacilities() {
 		return fireFacilities;
 	}
 
-	public void setFireFacilities(float fireFacilities) {
+	public void setFireFacilities(double fireFacilities) {
 		this.fireFacilities = fireFacilities;
 	}
 
@@ -61,45 +73,67 @@ public class Rank {
 		this.scale = scale;
 	}
 
-	public float getSurroundingFacilities() {
+	public double getSurroundingFacilities() {
 		return surroundingFacilities;
 	}
 
-	public void setSurroundingFacilities(float surroundingFacilities) {
+	public void setSurroundingFacilities(double surroundingFacilities) {
 		this.surroundingFacilities = surroundingFacilities;
 	}
-	
+
 	public String getMaterial() {
 		return this.material.toString();
 	}
 
 	public void setMaterial(String material) {
-		if(material.equals(EMaterial.rock.toString())) {
+		if (material.equals(EMaterial.rock.toString())) {
 			this.material = EMaterial.rock;
-		} else if(material.equals(EMaterial.wood.toString())){
+		} else if (material.equals(EMaterial.wood.toString())) {
 			this.material = EMaterial.wood;
-		} else if(material.equals(EMaterial.gold.toString())) {
-			this.material = EMaterial.gold;
-		} else if(material.equals(EMaterial.money.toString())) {
-			this.material = EMaterial.money;
-		} else {
-			this.material = EMaterial.rock;
-			System.out.println("잘 못 입력함 디폴드 사용");
+		} else if (material.equals(EMaterial.concrete.toString())) {
+			this.material = EMaterial.concrete;
+		} else if (material.equals(EMaterial.iron.toString())) {
+			this.material = EMaterial.iron;
+		}else if (material.equals(EMaterial.brick.toString())) {
+			this.material = EMaterial.brick;
 		}
-		
 	}
-	
+
 	public String getPurpose() {
-		return this.purpose;
+		return this.purpose.toString();
 	}
-	
+
 	public void setPurpose(String purpose) {
-		this.purpose = purpose;
+		if (purpose.equals(EPurpose.living.toString())) {
+			this.purpose = EPurpose.living;
+		} else if (purpose.equals(EPurpose.factory.toString())) {
+			this.purpose = EPurpose.factory;
+		} else if (purpose.equals(EPurpose.culturalAsset.toString())) {
+			this.purpose = EPurpose.culturalAsset;
+		} else if (purpose.equals(EPurpose.store.toString())) {
+			this.purpose = EPurpose.store;
+		} else if (purpose.equals(EPurpose.office.toString())) {
+			this.purpose = EPurpose.office;
+		} else if (purpose.equals(EPurpose.carPark.toString())) {
+			this.purpose = EPurpose.carPark;
+		} else if (purpose.equals(EPurpose.warehouse.toString())) {
+			this.purpose = EPurpose.warehouse;
+		}
 	}
-	
+
 	public void register() {
+		this.rankID = UUID.randomUUID().toString();
 		this.rankDao = new IRankDao();
 		this.rankDao.create(this);
 	}
 
-}//end Rank
+	public ResultSet retriveByID(String rankID) {
+		this.rankDao = new IRankDao();
+		return this.rankDao.retriveByID(rankID);
+	}
+
+	public void delete() {
+		this.rankDao.deleteByID(this.rankID);
+	}
+
+}// end Rank

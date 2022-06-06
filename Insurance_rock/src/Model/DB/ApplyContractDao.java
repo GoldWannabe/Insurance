@@ -26,7 +26,7 @@ public class ApplyContractDao  extends Dao {
 	}
 
 	public ResultSet retrive() {
-		String query = "";
+		String query = "select * from applyContract";
 
 		System.out.println(query);
 		return super.retrive(query);
@@ -42,6 +42,13 @@ public class ApplyContractDao  extends Dao {
 	public boolean delete() {
 		String query = "";
 
+		System.out.println(query);
+		return super.delete(query);
+	}
+
+	public boolean deleteByID(String contractID) {
+		String query = "delete from applyContract where contractID=\""+contractID+"\";";
+		
 		System.out.println(query);
 		return super.delete(query);
 	}

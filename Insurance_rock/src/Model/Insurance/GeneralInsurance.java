@@ -25,12 +25,10 @@ public class GeneralInsurance extends Insurance {
 	public GeneralInsurance(String inputString) {
 		super(inputString, EInsurance.general);
 	}
-	
-	
 
 	@Override
 	public boolean registerRate() {
-		this.registerGeneralRateDao =new RegisterGeneralRateDao();
+		this.registerGeneralRateDao = new RegisterGeneralRateDao();
 		if (super.register())
 			return this.registerGeneralRateDao.create(this);
 		return false;
@@ -57,44 +55,57 @@ public class GeneralInsurance extends Insurance {
 	}
 
 	@Override
-	public void setRate() {
+	public void getRegisterRate() {
 		this.registerGeneralRateDao = new RegisterGeneralRateDao();
 		ResultSet resultSet = this.registerGeneralRateDao.retriveRate(this.getInsuranceID());
 		try {
-			
-			for(int i=0; resultSet.next(); i++) {
+			for (int i = 0; resultSet.next(); i++) {
 				System.out.println(i);
 				premiumRate[i] = resultSet.getDouble("generalPremiumRate");
-				
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}		
+		}
 	}
 
 	@Override
 	public boolean notPermitRate() {
-		if(this.registerGeneralRateDao.deleteRate(this.getInsuranceID())) {
+		if (this.registerGeneralRateDao.deleteRate(this.getInsuranceID())) {
 			return super.notPermitInsurance();
 		}
-		
+
 		return false;
 	}
 
 	@Override
 	public boolean permitRate() {
 		this.generalRateDao = new GeneralRateDao();
-		
-		if(this.registerGeneralRateDao.deleteRate(this.getInsuranceID())) {
-			 if(super.permitInsurance()) {
-				 return this.generalRateDao.create(this);
-			 }
+
+		if (this.registerGeneralRateDao.deleteRate(this.getInsuranceID())) {
+			if (super.permitInsurance()) {
+				return this.generalRateDao.create(this);
+			}
 		}
 		return false;
-		
-		
+
 	}
 
+	@Override
+	public void getRate(String cInsuranceID) {
+		this.generalRateDao = new GeneralRateDao();
+		ResultSet resultSet = this.generalRateDao.retriveRate(this.getInsuranceID());
+		try {
+			for (int i = 0; resultSet.next(); i++) {
+				System.out.println(i);
+				premiumRate[i] = resultSet.getDouble("generalPremiumRate");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	}
+
+	@Override
+	public double getPremiumRate(int rank) {
+		return this.premiumRate[rank];
+	}
 
 }// end GeneralInsurance

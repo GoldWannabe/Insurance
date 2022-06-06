@@ -55,7 +55,7 @@ public class HouseInsurance extends Insurance {
 	}
 
 	@Override
-	public void setRate() {
+	public void getRegisterRate() {
 		this.registerHouseRateDao = new RegisterHouseRateDao();
 		ResultSet resultSet = this.registerHouseRateDao.retriveRate(this.getInsuranceID());
 		try {
@@ -89,6 +89,24 @@ public class HouseInsurance extends Insurance {
 		
 		
 		return false;
+	}
+
+	@Override
+	public void getRate(String cInsuranceID) {
+		this.houseRateDao = new HouseRateDao();
+		ResultSet resultSet = this.houseRateDao.retriveRate(this.getInsuranceID());
+		try {
+			for(int i=0; resultSet.next(); i++) {
+				premiumRate[i] = resultSet.getDouble("housePremiumRate");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public double getPremiumRate(int rank) {
+		return this.premiumRate[rank];
 	}
 
 }// end houseInsurance
