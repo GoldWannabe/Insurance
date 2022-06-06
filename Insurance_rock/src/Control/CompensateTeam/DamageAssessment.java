@@ -277,7 +277,6 @@ public class DamageAssessment {
 		try {
 			while (resultSet.next()) {
 				Contract contract = new Contract();
-//				this.contractList.setnum(num);
 				contract.setNum(num);
 				contract.setContractID(resultSet.getString("contractID"));
 				contract.setCustomerID(resultSet.getString("customerID"));

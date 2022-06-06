@@ -7,6 +7,7 @@ import Model.Channel.Channel;
 import Model.Channel.ChannelListImpl;
 import Model.Contract.Contract;
 import Model.Contract.ContractList;
+import Model.Customer.Customer;
 //github.com/GoldWannabe/Insurance.git
 import Model.Insurance.Insurance;
 import Model.Insurance.InsuranceList;
@@ -330,6 +331,11 @@ public class SalesTeamTui {
 		System.out.println("검색된 채널이 없습니다. 정확하게 입력하여 주시기 바랍니다");
 		System.out.print("재입력: ");
 
+	}
+
+	public void viewCustomerInfo(Customer customer) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
