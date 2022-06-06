@@ -206,7 +206,12 @@ public class Customer {
 		this.customerDao = new CustomerDao();
 		return this.customerDao.retrive();
 	}
-
+	
+	public ResultSet getCustomer(String name, String phoneNum) {
+		this.customerDao = new CustomerDao();
+		return this.customerDao.retrive(name, phoneNum);
+	}
+	
 	public boolean register() {
 		this.customerDao = new CustomerDao();
 		return this.customerDao.create(this);
