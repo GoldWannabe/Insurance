@@ -12,5 +12,5 @@ public interface ContractList {
 	public ArrayList<Contract> getAll();
 	public Contract getCount(int select);
 	public Contract getcheck(String customerName_inser, String phoneNum_inser);
-	public Contract get(int num);
+	public Contract getNum(int num);
 }//end ContractList

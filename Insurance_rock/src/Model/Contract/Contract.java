@@ -5,9 +5,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import Control.ContractTeam.ContractManagement;
 import Model.DB.ApplyContractDao;
 import Model.DB.ContractAccidentDao;
 import Model.DB.ContractDao;
+import Model.DB.RenewContractDao;
 
 public class Contract {
 
@@ -28,6 +30,7 @@ public class Contract {
 	private ContractDao contractDao;
 	private ApplyContractDao applyContractDao;
 	private ContractAccidentDao  contractAccidentDao;
+	private RenewContractDao renewContractDao;
 	private ArrayList<String> accidentHistory  = new ArrayList<String>();	
 	private int num;
 	
@@ -290,6 +293,33 @@ public class Contract {
 		this.contractDao = new ContractDao();
 		return this.contractDao.retriveFailContractID(this);
 	}
+
+	public ResultSet resultAccidentHistory() {
+		this.contractAccidentDao = new ContractAccidentDao();
+		return this.contractDao.resultAccidentHistory(this);
+	}
+
+
+	public boolean createBesidesConstract() {
+		this.renewContractDao = new RenewContractDao();
+		return this.renewContractDao.createBesidesConstract(this);
+		
+	}
+
+	public boolean deleteContract() {
+		this.contractDao = new ContractDao();
+		return this.contractDao.deleteContract(this);
+		
+	}
+
+	public ResultSet retriveRenewContract() {
+		this.renewContractDao = new RenewContractDao();
+		return this.renewContractDao.retriveRenewContract(this);
+	}
+
+
+	
+
 
 
 

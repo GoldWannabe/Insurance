@@ -41,6 +41,7 @@ public class ContractListImpl implements ContractList {
 		}
 		return null;
 	}
+	
 
 	@Override
 	public Contract getCount(int select) {
@@ -51,7 +52,7 @@ public class ContractListImpl implements ContractList {
 //	public boolean update(){
 //
 //	}
-	public Contract get(int num) {
+	public Contract getNum(int num) {
 		for (Contract contract : this.contractList) {
 			if (contract.getNum() == num) {
 				return contract;
@@ -59,6 +60,9 @@ public class ContractListImpl implements ContractList {
 		}
 		return null;
 	}
+
+
+
 
 	
 }// end ContractListImpl
