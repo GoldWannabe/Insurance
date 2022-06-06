@@ -102,7 +102,7 @@ public class InsuranceDesign {
 			IsLongTerm = false;
 		} else if (flag == 0) {
 			this.contractTeamTui.showCancel();
-			return true;
+			return false;
 		}
 
 		flag = -1;
@@ -121,7 +121,7 @@ public class InsuranceDesign {
 			this.insurance = new HouseInsurance(IsLongTerm);
 		} else if (flag == 0) {
 			this.contractTeamTui.showCancel();
-			return true;
+			return false;
 		}
 
 		this.insurance.design();
@@ -181,7 +181,7 @@ public class InsuranceDesign {
 			this.insurance.setStandardFee((int) (1000000000 * this.insurance.getPremiumRate()[0] / 100));
 		} else if (flag == 0) {
 			this.contractTeamTui.showCancel();
-			return true;
+			return false;
 		}
 
 		return register(scanner);
@@ -260,11 +260,12 @@ public class InsuranceDesign {
 					if (this.insurance.registerRate())
 						this.contractTeamTui.showSuccessRegister();
 
-					return false;
+					return true;
 				} else if (select.equals("2") || select.equals("취소")) {
 
 					this.insurance.saveTempInsurance();
-					return true;
+					this.contractTeamTui.showCancel();
+					return false;
 				} else {
 					throw new WrongInputException();
 				}
@@ -273,7 +274,7 @@ public class InsuranceDesign {
 			}
 		}
 
-		return true;
+		return false;
 	}
 
 }

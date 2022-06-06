@@ -21,7 +21,7 @@ public class UnderwritingRenew {
 	public Insurance insurance;
 	public Contract originContract;
 	public int accidentNum;
-	
+
 	public UnderwritingRenew() {
 		this.contractTeamTui = new ContractTeamTui();
 	}
@@ -35,7 +35,7 @@ public class UnderwritingRenew {
 		}
 
 		if (!verifyPeriod() || !verifyPremium() || !checkRiseFee()) {
-			return false;
+			return true;
 		}
 
 		this.contractTeamTui.showDetailRenewContract(this.contract, this.originContract);
@@ -56,7 +56,7 @@ public class UnderwritingRenew {
 					return FailContract(scanner);
 				} else if (flag == 0) {
 					this.contractTeamTui.showCancel();
-					return true;
+					return false;
 				}
 
 			} catch (WrongInputException e) {
@@ -67,9 +67,9 @@ public class UnderwritingRenew {
 	}
 
 	private boolean checkRiseFee() {
-		int minFee = (int) (this.originContract.getInsuranceFee()*(1.1+0.1*this.accidentNum));
-		if(this.contract.getInsuranceFee() <= minFee) {
-		return false;
+		int minFee = (int) (this.originContract.getInsuranceFee() * (1.1 + 0.1 * this.accidentNum));
+		if (this.contract.getInsuranceFee() <= minFee) {
+			return false;
 		} else {
 			return true;
 		}
@@ -92,14 +92,21 @@ public class UnderwritingRenew {
 			resultSet.next();
 			this.originContract.setContractID(resultSet.getString("contractID"));
 			this.originContract.setCustomerID(resultSet.getString("customerID"));
+			this.originContract.setCustomerName(resultSet.getString("customerName"));
+			this.originContract.setPhoneNum(resultSet.getString("customerPhoneNum"));
 			this.originContract.setInsuranceID(resultSet.getString("insuranceID"));
+			this.originContract.setInsuranceName(resultSet.getString("insuranceName"));
 			this.originContract.setPaymentCycle(resultSet.getInt("paymentCycle"));
 			this.originContract.setInsuranceFee(resultSet.getInt("insuranceFee"));
+			this.originContract.setUnpaidFee(resultSet.getInt("unpaidFee"));
 			this.originContract.setSecurityFee(resultSet.getInt("securityFee"));
-			this.originContract.setPeriod(resultSet.getInt("period"));
+			this.originContract.setProvisionFee(resultSet.getInt("provisionFee"));
+			this.originContract.setStartDate(LocalDate.parse(resultSet.getString("startDate")));
+			this.originContract.setEndDate(LocalDate.parse(resultSet.getString("endDate")));
+
 			accidentResultSet.next();
 			this.accidentNum = accidentResultSet.getInt("accidentNum");
-				
+
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -184,7 +191,7 @@ public class UnderwritingRenew {
 
 	private boolean deleteFailRenewContract(String reason) {
 		this.contractTeamTui.showFailRenewReason(reason);
-		
+
 		return this.contract.failRenew();
 	}
 
