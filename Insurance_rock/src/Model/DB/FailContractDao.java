@@ -38,5 +38,10 @@ public class FailContractDao  extends Dao {
 		System.out.println(query);
 		return super.delete(query);
 	}
+	
+	public boolean deleteFailContract(Contract contract) {
+		String query="delete from failcontract where contractID=\""+contract.getContractID()+"\"";
+		return super.delete(query);
+	}
 
 }

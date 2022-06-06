@@ -266,10 +266,10 @@ public class Contract {
 		this.contractDao = new ContractDao();
 	}
 
-	public void registerApplyContract() {
+	public boolean registerApplyContract() {
 		this.contractID = UUID.randomUUID().toString();
 		this.applyContractDao = new ApplyContractDao();
-		this.applyContractDao.create(this);
+		return this.applyContractDao.create(this);
 	}
 
 	public ResultSet retrivelongtermFee() {
@@ -361,6 +361,11 @@ public class Contract {
 	public boolean failRenew() {
 		this.renewContractDao = new RenewContractDao();
 		return this.renewContractDao.deleteByID(this.contractID);
+	}
+
+	public boolean deleteFailContract() {
+		this.failContractDao = new FailContractDao();
+		return this.failContractDao.deleteFailContract(this);
 	}
 
 }// end Contract

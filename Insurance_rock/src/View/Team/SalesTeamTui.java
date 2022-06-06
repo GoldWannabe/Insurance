@@ -71,6 +71,11 @@ public class SalesTeamTui {
 	public void showEnterPaymentCycle() {
 		System.out.print("납부 방식(paymentCycle): ");
 	}
+	
+	public void showEnterPaymentCycle(int paymentCycle) {
+		System.out.println("기존 납부 방법: "+paymentCycle);
+		System.out.print("신규 납부 방법: ");
+	}
 
 	public void showEnterPeriod() {
 		System.out.print("가입 기간: ");
@@ -155,25 +160,37 @@ public class SalesTeamTui {
 		System.out.println("재입력: ");
 	}
 	
-
-	public void showSelectContract() {
-		System.out.println("재신청할 ContractID를 입력하여 주십시오.");
-	}
-	
-	public void showFailContractList(ContractList contractFailList) {
+	public void showFailContract(Contract contract) {
 		System.out.println("-------------------------------------------------------------------------------------------------------------------");
 		System.out.printf("%10s %10s %10s %10s %10s %10s %10s %10s", "가입자 이름", "연락처", "보험 이름", "납부 방식", "보험료", "담보액", "가입기간", "탈락 이유");
 		System.out.println();
 		System.out.println("-------------------------------------------------------------------------------------------------------------------");
-		for (Contract contract : contractFailList.getAll()) {
-			System.out.format("%10s %15s %10s %10s %10s %15s %5s %13s",
+			System.out.format("%10s %15s %8s %12s %10s %15s %8s %10s",
 					contract.getCustomerName(), contract.getPhoneNum(), contract.getInsuranceName(), contract.getPaymentCycle(),
 					contract.getInsuranceFee(), contract.getSecurityFee(), contract.getPeriod(), contract.getReason());
 			System.out.println();
-		}
-		
+	}
+	
+	
+	public void showEditStart() {
+		System.out.println("수정할 항목을 선택하여 주십시오.");
+		System.out.println("1. 납부방법 2. 보험료 3. 담보액 4. 주기 0. 수정 완료");
+		System.out.print("선택: ");
 	}
 
+	public void showEditSuccess() {
+		System.out.println("수정 완료");
+	}
+	
+
+	public void showNochanges() {
+		System.out.println("수정사항이 존재하지 않습니다. 수정사항을 입력하여 주십시오.");
+		
+	}
+	
+	public void showReRegisterSuccess() {
+		System.out.println("재신청 완료");
+	}
 
 	public void viewSelectChannel() {
 		System.out.println("판매 채널 관리 메뉴를 선택해주세요.");
@@ -314,4 +331,5 @@ public class SalesTeamTui {
 		System.out.print("재입력: ");
 
 	}
+
 }

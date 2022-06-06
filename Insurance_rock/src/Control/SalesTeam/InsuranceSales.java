@@ -32,11 +32,9 @@ public class InsuranceSales {
 	private CustomerList customerList = new CustomerListImpl();
 
 	private Contract contract;
-	private ContractList contractFailList = new ContractListImpl();
-
 	private Rank rank;
 
-	private RejoinContract rejoinContract;
+	private ContractRejoin contractRejoin;
 	
 	public InsuranceSales() {
 		this.salesTeamTui = new SalesTeamTui();
@@ -88,7 +86,7 @@ public class InsuranceSales {
 				this.insuranceList.add(insurance);
 			}
 
-			if (this.insuranceList.equals(null)) {
+			if (this.insuranceList.getAll().isEmpty()) {
 				throw new DBAcceptException();
 			}
 
@@ -136,8 +134,8 @@ public class InsuranceSales {
 	}
 
 	private boolean rejoinContract(Scanner scanner, Insurance insurance) {
-		this.rejoinContract = new RejoinContract();
-		return this.rejoinContract.rejoinStart(this.salesTeamTui, this.contractFailList, scanner, insurance);
+		this.contractRejoin = new ContractRejoin(this.salesTeamTui, insurance);
+		return this.contractRejoin.rejoinStart(scanner);
 	}
 
 	public boolean selectCustomer(Scanner scanner, Insurance insurance) {
