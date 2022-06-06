@@ -12,28 +12,24 @@ public class RenewContractDao extends Dao {
 	public boolean create() {
 		String query = "";
 
-		System.out.println(query);
 		return super.create(query);
 	}
 
 	public ResultSet retrive() {
 		String query = "select * from renewContract";
 
-		System.out.println(query);
 		return super.retrive(query);
 	}
 
 	public boolean update() {
 		String query = "";
 
-		System.out.println(query);
 		return super.update(query);
 	}
 
 	public boolean delete() {
 		String query = "";
 
-		System.out.println(query);
 		return super.delete(query);
 	}
 
@@ -46,7 +42,6 @@ public class RenewContractDao extends Dao {
 				.append("\'" + contract.getInsuranceFee() + "\',").append("\'" + contract.getSecurityFee() + "\',")
 				.append("\'" + contract.getPaymentCycle() + "\')").toString();
 
-		System.out.println(query);
 		return super.create(query);
 	}
 
@@ -56,14 +51,12 @@ public class RenewContractDao extends Dao {
 		String query = stringBuilder.append("select * from renewcontract Where contractID =")
 				.append(" \'" + contract.getContractID() + "\'").toString();
 
-		System.out.println(query);
 		return super.retrive(query);
 	}
 
 	public boolean deleteByID(String contractID) {
 		String query = "delete from renewContract where contractID=\""+contractID+"\";";
 
-		System.out.println(query);
 		return super.delete(query);
 	}
 }

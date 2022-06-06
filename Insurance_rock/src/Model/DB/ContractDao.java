@@ -14,35 +14,30 @@ public class ContractDao  extends Dao {
 				+ "(\""+contract.getContractID()+"\", \""+contract.getCustomerID()+"\", \""+contract.getCustomerName()+"\", \""+contract.getPhoneNum()+"\", \""+contract.getInsuranceID()+"\", \""+contract.getInsuranceName()+"\", "+contract.getPaymentCycle()+", "+contract.getInsuranceFee()+", "+contract.getUnpaidFee()+", "+contract.getSecurityFee()+", "+contract.getProvisionFee()+", \""+contract.getStartDate()+"\", \""+contract.getEndDate()+"\");";
 
 
-		System.out.println(query);
 		return super.create(query);
 	}
 
 	public ResultSet retrive() {
 		String query = "SELECT * FROM Contract;";
 
-		System.out.println(query);
 		return super.retrive(query);
 	}
 
 	public boolean update() {
 		String query = "";
 
-		System.out.println(query);
 		return super.update(query);
 	}
 
 	public boolean delete() {
 		String query = "";
 
-		System.out.println(query);
 		return super.delete(query);
 	}
 
 	public ResultSet select() {
 		String query = "";
 
-		System.out.println(query);
 		return super.retrive(query);
 	}
 
@@ -53,7 +48,6 @@ public class ContractDao  extends Dao {
 				.append("customerPhoneNum = \'" + phoneNum +"\'" )
 				.toString();
 
-		System.out.println(query);
 		return super.retrive(query);
 	}
 	
@@ -70,14 +64,12 @@ public class ContractDao  extends Dao {
 				.toString();
 		
 
-		System.out.println(query);
 		return super.retrive(query);
 		
 	}
 	
 	public ResultSet retriveFailContract(Contract contract) {
 		String query = "select * from failcontract where customerName =\""+contract.getCustomerName()+"\" and customerPhoneNum = \""+contract.getPhoneNum()+"\"";
-		System.out.println(query);
 		return super.retrive(query);
 	}
 
@@ -91,7 +83,6 @@ public class ContractDao  extends Dao {
 				.toString();
 		
 
-		System.out.println(query);
 		return super.update(query);
 	}
 
@@ -102,7 +93,6 @@ public class ContractDao  extends Dao {
 				.append("\'" + contract.getContractID()+ "\'" )
 				.toString();
 
-		System.out.println(query);
 		return super.retrive(query);
 	}
 
@@ -113,7 +103,6 @@ public class ContractDao  extends Dao {
 				.append("\'" + contract.getContractID()+ "\'" )
 				.toString();
 
-		System.out.println(query);
 		return super.delete(query);
 	}
 
@@ -121,12 +110,10 @@ public class ContractDao  extends Dao {
 	public boolean updateUnpaidFee(int newUnpaidFee, String contractID) {
 		String query = "update contract set unpaidFee = " + "'" + newUnpaidFee + "'" + "where contractID = " + "'" + contractID + "';";
 
-		System.out.println(query);
 		return super.update(query);
 	}
 	public ResultSet retriveByID(String contractID) {
 		String query = "select * from contract where contractID = \""+contractID+"\"";
-		System.out.println(query);
 		return super.retrive(query);
 	}
 

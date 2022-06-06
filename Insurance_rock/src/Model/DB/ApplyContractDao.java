@@ -12,7 +12,6 @@ public class ApplyContractDao  extends Dao {
 	public boolean create() {
 		String query = "";
 
-		System.out.println(query);
 		return super.create(query);
 	}
 	
@@ -21,35 +20,30 @@ public class ApplyContractDao  extends Dao {
 				contract.getContractID()+"\", \""+contract.getCustomerID()+"\", \""+contract.getCustomerName()+"\", \""+contract.getPhoneNum()+"\", \""+contract.getInsuranceID()+"\", \""+contract.getInsuranceName()
 				+"\", \""+contract.getPaymentCycle()+"\", \""+contract.getInsuranceFee()+"\", \""+contract.getSecurityFee()+"\", \""+contract.getPeriod()+"\");";
 		
-		System.out.println(query);
 		return super.create(query);
 	}
 
 	public ResultSet retrive() {
 		String query = "select * from applyContract";
 
-		System.out.println(query);
 		return super.retrive(query);
 	}
 
 	public boolean update() {
 		String query = "";
 
-		System.out.println(query);
 		return super.update(query);
 	}
 
 	public boolean delete() {
 		String query = "";
 
-		System.out.println(query);
 		return super.delete(query);
 	}
 
 	public boolean deleteByID(String contractID) {
 		String query = "delete from applyContract where contractID=\""+contractID+"\";";
 		
-		System.out.println(query);
 		return super.delete(query);
 	}
 

@@ -13,7 +13,6 @@ public class AccidentDao extends Dao {
 	public ResultSet retrive() {
 		String query = "SELECT * FROM Accident";
 
-		System.out.println(query);
 		return super.retrive(query);
 	}
 
@@ -21,12 +20,8 @@ public class AccidentDao extends Dao {
 	public boolean delete() {
 		String query = "";
 
-		System.out.println(query);
 		return super.delete(query);
 	}
-
-
-
 
 	public boolean creat(Accident accident) {
 		StringBuilder stringBuilder = new StringBuilder();
@@ -47,7 +42,6 @@ public class AccidentDao extends Dao {
 				.append("\'" + accident.getLiablityCost() + "\')")
 				.toString();
 
-		System.out.println(query);
 		return super.create(query);
 	}
 
@@ -60,7 +54,6 @@ public class AccidentDao extends Dao {
 				.append("customerName = \'" + accident.getCustomerName() + "\'")
 				.toString();
 
-		System.out.println(query);
 		return super.retrive(query);
 	}
 
@@ -73,7 +66,6 @@ public class AccidentDao extends Dao {
 				.append("where accidentID  = \'" + accident.getID() + "\'")
 				.toString();
 
-		System.out.println(query);
 		return super.update(query);
 		
 	}
@@ -87,7 +79,6 @@ public class AccidentDao extends Dao {
 				.append("where accidentID  = \'" + accident.getID() + "\'")
 				.toString();
 
-		System.out.println(query);
 		return super.update(query);
 	}
 
@@ -100,7 +91,6 @@ public class AccidentDao extends Dao {
 				.append("where accidentID  = \'" + accident.getID() + "\'")
 				.toString();
 
-		System.out.println(query);
 		return super.update(query);
 	}
 
@@ -113,7 +103,6 @@ public class AccidentDao extends Dao {
 				.append("where accidentID = \'" + accident.getID() + "\'")
 				.toString();
 
-		System.out.println(query);
 		return super.update(query);
 	}
 
@@ -126,7 +115,6 @@ public class AccidentDao extends Dao {
 				.append("where accidentID = \'" + accident.getID() + "\'")
 				.toString();
 
-		System.out.println(query);
 		return super.update(query);
 	}
 
@@ -139,7 +127,6 @@ public class AccidentDao extends Dao {
 				.append("where accidentID = \'" + accident.getID() + "\'")
 				.toString();
 
-		System.out.println(query);
 		return super.update(query);
 	}
 
@@ -152,7 +139,6 @@ public class AccidentDao extends Dao {
 				.append("where accidentID = \'" + accident.getID() + "\'")
 				.toString();
 
-		System.out.println(query);
 		return super.update(query);
 	}
 
@@ -165,7 +151,6 @@ public class AccidentDao extends Dao {
 				.append(" where accidentID = \'" + accident.getID() + "\'")
 				.toString();
 
-		System.out.println(query);
 		return super.update(query);
 		
 	}

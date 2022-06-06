@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import exception.DBAcceptException;
+
 public class Dao {
 	private Connection connect = null;
 	private Statement statement = null;
@@ -17,49 +19,50 @@ public class Dao {
 			connect = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/insurance_rock?serverTimezone=UTC&useSSL=true", "root", "1234");
 		} catch (SQLException | ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DBAcceptException();
 		}
 	}
 
 	public boolean create(String query) {
-		try { 
+		try {
 			statement = connect.createStatement();
-			if (!statement.execute(query)) return true;
+			if (!statement.execute(query))
+				return true;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new DBAcceptException();
 		}
 		return false;
 	}
 
 	public ResultSet retrive(String query) {
-		try { 
+		try {
 			statement = connect.createStatement();
 			this.resultSet = statement.executeQuery(query);
-			
+
 			return resultSet;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new DBAcceptException();
 		}
-		return null;
 	}
 
 	public boolean update(String query) {
-		try { 
+		try {
 			statement = connect.createStatement();
-			if (!statement.execute(query)) return true;
+			if (!statement.execute(query))
+				return true;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new DBAcceptException();
 		}
 		return false;
 	}
 
 	public boolean delete(String query) {
-		try { 
+		try {
 			statement = connect.createStatement();
-			if (!statement.execute(query)) return true;
+			if (!statement.execute(query))
+				return true;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new DBAcceptException();
 		}
 		return false;
 	}
