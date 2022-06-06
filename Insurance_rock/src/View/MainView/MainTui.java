@@ -40,5 +40,11 @@ public class MainTui {
 		System.out.println("1. 손해사정, 0. 취소 ");
 
 	}
+	
+	public void showPolicyholder() {
+		System.out.println("원하시는 메뉴에 해당하는 번호를 입력해주세요.");
+		System.out.println("1. 보험료 납부 및 내역 확인, 0. 취소 ");
+
+	}
 
 }
