@@ -88,4 +88,11 @@ public class CustomerDao extends Dao {
 		return super.delete(query);		
 	}
 
+	public boolean deleteCustomer(Customer customer) {
+		String query = "delete from customer where customerID=\""+customer.getCustomerID()+"\";";
+
+		System.out.println(query);
+		return super.delete(query);	
+	}
+
 }
