@@ -12,7 +12,6 @@ public class CustomerDao extends Dao {
 	public boolean create() {
 		String query = "";
 
-		System.out.println(query);
 		return super.create(query);
 	}
 
@@ -28,14 +27,12 @@ public class CustomerDao extends Dao {
 	public ResultSet retrive() {
 		String query = "select * from customer;";
 
-		System.out.println(query);
 		return super.retrive(query);
 	}
 
 	public boolean update() {
 		String query = "";
 
-		System.out.println(query);
 		return super.update(query);
 	}
 
@@ -44,18 +41,21 @@ public class CustomerDao extends Dao {
 				+ customer.getCustomerID() + "\"";
 		return super.update(query);
 	}
+	
+	public boolean updateAddApplyInsuranceNum(Customer customer) {
+		String query = "update customer set insuranceNum=insuranceNum+0.1 where customerID=\""+customer.getCustomerID()+"\"";
+		return super.update(query);
+	}
 
 	public boolean delete() {
 		String query = "";
 
-		System.out.println(query);
 		return super.delete(query);
 	}
 
 	public ResultSet retriveID(String CustomerID) {
 		String query = "select * from customer where customerID=\"" + CustomerID + "\";";
 
-		System.out.println(query);
 		return super.retrive(query);
 	}
 
@@ -66,7 +66,6 @@ public class CustomerDao extends Dao {
 				.append("\'" + customer.getCustomerID() + "\'")
 				.toString();
 		
-		System.out.println(query);
 		return super.retrive(query);
 	}
 
@@ -77,14 +76,12 @@ public class CustomerDao extends Dao {
 				.append("\'" + customerID + "\'")
 				.toString();
 		
-		System.out.println(query);
 		return super.retrive(query);
 	}
 
 	public boolean deleteByID(String customerID) {
 		String query = "delete from RegisterInsurance where customerID=\""+customerID+"\";";
 
-		System.out.println(query);
 		return super.delete(query);		
 	}
 
@@ -94,4 +91,10 @@ public class CustomerDao extends Dao {
 		System.out.println(query);
 		return super.retrive(query);
 }
+	public boolean deleteCustomer(Customer customer) {
+		String query = "delete from customer where customerID=\""+customer.getCustomerID()+"\";";
+
+		return super.delete(query);	
+	}
+
 }

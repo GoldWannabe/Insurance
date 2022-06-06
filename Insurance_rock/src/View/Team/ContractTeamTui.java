@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 import Model.Contract.Contract;
+
 import Model.Contract.ContractListImpl;
 import Model.Customer.Customer;
 import Model.Customer.Rank;
@@ -181,11 +182,11 @@ public class ContractTeamTui {
 	}
 
 	public void viewcancelHome() {
-		System.out.println("취소되었습니다.보험사 홈화면으로 돌아갑니다.");
+		System.out.println("보험사 홈화면으로 돌아갑니다.");
 	}
 
 	public void veiwselectContract() {
-		System.out.println("<갱신 혹은 해치할 계약을 선택해주세요.>");
+		System.out.println("<갱신 혹은 해지할 계약을 선택해주세요.>");
 	}
 
 	public void veiwNotAccidentHistory() {
@@ -286,5 +287,74 @@ public class ContractTeamTui {
 		System.out.println("다음과 같은 사유로 갱신에 실패하였습니다.");
 		System.out.println("사유:"+reason);
 	}
+
+	public void showContinue() {
+		System.out.println("인수심사가 완료되었습니다. 인수심사를 계속하시겠습니까?");
+		System.out.println("1. 예 2. 아니오");
+	}
+
+	public void viewDeleteCustoemr(Contract contract, Customer customer) {
+		System.out.println(contract.getInsuranceName() + "삭제 후 \n 고객명 : " + customer.getName()
+		+ "\n 연락처 : " + contract.getPhoneNum() + "\n 위의 고객님이 계약  중인 보험이 없어 고객 데이터를 정상적으로 삭제했습니다.");
+		
+	}
+	public void viewDeleteContract(Contract contract, Customer customer) {
+		System.out
+		.println(customer.getName() + "님이 가입한 " + contract.getInsuranceName() + "를 삭제했습니다.");
+	}
+
+	public void viewrenew() {
+		System.out.println("갱신할 내용에 해당하는 번호를 입력하세요. ");
+		System.out.println("1. 등급 갱신, 2. 그외계약내용 갱신");// 선택이 아닌 계약내용을 갱신하면~ 거기에 해당하는 등급과 사고이력도 다시 적도록! 그리고
+														// 기존에 이력 다 없애기. 사고이력은 갱신한다고 안바뀜.
+		
+	}
+
+	public void viewNewRenewContract(Contract contract) {
+		System.out.println("-------------------------추가된 계약 신청 확인란---------------------------------");
+		System.out.printf("%15s %15s %15s %20s ", "납부방식", "보험료", "담보액", "가입기간");
+		System.out.println();
+		System.out.println("--------------------------------------------------------------------");
+		System.out.format("%10s %10s %15s %8s", contract.getPaymentCycle(), contract.getInsuranceFee(),
+				contract.getSecurityFee(), contract.getPeriod());
+		System.out.println();
+	}
+
+	public void viewAgainRank() {
+		System.out.println("등급을 다시 기입해주십시오");
+	}
+
+	public void viewCompletedRenew() {
+		System.out.println("계약 갱신 신청이 완료되었습니다.");
+	}
+
+	public void viewNewRenew() {
+		System.out.println("갱신할 계약의 내용을 새롭게 입력해주세요");
+	}
+
+	public void viewSecurityFee() {
+		System.out.println("담보액    : ");
+	}
+
+	public void viewInsuranceFee() {
+		System.out.println("보험료    : ");
+	}
+
+	public void viewPaymentCycle() {
+		System.out.println("납부방식 : ");
+	}
+
+	public void viewPeriod() {
+		System.out.println("갱신기간 : ");
+	}
+
+	public void viewOverPeriod() {
+		System.out.println("갱신 기간이 올바르지 않습니다. 6개월 이상으로 입력하여 주십시오.");
+	}
+
+	public void viewDelete() {
+		System.out.println("기존 계약이 삭제되었습니다.");
+	}
+
 
 }

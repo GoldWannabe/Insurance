@@ -311,4 +311,14 @@ public class Customer {
 		return this.rank;
 	}
 
+	public boolean deleteCustomer() {
+		this.customerDao = new CustomerDao();
+		return this.customerDao.deleteCustomer(this);
+	}
+
+	public boolean updateAddApplyInsuranceNum() {
+		this.customerDao = new CustomerDao();
+		return this.customerDao.updateAddApplyInsuranceNum(this);
+		
+	}
 }

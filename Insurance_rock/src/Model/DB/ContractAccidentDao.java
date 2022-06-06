@@ -12,28 +12,24 @@ public class ContractAccidentDao  extends Dao {
 	public boolean create() {
 		String query = "";
 
-		System.out.println(query);
 		return super.create(query);
 	}
 
 	public ResultSet retrive() {
 		String query = "";
 
-		System.out.println(query);
 		return super.retrive(query);
 	}
 
 	public boolean update() {
 		String query = "";
 
-		System.out.println(query);
 		return super.update(query);
 	}
 
 	public boolean delete() {
 		String query = "";
 
-		System.out.println(query);
 		return super.delete(query);
 	}
 
@@ -45,13 +41,11 @@ public class ContractAccidentDao  extends Dao {
 				.append("\'" + accidentID + "\')")
 				.toString();
 
-		System.out.println(query);
 		return super.create(query);
 	}
 
 	public ResultSet retriveCount(String contractID) {
 		String query = "select count(*) as accidentNum from contractaccident where contractID = \""+contractID+"\"";
-		System.out.println(query);
 		return super.retrive(query);
 	}
 }

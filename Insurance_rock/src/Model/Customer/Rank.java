@@ -20,6 +20,7 @@ public class Rank {
 	private enum EPurpose {
 		living, factory, culturalAsset, store, office, carPark, warehouse
 	};
+	
 
 	private EPurpose purpose;
 

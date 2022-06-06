@@ -234,7 +234,7 @@ public class InsuranceDesign {
 				}
 
 				double rate = scanner.nextDouble();
-				if (rate < 0) {
+				if (rate <= 0) {
 					throw new WrongInputException();
 				}
 				return rate;

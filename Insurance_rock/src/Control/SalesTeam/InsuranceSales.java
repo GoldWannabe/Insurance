@@ -189,21 +189,66 @@ public class InsuranceSales {
 		this.rank.setSurroundingFacilities(checkFloat(scanner));
 		this.salesTeamTui.showEnterHeight();
 		this.rank.setHeight(checkBoolean(scanner));
-		this.salesTeamTui.showEnterMaterial();
-		this.rank.setMaterial(scanner.next());
-		this.salesTeamTui.showEnterPurpose();
-		this.rank.setPurpose(scanner.next());
-
+		
+//		this.salesTeamTui.showEnterMaterial();
+//		this.rank.setMaterial(scanner.next());
+//		this.salesTeamTui.showEnterPurpose();
+//		this.rank.setPurpose(scanner.next());
+		setMaterial(scanner);
+		setPurpose(scanner);
 		// DB write
 		this.contract.registerApplyContract();
 		this.rank.register();
 
 		// DB update
-		this.customer.setInsuranceNum(this.customer.getInsuranceNum() + 0.1);
-		this.customer.updateInsuranceNum();
+		//this.customer.setInsuranceNum(this.customer.getInsuranceNum() + 0.1);
+		//this.customer.updateInsuranceNum();
+		this.customer.updateAddApplyInsuranceNum();
+		this.salesTeamTui.showRegisterSuccess();
 		return false;
 	}
+	private void setMaterial(Scanner scanner) {
+		String flag = "0";
 
+		while (flag.equals("0")) {
+			try {
+				this.salesTeamTui.showEnterMaterial();
+				String selectList[] = new String[] { "1", "wood", "2", "rock", "3", "concrete","4", "iron","5", "brick"};
+
+				flag = getflag(selectList, scanner.next());
+				this.rank.setMaterial(flag);
+			} catch (WrongInputException e) {
+				System.err.println(e.getMessage());
+			}
+		}
+
+	}
+	private void setPurpose(Scanner scanner) {
+		String flag = "0";
+
+		while (flag.equals("0")) {
+			try {
+				this.salesTeamTui.showEnterPurpose();
+				String selectList[] = new String[] { "1", "living", "2", "factory", "3", "culturalAsset","4", "store","5", "office","6", "carPark","7", "warehouse"};
+
+				flag = getflag(selectList, scanner.next());
+				this.rank.setPurpose(flag);
+			} catch (WrongInputException e) {
+				System.err.println(e.getMessage());
+			}
+		}
+
+	}
+
+
+	private String getflag(String[] selectList, String select) throws WrongInputException {
+		for (int i = 0; i < selectList.length; i = i + 2) {
+			if (selectList[i].equals(select) || selectList[i + 1].equals(select)) {
+				return selectList[i + 1];
+			}
+		}
+		throw new WrongInputException();
+	}
 	private Customer searchCustomer() {
 		// set customerList with DAO(DB)
 		ResultSet resultSet = this.customer.getCustomer();
