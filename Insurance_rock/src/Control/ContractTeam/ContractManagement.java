@@ -69,8 +69,12 @@ public class ContractManagement {
 	private boolean selectRenewCancel(Scanner scanner) throws WrongInputException{
 		boolean historyCheck = false;
 		this.contractTeamTui.veiwselectContract();
+		
+//		int length = showRenew();
+
 		int num;
 		num = scanner.nextInt();
+		
 		this.contract = contractList.getNum(num);
 
 		historyCheck = searchAccidentHistory();// true면 없어져야 함.
@@ -123,10 +127,12 @@ public class ContractManagement {
 		boolean isSearch = true;
 		if (isSearch) {
 			String inser[] = this.contractTeamTui.viewInsertName(scanner);
+			System.out.println("adfsdafsaf"+inser[0]);
 			String customerName = inser[0];
+			this.contract.setCustomerName(customerName);
 			String phoneNum = inser[1];
+			this.contract.setPhoneNum(phoneNum);
 			ResultSet resultContract = this.contract.retrivecontract();
-
 			int num = 1;
 			try {
 				while (resultContract.next()) {// 모든 정보 set
@@ -145,25 +151,21 @@ public class ContractManagement {
 					contract.setProvisionFee(resultContract.getInt("provisionFee"));
 					contract.setStartDate(LocalDate.parse(resultContract.getString("startDate")));
 					contract.setEndDate(LocalDate.parse(resultContract.getString("endDate")));
-					this.contractList.add(contract);
 					num++;
+					this.contractList.add(contract);
 				}
 				if (this.contractList.getcheck(customerName, phoneNum) != null) {
-					throw new NonContractException();
+					isSearch = true;
 				} else {
 					isSearch = false;
 				}
-				if(currDate != LocalDate.now()) {
+				if(!(LocalDate.now().equals(currDate))) {
 					throw new ChangedDateException();
 				}
 			} catch (SQLException e) {
-				
 				throw new DBAcceptException();
 			} // 계약ID, 고객ID, 가입자명, 연락처, 보험ID, 보험이름, 납부방식, 보험료, 미납액, 담보액, 지급액, 가입일, 만료일
-			catch (NonContractException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ChangedDateException e) {
+			 catch (ChangedDateException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -171,6 +173,18 @@ public class ContractManagement {
 		return isSearch;
 
 	}
+	
+//	private int showRenew() {
+//		this.contractTeamTui.showRenewConractColumn();
+//		int length = 1;
+//
+//		for (Contract contract : this.contractList.getAll()) {
+//			this.contractTeamTui.showRenewContracts(length, contract);
+//			length++;
+//		}
+//		return length;
+//
+//	}
 
 	private void cancelContract(Scanner scanner) {
 		ResultSet resultSet = this.customer.retriveCustomer(this.contract.getCustomerID());
@@ -209,11 +223,9 @@ public class ContractManagement {
 
 	private void showRenewContract() {
 		ResultSet resultSet = this.contract.retriveRenewContract();
-		int num = 1;
 		try {
 			resultSet.next();
 			Contract contract = new Contract();
-			contract.setNum(num);
 			contract.setContractID(resultSet.getString("contractID"));
 			contract.setCustomerID(resultSet.getString("customerID"));
 			contract.setInsuranceID(resultSet.getString("insuranceID"));
@@ -229,6 +241,7 @@ public class ContractManagement {
 		}
 
 	}
+	
 
 	private void createRank(Scanner scanner) {
 		// coustomer속 contract중 하나에 매치하는 irankID를 가져와서 다시 등급내용을 입력하도록 하기.
@@ -249,8 +262,7 @@ public class ContractManagement {
 				this.customer.setRankID(arrayRankID);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DBAcceptException();
 		}
 
 		// create Rank
@@ -291,8 +303,6 @@ public class ContractManagement {
 		boolean rankCheck = this.customer.updateCustomerRank(this.rank.getRankID(), rankID);
 		if (rankCheck) {
 			this.contractTeamTui.viewCompletedRenew();
-		} else {
-			throw new DBAcceptException();
 		}
 		// delete Rank
 		this.customer.deleteRank(contractID);
