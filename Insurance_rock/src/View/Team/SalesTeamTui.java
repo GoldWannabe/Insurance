@@ -100,10 +100,12 @@ public class SalesTeamTui {
 
 	public void showEnterMaterial() {
 		System.out.print("건물 재질(rock, wood etc.): ");
+		System.out.println("1.wood 2.rock 3.concrete 4.iron 5.brick");
 	}
 
 	public void showEnterPurpose() {
 		System.out.print("건물 목적(living, factory etc.): ");
+		System.out.println("1.living 2.factory 3.culturalAsset 4.store 5.office 6.carPark 7.warehouse");
 	}
 
 	public void showSearchCustomerStart() {

@@ -21,14 +21,12 @@ public class ChannelDao  extends Dao {
 				.append( "\'" + channel.getSumOfExpense() + "\')")
 				.toString();
 
-		System.out.println(query);
 		return super.create(query);
 	}
 
 	public ResultSet retrive() {
 		String query = "SELECT * FROM channel";
 
-		System.out.println(query);
 		return super.retrive(query);
 	}
 	public boolean delete(String ID) {
@@ -38,7 +36,6 @@ public class ChannelDao  extends Dao {
 				.append(" where channelID = \'"+ ID+"\'")
 				.toString();
 
-		System.out.println(query);
 		return super.delete(query);
 	}
 
@@ -51,7 +48,6 @@ public class ChannelDao  extends Dao {
 				.append(" where channelID = \'" + channel.getChannelID() + "\'")
 				.toString();
 
-		System.out.println(query);
 		return super.update(query);
 	}
 
@@ -64,7 +60,6 @@ public class ChannelDao  extends Dao {
 				.append(" where channelID = \'" + channel.getChannelID() + "\'")
 				.toString();
 
-		System.out.println(query);
 		return super.update(query);
 		
 	}
@@ -77,7 +72,6 @@ public class ChannelDao  extends Dao {
 				.append(" where channelID = \'" + channel.getChannelID() + "\'")
 				.toString();
 
-		System.out.println(query);
 		return super.update(query);
 		
 		
@@ -91,7 +85,6 @@ public class ChannelDao  extends Dao {
 				.append(" where channelID = \'" + channel.getChannelID() + "\'")
 				.toString();
 
-		System.out.println(query);
 		return super.update(query);
 		
 	}
@@ -104,7 +97,6 @@ public class ChannelDao  extends Dao {
 				.append(" where channelID = \'" + channel.getChannelID() + "\'")
 				.toString();
 
-		System.out.println(query);
 		return super.update(query);
 		
 	}
@@ -117,7 +109,6 @@ public class ChannelDao  extends Dao {
 				.append(" where channelID = \'" + channel.getChannelID() + "\'")
 				.toString();
 
-		System.out.println(query);
 		return super.update(query);
 		
 	}

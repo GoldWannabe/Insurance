@@ -64,7 +64,7 @@ public class Underwriting {
 
 					flag = getflag(selectList, scanner.next());
 				} catch (WrongInputException e) {
-					e.printStackTrace();
+					System.err.println(e.getMessage());
 				}
 			}
 			if (flag == 1) {
@@ -87,7 +87,7 @@ public class Underwriting {
 
 					flag = getflag(selectList, scanner.next());
 				} catch (WrongInputException e) {
-					e.printStackTrace();
+					System.err.println(e.getMessage());
 				}
 			}
 			if (flag == 1) {
@@ -131,7 +131,7 @@ public class Underwriting {
 				return false;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 
 		int length = showApply();
