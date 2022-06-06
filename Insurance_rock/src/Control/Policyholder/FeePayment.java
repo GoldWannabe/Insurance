@@ -134,7 +134,6 @@ public class FeePayment {
 	
 	public boolean start() {
 		Scanner scanner = new Scanner(System.in);
-		this.policyholderTUI.showStartMenu();
 		String num = scanner.next();
 		if(num.equals("1")) {
 			checkFee();
@@ -169,8 +168,6 @@ public class FeePayment {
 		scanner.close();
 		return false;
 	}
-	//여기 fileacceptexception못햇어. 
-	//아 customer.....
 	private boolean selectCustomer(Scanner scanner) {
 		try{
 			LocalDate currDate = LocalDate.now();
@@ -322,16 +319,11 @@ public class FeePayment {
 	private boolean payInsuranceFee(Scanner scanner){
 		this.policyholderTUI.selectPayTerm();
 		String term = scanner.next();
-		//일시불 납부
+		
 		
 		try {
+			//일시불 납부
 			if (term.equals("1")) {
-			//통장 갱신은 나중에. 
-//		//남은 금액 갱신, 납부 금액 추가, 해당하는 보험의 미납료 갱신, 납부내역 저장
-//			FileWriter fw = new FileWriter(file); 
-//			fw.write(balances - this.payment.getInsuranceFee());
-//          fw.close();
-            //해당하는 보험의 미납료 갱신. 
 			this.contract.updateUnpaidFee(this.contract.getUnpaidFee()-this.contract.getInsuranceFee(), this.contract.getContractID());
 			
 			if(this.payment.addPayment()) {
@@ -352,9 +344,7 @@ public class FeePayment {
 			else throw new PaymentFailedException();		
 		}
 	
-		//할부 납부
-			//남은 금액 갱신, 납부금액추가,미납료 갱신, 납부내역 저장
-//			"납부가 완료 되었습니다. 미납액:(미납액)"라는 알람이 뜨고 "납부 확인서 출력" 버튼이 뜬다(A2)
+			//할부 납부
 			else if(term.equals("2")) {
 				this.policyholderTUI.enterMonthlyFee();
 				int monthlyFee = scanner.nextInt();
