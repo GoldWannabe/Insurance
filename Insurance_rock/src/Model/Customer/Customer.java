@@ -321,4 +321,9 @@ public class Customer {
 		return this.customerDao.updateAddApplyInsuranceNum(this);
 		
 	}
+
+	public void registerRank(String contractID, String rankID) {
+		this.customerRankDao = new CustomerRankDao();
+		this.customerRankDao.create(this.customerID, contractID, rankID);
+	}
 }

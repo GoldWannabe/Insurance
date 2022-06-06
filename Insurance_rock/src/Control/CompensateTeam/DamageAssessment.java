@@ -146,7 +146,6 @@ public class DamageAssessment {
 				throw new LackInsuranceBank();
 				
 			} else {
-				System.out.println("asf");
 				FileWriter fileWriter = new FileWriter(file, false);
 				String resultToString = Integer.toString(result);
 				fileWriter.write(resultToString);
