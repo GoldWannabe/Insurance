@@ -51,4 +51,19 @@ public class PaymentListImpl implements PaymentList {
 		return null;
 	}
 
+	@Override
+	public ArrayList<Payment> getPaymentBySearch(String CustomerName, String CustomerPhoneNum) {
+		// TODO Auto-generated method stub
+		ArrayList<Payment> payments = new ArrayList<Payment>();
+		for(Payment payment : this.paymentList) {
+			if(payment.getCustomerName().equals(CustomerName)&&payment.getCustomerPhoneNum().equals(CustomerPhoneNum)) {
+				payments.add(payment);
+			}
+		}
+		if(!(payments.isEmpty())) {
+			return payments;
+		}
+		return null;
+	}
+
 }//end PaymentImpl

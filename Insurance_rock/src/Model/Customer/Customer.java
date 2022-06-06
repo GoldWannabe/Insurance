@@ -66,7 +66,9 @@ public class Customer {
 	}
 
 	public void delete() {
-
+		this.rank.delete();
+		this.customerRankDao.delete(this.customerID, this.rank.getRankID());
+		this.customerDao.deleteByID(this.customerID);
 	}
 
 	public void edit() {
@@ -299,4 +301,8 @@ public class Customer {
 		
 	}
 
+	public Rank getRank() {
+		
+		return this.rank;
+	}
 }

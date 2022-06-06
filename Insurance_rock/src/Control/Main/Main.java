@@ -11,6 +11,7 @@ import Control.Policyholder.FeePayment;
 import Control.SalesTeam.ChannelManagement;
 import Control.SalesTeam.CustomerManagement;
 import Control.SalesTeam.InsuranceSales;
+import View.MainView.MainTui;
 import exception.DBAcceptException;
 import exception.WrongInputException;
 
@@ -18,43 +19,40 @@ public class Main {
 
 	@SuppressWarnings("resource")
 	public static void main(String[] args) throws WrongInputException {
-		
+		MainTui mainTui = new MainTui();
 		boolean continueSelect = false;
-		while(!continueSelect) {
+		while (!continueSelect) {
 			Scanner scanner = new Scanner(System.in);
-			System.out.println("1. 계약팀, 2. 금감원, 3. 마켓팅/영업팀, 4. 보상팀, 5.고객");
+			mainTui.showSelectTeam();
 			String selectNum = scanner.next();
 			switch (selectNum) {
 			case "1":
-				selectContractTeam(scanner);
+				selectContractTeam(mainTui, scanner);
 				break;
 			case "2":
-				selectFinancialDirector(scanner);
+				selectFinancialDirector(mainTui, scanner);
 				break;
 			case "3":
-				selectSalesTeam(scanner);
+				selectSalesTeam(mainTui, scanner);
 				break;
 			case "4":
-				selectCompensateTeam(scanner);
+				selectCompensateTeam(mainTui, scanner);
 				break;
 			case "5":
-				selectPolicyholder(scanner);
+				selectPolicyholder(mainTui, scanner);
 				break;
 			default:
-				//while문 안먹음 사
+				// while문 안먹음 사
 				throw new WrongInputException();
-				
+
 			}
 		}
 	}
-	
-	
-	private static void selectContractTeam(Scanner scanner) throws DBAcceptException {
-		boolean continueSelect = true;
 
-		
-		while (continueSelect) {
-			System.out.println("1. 설계, 2. 인수심사,  3. 계약관리 0. 종료");
+	private static void selectContractTeam(MainTui mainTui, Scanner scanner) throws DBAcceptException {
+		boolean continueSelect = false;
+		while (!continueSelect) {
+			mainTui.showSelectContractTeam();
 			String selectNum = scanner.next();
 			switch (selectNum) {
 			case "1":
@@ -70,94 +68,115 @@ public class Main {
 				continueSelect = contractManagement.searchContract(scanner);
 				break;
 			case "0":
+				mainTui.showClose();
 				System.exit(0);
 				break;
 			default:
-				System.out.println("입력이 잘못 되었습니다. 다시 입력해주세요.");
+				mainTui.showWrongInput();
 				break;
 			}
 		}
+		mainTui.showClose();
 	}
 
-	private static void selectFinancialDirector(Scanner scanner) {
-		System.out.println("1. 보험 심사");
-		String selectNum = scanner.next();
+	private static void selectFinancialDirector(MainTui mainTui, Scanner scanner) {
 
-		switch (selectNum) {
-		case "1":
-			InsuranceJudge insuranceJudge = new InsuranceJudge();
-			insuranceJudge.selectJudge();
-			break;
-
-		default:
-			System.out.println("선택 이상함");
-			break;
-		}
-	}
-
-	private static void selectSalesTeam(Scanner scanner) {
-		System.out.println("1. 보험 판매, 2. 고객 정보 관리, 3. 판매채널 관리");
-		String selectNum = scanner.next();
-
-		switch (selectNum) {
-		case "1":
-			InsuranceSales insuranceSales = new InsuranceSales();
-			insuranceSales.selectInsuranceType();
-			break;
-		case "2":
-			CustomerManagement customerManagement = new CustomerManagement();
-			customerManagement.searchCustomer();
-			break;
-		case "3":
-			ChannelManagement channelManagement = new ChannelManagement();
-			channelManagement.viewChannel();
-			break;
-
-		default:
-			System.out.println("선택 이상함");
-			break;
-		}
-
-	}
-
-	private static void selectPolicyholder(Scanner scanner) {
-		//2. 납부기록확인도분리하기
-		System.out.println("1. 보험료 납부  2. 지급 기록 확인");
-		String selectNum = scanner.next();
-		FeePayment feePayment = new FeePayment();
+		boolean continueSelect = false;
+		while (!continueSelect) {
+			mainTui.showSelectFinancialDirector();
+			String selectNum = scanner.next();
 
 			switch (selectNum) {
 			case "1":
-				feePayment.checkFee();
+				InsuranceJudge insuranceJudge = new InsuranceJudge();
+				insuranceJudge.selectJudge();
 				break;
-			case "2":
-				feePayment.checkProvision();
-			
+			case "0":
+				mainTui.showClose();
+				System.exit(0);
+				break;
 			default:
-				System.out.println("선택 이상함");
+				mainTui.showWrongInput();
 				break;
 			}
-		
-		
-
+		}
+		mainTui.showClose();
 	}
 
-	private static boolean selectCompensateTeam(Scanner scanner) {
+	private static void selectSalesTeam(MainTui mainTui, Scanner scanner) {
+		boolean continueSelect = false;
+		while (!continueSelect) {
+			mainTui.showSalesTeam();
+			String selectNum = scanner.next();
+
+			switch (selectNum) {
+			case "1":
+				InsuranceSales insuranceSales = new InsuranceSales();
+				insuranceSales.selectInsuranceType();
+				break;
+			case "2":
+				CustomerManagement customerManagement = new CustomerManagement();
+				customerManagement.searchCustomer();
+				break;
+			case "3":
+				ChannelManagement channelManagement = new ChannelManagement();
+				channelManagement.viewChannel();
+				break;
+			case "0":
+				mainTui.showClose();
+				System.exit(0);
+				break;
+			default:
+				mainTui.showWrongInput();
+				break;
+			}
+		}
+		mainTui.showClose();
+	}
+
+	private static void selectPolicyholder(MainTui mainTui, Scanner scanner) {
 		boolean continueSelect = false;
 		
-		while (!continueSelect) {
-			System.out.println("1. 손해사정, 0. 취소 ");
+		while(!continueSelect) {
+			mainTui.showPolicyholder();
+			
 			String selectNum = scanner.next();
 			switch (selectNum) {
-			case "1":		
+			case "1":
+				FeePayment feePayment = new FeePayment();
+				feePayment.start();
+				break;
+			case "0":
+				mainTui.showClose();
+				System.exit(0);
+				break;
+			default:
+				mainTui.showWrongInput();
+				break;
+			}
+
+		}
+		mainTui.showClose();
+	
+	}
+
+	private static boolean selectCompensateTeam(MainTui mainTui, Scanner scanner) {
+		boolean continueSelect = false;
+
+		while (!continueSelect) {
+			mainTui.showCompensateTeam();
+			String selectNum = scanner.next();
+			switch (selectNum) {
+			case "1":
 				DamageAssessment damageAssessment = new DamageAssessment();
 				return continueSelect = damageAssessment.selectAccidentMenagement(scanner);
-				
+
 			case "0":
-				System.out.println("취소되었습니다. 전 선택창으로 돌아갑니다");
-				return true;
+				mainTui.showClose();
+				System.exit(0);
+				break;
 			default:
-				System.out.println("선택 이상함");
+				mainTui.showWrongInput();
 				break;
 			}
 		}

@@ -60,7 +60,26 @@ public class ContractListImpl implements ContractList {
 		}
 		return null;
 	}
+	
+	
+//이거 세개 없애던가 해야함...
+	@Override
+	public Contract get(String name, String phoneNum) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
+	@Override
+	public ArrayList<Contract> getContractByNameAndNUm(String CustomerName, String CustomerPhoneNum) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Contract get(int num) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 
 

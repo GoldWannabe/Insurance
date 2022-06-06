@@ -64,6 +64,13 @@ public class IRankDao  extends Dao {
 		
 	}
 
+	public boolean deleteByID(String rankID) {
+		String query = "delete from IRank where RankID=\""+rankID+"\";";
+
+		System.out.println(query);
+		return super.delete(query);
+	}
+
 
 
 }

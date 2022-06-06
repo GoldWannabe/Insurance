@@ -9,6 +9,7 @@ import Control.ContractTeam.ContractManagement;
 import Model.DB.ApplyContractDao;
 import Model.DB.ContractAccidentDao;
 import Model.DB.ContractDao;
+import Model.DB.FailContractDao;
 import Model.DB.RenewContractDao;
 
 public class Contract {
@@ -29,14 +30,15 @@ public class Contract {
 	private int unpaidFee;
 	private ContractDao contractDao;
 	private ApplyContractDao applyContractDao;
-	private ContractAccidentDao  contractAccidentDao;
+	private ContractAccidentDao contractAccidentDao;
 	private RenewContractDao renewContractDao;
-	private ArrayList<String> accidentHistory  = new ArrayList<String>();	
+	private FailContractDao failContractDao;
+	private ArrayList<String> accidentHistory = new ArrayList<String>();
 	private int num;
-	
-	//심사 탈락 이유
+
+	// 심사 탈락 이유
 	private String reason;
-	
+
 	public String getReason() {
 		return reason;
 	}
@@ -64,7 +66,7 @@ public class Contract {
 	public Contract() {
 		this.contractDao = new ContractDao();
 		this.applyContractDao = new ApplyContractDao();
-		this.contractID = UUID.randomUUID().toString();
+
 	}
 
 	public Contract(String contract) {
@@ -99,10 +101,22 @@ public class Contract {
 		// 갱신 내용 적고 저장
 	}
 
-	public void permit() {
-		// Customer customer = new Customer(); 고객 정보 저장
-		// 계약 정보 저장
+	public boolean permit() {
+		if (this.contractDao.create(this)) {
+			return this.applyContractDao.deleteByID(this.contractID);
+		}
 
+		return false;
+
+	}
+
+	public boolean fail() {
+		this.failContractDao = new FailContractDao();
+		if(this.failContractDao.create(this)) {
+			return this.applyContractDao.deleteByID(this.contractID);
+		}
+		
+		return false;
 	}
 
 	public void allowRenew() {
@@ -245,7 +259,7 @@ public class Contract {
 	public ResultSet retrivecontract() {
 
 		return contractDao.retrivecontract(this.getCustomerName(), this.getPhoneNum());
-		
+
 	}
 
 	public void register() {
@@ -253,6 +267,7 @@ public class Contract {
 	}
 
 	public void registerApplyContract() {
+		this.contractID = UUID.randomUUID().toString();
 		this.applyContractDao = new ApplyContractDao();
 		this.applyContractDao.create(this);
 	}
@@ -265,12 +280,18 @@ public class Contract {
 	public void updateProvisionFee(int lablityCost) {
 		this.contractDao = new ContractDao();
 		this.contractDao.updateProvisionFee(this, lablityCost);
-		
+
 	}
 
 	public ResultSet getContract() {
 		this.contractDao = new ContractDao();
 		return this.contractDao.retrive();
+	}
+
+	public boolean updateUnpaidFee(int newUnpaidFee, String contractID) {
+		// TODO Auto-generated method stub
+		this.contractDao = new ContractDao();
+		return this.contractDao.updateUnpaidFee(newUnpaidFee, contractID);
 	}
 
 	public ResultSet getApply() {
@@ -281,7 +302,7 @@ public class Contract {
 		this.contractAccidentDao = new ContractAccidentDao();
 		this.contractAccidentDao.createContractAccident(this, AccidentID);
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public ResultSet getFailContract() {
@@ -317,10 +338,29 @@ public class Contract {
 		return this.renewContractDao.retriveRenewContract(this);
 	}
 
+	public ResultSet getRenew() {
+		this.renewContractDao = new RenewContractDao();
+		return this.renewContractDao.retrive();
+	}
 
-	
+	public ResultSet getContractByID(String contractID) {
+		this.contractDao = new ContractDao();
+		return this.contractDao.retriveByID(contractID);
+	}
 
+	public ResultSet getAccidentNum() {
+		this.contractAccidentDao = new ContractAccidentDao();
+		return this.contractAccidentDao.retriveCount(this.contractID);
+	}
 
+	public boolean permitRenew() {
+		this.contractDao = new ContractDao();
+		return this.contractDao.updateRenew(this);
+	}
 
+	public boolean failRenew() {
+		this.renewContractDao = new RenewContractDao();
+		return this.renewContractDao.deleteByID(this.contractID);
+	}
 
 }// end Contract
