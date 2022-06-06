@@ -265,9 +265,11 @@ public class DamageAssessment {
 		// 계약 DB에서 가져옴.
 
 		String[] inser = compensateTeamTui.viewaddcheck(scanner);
-
-		contract.setCustomerName(inser[0]);
-		contract.setPhoneNum(inser[1]);
+		String customerName = inser[0];
+		String phoneNum = inser[1];
+		
+		contract.setCustomerName(customerName);
+		contract.setPhoneNum(phoneNum);
 		//
 		ResultSet resultSet = contract.retrivecontract();
 		// 사고번호ID, 계약ID ,고객ID,가입자명, 연락처,사고날짜,사고내용 ,총비용,손해정도,비용종류,지급여부,책임비율,책임비용
@@ -290,7 +292,7 @@ public class DamageAssessment {
 				contract.setStartDate(LocalDate.parse(resultSet.getString("startDate")));
 				contract.setEndDate(LocalDate.parse(resultSet.getString("endDate")));
 				num++;
-				contractList.add(contract);
+				this.contractList.add(contract);
 			} // 계약ID, 고객ID, 가입자명, 연락처, 보험ID, 보험이름, 납부방식, 보험료, 미납액, 담보액, 지급액, 가입일, 만료일
 		} catch (SQLException e) {
 			throw new DBAcceptException();
@@ -298,7 +300,7 @@ public class DamageAssessment {
 
 		boolean overcheck = false;
 		while (!overcheck) {
-			if (this.contractList.getcheck(inser[0], inser[1]) != null) {
+			if (this.contractList.getcheck(customerName, phoneNum) != null) {
 				return overcheck = false;
 			} else {
 				overcheck = true;
@@ -434,7 +436,7 @@ public class DamageAssessment {
 		while (!isSearch) {
 			compensateTeamTui.viewselectNumContract();
 			num = scanner.nextInt();
-			if (this.contractList.get(num) != null) {
+			if (this.contractList.getNum(num) != null) {
 				isSearch = true;
 			} else {
 				throw new NonExistContract();
@@ -464,7 +466,7 @@ public class DamageAssessment {
 			liablityRate = toInt[3];
 
 			// accidentList.get(customerName_inser, phoneNum_inser);
-			Contract contract = this.contractList.get(num);
+			Contract contract = this.contractList.getNum(num);
 
 			accident.setID(UUID.randomUUID().toString());
 			accident.setContractID(contract.getContractID());

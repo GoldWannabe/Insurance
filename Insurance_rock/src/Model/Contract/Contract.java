@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import Control.ContractTeam.ContractManagement;
 import Model.DB.ApplyContractDao;
 import Model.DB.ContractAccidentDao;
 import Model.DB.ContractDao;
@@ -312,6 +313,29 @@ public class Contract {
 	public ResultSet getFailContractID() {
 		this.contractDao = new ContractDao();
 		return this.contractDao.retriveFailContractID(this);
+	}
+
+	public ResultSet resultAccidentHistory() {
+		this.contractAccidentDao = new ContractAccidentDao();
+		return this.contractDao.resultAccidentHistory(this);
+	}
+
+
+	public boolean createBesidesConstract() {
+		this.renewContractDao = new RenewContractDao();
+		return this.renewContractDao.createBesidesConstract(this);
+		
+	}
+
+	public boolean deleteContract() {
+		this.contractDao = new ContractDao();
+		return this.contractDao.deleteContract(this);
+		
+	}
+
+	public ResultSet retriveRenewContract() {
+		this.renewContractDao = new RenewContractDao();
+		return this.renewContractDao.retriveRenewContract(this);
 	}
 
 	public ResultSet getRenew() {

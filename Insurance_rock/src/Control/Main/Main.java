@@ -65,7 +65,7 @@ public class Main {
 				break;
 			case "3":
 				ContractManagement contractManagement = new ContractManagement();
-				continueSelect = contractManagement.searchContract();
+				continueSelect = contractManagement.searchContract(scanner);
 				break;
 			case "0":
 				mainTui.showClose();

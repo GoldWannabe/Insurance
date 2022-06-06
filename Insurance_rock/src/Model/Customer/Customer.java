@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import Model.Contract.Contract;
 import Model.DB.CustomerDao;
 import Model.DB.CustomerRankDao;
 import Model.DB.InsuranceDao;
@@ -237,6 +238,15 @@ public class Customer {
 		return this.customerDao.updateInsuranceNum(this);
 	}
 
+	public void deleteRank(String contractID) {
+		this.rank = new Rank();
+		for (int i = 0; i < this.contractID.size(); i++) {
+			if (this.contractID.get(i).equals(contractID)) {
+				this.rank.delete(this.rankID.get(i));
+			}
+		}
+	}
+
 	public boolean setRankByID(String contractID) {
 		this.rank = new Rank();
 		for (int i = 0; i < this.contractID.size(); i++) {
@@ -266,6 +276,29 @@ public class Customer {
 		}
 
 		return false;
+	}
+
+	public boolean updateCustomerRank(String afterRankID, String beforRankID) {
+		this.customerRankDao = new CustomerRankDao();
+		return this.customerRankDao.updateRank(afterRankID, beforRankID); // this.rank: 기존에 있는 랭크 ID, 새롭게 만든것은 Rank안에 있음.
+	}
+
+	public ResultSet retriveID(String contractID) {
+		this.rank = new Rank();
+		for (int i = 0; i < this.contractID.size(); i++) {
+			if (this.contractID.get(i).equals(contractID)) {
+				ResultSet resultSet = this.rank.retriveID(this.rankID.get(i));
+				return resultSet;
+			}
+		}
+		return null;
+
+	}
+
+	public ResultSet retriveCustomer(String customerID) {
+		this.customerDao = new CustomerDao();
+		return this.customerDao.retriveCustomer(customerID);
+		
 	}
 
 	public Rank getRank() {
