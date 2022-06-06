@@ -7,6 +7,8 @@ import Model.Channel.Channel;
 import Model.Channel.ChannelListImpl;
 import Model.Contract.Contract;
 import Model.Contract.ContractList;
+import Model.Customer.Customer;
+import Model.Customer.CustomerList;
 //github.com/GoldWannabe/Insurance.git
 import Model.Insurance.Insurance;
 import Model.Insurance.InsuranceList;
@@ -331,5 +333,19 @@ public class SalesTeamTui {
 		System.out.print("재입력: ");
 
 	}
+	
+	public void viewCustomerInfo(Customer customer) {
+		System.out.println("--------------------------------------------------------------------------------------------");
+		System.out.printf("%10s %13s %10s %10s %10s %10s %10s %10s", "가입자명", "주민/사업자번호", "연락처", "주소", "성별", "가입 보험 개수", "은행명", "계좌번호");
+		System.out.println("--------------------------------------------------------------------------------------------");
+		System.out.format("%10s %13s %15s %10s %10s %10s %10s %10s",customer.getName(), customer.getSSN(), customer.getPhoneNum(), customer.getAddress(), customer.getSex(), customer.getInsuranceNum(), customer.getBankName(), customer.getAccountNum());
+	}
+	public void viewButton() {
+		System.out.println("1. 고객 정보 수정  2. 고객 정보 추가 3. 고객 정보 삭제" );
+	}
 
+	public void viewSelectEdit() {
+		// TODO Auto-generated method stub
+		
+	}
 }

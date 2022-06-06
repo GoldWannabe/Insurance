@@ -88,4 +88,10 @@ public class CustomerDao extends Dao {
 		return super.delete(query);		
 	}
 
+	public ResultSet retrive(String name, String phoneNum) {
+		// TODO Auto-generated method stub
+		String query = "select * from customer where name =\""+name+"\"and phoneNum = \""+phoneNum+"\"";
+		System.out.println(query);
+		return super.retrive(query);
+}
 }

@@ -2,6 +2,8 @@ package Model.Customer;
 
 import java.util.ArrayList;
 
+import Model.Payment.Payment;
+
 public class CustomerListImpl implements CustomerList {
 
 	private ArrayList<Customer> customerList;
@@ -61,5 +63,17 @@ public class CustomerListImpl implements CustomerList {
 		}
 		return null;
 	}
+
+	@Override
+	public Customer get(String name, String phoneNum) {
+		for(Customer customer : this.customerList) {
+			if(customer.getName().equals(name) && customer.getPhoneNum().equals(phoneNum)) return customer;
+		}
+		return null;
+	}
+	
+	public ArrayList<Customer> getAll() {
+	      return this.customerList;
+	   }
 
 }// end CustomerListImpl
