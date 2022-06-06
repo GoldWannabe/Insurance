@@ -11,9 +11,8 @@ public class CustomerRankDao  extends Dao {
 		super.connect();
 	}
 
-	public boolean create() {
-		String query = "";
-
+	public boolean create(String customerID, String contractID, String rankID) {
+		String query ="insert into CustomerRank(customerID, contractID, RankID) values (\""+customerID+"\", \""+contractID+"\", \""+rankID+"\");";
 		return super.create(query);
 	}
 

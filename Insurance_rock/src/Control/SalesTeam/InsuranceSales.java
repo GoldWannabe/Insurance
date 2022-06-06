@@ -197,8 +197,10 @@ public class InsuranceSales {
 		setMaterial(scanner);
 		setPurpose(scanner);
 		// DB write
-		this.contract.registerApplyContract();
 		this.rank.register();
+		this.contract.registerApplyContract();
+		this.customer.registerRank(this.contract.getContractID(), this.rank.getRankID());
+		
 
 		// DB update
 		//this.customer.setInsuranceNum(this.customer.getInsuranceNum() + 0.1);

@@ -131,6 +131,7 @@ public class FeePayment {
 	
 	public boolean start() {
 		Scanner scanner = new Scanner(System.in);
+		this.policyholderTUI.showStartMenu();
 		String num = scanner.next();
 		if(num.equals("1")) {
 			checkFee();
