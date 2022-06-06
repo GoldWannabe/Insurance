@@ -82,7 +82,7 @@ public class CompensateTeamTui {
 				"------------------------------------------------------------------------------------------------------------------------------------------------------------");
 		for (Accident accident : accidentList.getAll()) {
 
-			System.out.format("%5s %20s %10s %10s %10s %10s %10s %15s %10s %10s",
+			System.out.format("%5s %15s %10s %10s %10s %10s %10s %10s %10s %10s",
 					accident.getNum() + "." + accident.getCustomerName(), accident.getPhoneNum(),
 					accident.getAccidentDate(), accident.getContent(), accident.getTotalCost(), accident.getDamagePer(),
 					accident.getKindOfCost(), accident.isPayCompleted(), accident.getLiablityRate(),

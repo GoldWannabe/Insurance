@@ -2,8 +2,6 @@ package Model.Contract;
 
 import java.util.ArrayList;
 
-import Model.Payment.Payment;
-
 public class ContractListImpl implements ContractList {
 	private ArrayList<Contract> contractList;
 
@@ -43,6 +41,7 @@ public class ContractListImpl implements ContractList {
 		}
 		return null;
 	}
+	
 
 	@Override
 	public Contract getCount(int select) {
@@ -53,7 +52,7 @@ public class ContractListImpl implements ContractList {
 //	public boolean update(){
 //
 //	}
-	public Contract get(int num) {
+	public Contract getNum(int num) {
 		for (Contract contract : this.contractList) {
 			if (contract.getNum() == num) {
 				return contract;
@@ -62,29 +61,27 @@ public class ContractListImpl implements ContractList {
 		return null;
 	}
 	
-	public Contract get(String CustomerName, String CustomerPhoneNum) {
-		for(Contract contract : this.contractList) {
-			if(contract.getCustomerName().equals(CustomerName) && contract.getPhoneNum().equals(CustomerPhoneNum)) return contract;
-		}
+	
+//이거 세개 없애던가 해야함...
+	@Override
+	public Contract get(String name, String phoneNum) {
+		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 	@Override
 	public ArrayList<Contract> getContractByNameAndNUm(String CustomerName, String CustomerPhoneNum) {
 		// TODO Auto-generated method stub
-		ArrayList<Contract> contracts = new ArrayList<Contract>();
-		for(Contract contract : this.contractList) {
-			if(contract.getCustomerName().equals(CustomerName) && contract.getPhoneNum().equals(CustomerPhoneNum)) {
-//				return contractList;
-				contracts.add(contract);
-			}
-		}
-		if(!(contracts.isEmpty())) {
-			return contracts;
-		}
 		return null;
 	}
+
+	@Override
+	public Contract get(int num) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 
 	
 }// end ContractListImpl

@@ -39,18 +39,29 @@ public class IRankDao  extends Dao {
 		return super.update(query);
 	}
 
-	public boolean delete() {
-		String query = "";
-
-		System.out.println(query);
-		return super.delete(query);
-	}
-
 	public ResultSet retriveByID(String rankID) {
 		String query = "SELECT * FROM IRank where RankID =\""+rankID+"\";";
 
 		System.out.println(query);
 		return super.retrive(query);
+	}
+	public ResultSet retriveID(String rankID) {
+		String query = "SELECT RankID FROM IRank where RankID =\""+rankID+"\";";
+
+		System.out.println(query);
+		return super.retrive(query);
+	}
+
+	public boolean deleteRank(String rankID) {
+		StringBuilder stringBuilder = new StringBuilder();
+
+		String query = stringBuilder.append("delete from irank")
+				.append(" where RankID = \'"+ rankID+"\'")
+				.toString();
+
+		System.out.println(query);
+		return super.delete(query);
+		
 	}
 
 	public boolean deleteByID(String rankID) {

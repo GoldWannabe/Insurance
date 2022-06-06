@@ -2,6 +2,10 @@ package Model.DB;
 
 import java.sql.ResultSet;
 
+import Model.Contract.Contract;
+import Model.Customer.Customer;
+import Model.Customer.Rank;
+
 public class CustomerRankDao  extends Dao {
 	public CustomerRankDao() {
 		super.connect();
@@ -42,6 +46,19 @@ public class CustomerRankDao  extends Dao {
 		return super.retrive(query);
 	}
 
+	public boolean updateRank(String afterRankID, String beforeRankID) {
+		StringBuilder stringBuilder = new StringBuilder();
+
+		String query = stringBuilder.append("update customerRank set RankID =")
+				.append("\'"+afterRankID + "\'")
+				.append("where RankID  = \'" + beforeRankID + "\'")
+				.toString();
+
+		System.out.println(query);
+		return super.update(query);
+	}
+
+	
 	public boolean delete(String customerID, String rankID) {
 		String query = "delete from customerRank where customerID=\""+customerID+"\" and RankID=\""+rankID+"\";";
 
