@@ -33,7 +33,7 @@ public class UnderwritingNew {
 		}
 
 		if (!verifyPeriod() || !verifyPremium()) {
-			return false;
+			return true;
 		}
 
 		this.contractTeamTui.showDetailContract(this.contract);
@@ -54,7 +54,7 @@ public class UnderwritingNew {
 					return FailContract(scanner);
 				} else if (flag == 0) {
 					this.contractTeamTui.showCancel();
-					return true;
+					return false;
 				}
 
 			} catch (WrongInputException e) {

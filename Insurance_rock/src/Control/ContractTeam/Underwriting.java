@@ -41,7 +41,7 @@ public class Underwriting {
 					return selectRenew(scanner);
 				} else if (flag == 0) {
 					this.contractTeamTui.showCancel();
-					return true;
+					return false;
 				}
 
 			} catch (WrongInputException e) {
@@ -81,7 +81,7 @@ public class Underwriting {
 
 			if (this.contractList.getAll().isEmpty()) {
 				this.contractTeamTui.showNoApplyContract();
-				return true;
+				return false;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -205,7 +205,7 @@ public class Underwriting {
 			UnderwritingRenew underwritingRenew= new UnderwritingRenew();
 			return underwritingRenew.verifyInsurance(this.contract);
 		} else if (flag == 2) {
-			return true;
+			return false;
 		}
 		return false;
 	}
