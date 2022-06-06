@@ -206,12 +206,7 @@ public class Customer {
 		this.customerDao = new CustomerDao();
 		return this.customerDao.retrive();
 	}
-	
-	public ResultSet getCustomer(String name, String phoneNum) {
-		this.customerDao = new CustomerDao();
-		return this.customerDao.retrive(name, phoneNum);
-	}
-	
+
 	public boolean register() {
 		this.customerDao = new CustomerDao();
 		return this.customerDao.create(this);
@@ -314,16 +309,5 @@ public class Customer {
 	public boolean deleteCustomer() {
 		this.customerDao = new CustomerDao();
 		return this.customerDao.deleteCustomer(this);
-	}
-
-	public boolean updateAddApplyInsuranceNum() {
-		this.customerDao = new CustomerDao();
-		return this.customerDao.updateAddApplyInsuranceNum(this);
-		
-	}
-
-	public void registerRank(String contractID, String rankID) {
-		this.customerRankDao = new CustomerRankDao();
-		this.customerRankDao.create(this.customerID, contractID, rankID);
 	}
 }

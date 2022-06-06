@@ -7,7 +7,6 @@ import java.util.Scanner;
 import Model.Contract.Contract;
 import Model.Contract.ContractList;
 import Model.Contract.ContractListImpl;
-import Model.Customer.Customer;
 import Model.Insurance.Insurance;
 import View.Team.SalesTeamTui;
 import exception.DBAcceptException;
@@ -115,9 +114,6 @@ public class ContractRejoin {
 
 	private boolean reRegisterContract(Contract contract) {
 		try {
-			Customer customer = new Customer();
-			customer.setCustomerID(contract.getCustomerID());
-			customer.updateAddApplyInsuranceNum();
 			if(contract.deleteFailContract() && contract.registerApplyContract()) {
 				salesTeamTui.showReRegisterSuccess();
 				return true;

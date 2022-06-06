@@ -14,7 +14,5 @@ public interface CustomerList {
 
 	boolean editInsuranceNum(String customerID);
 
-	public Customer get(String name, String phoneNum);
-
 
 }//end CustomerList
