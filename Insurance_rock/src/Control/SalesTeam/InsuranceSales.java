@@ -199,8 +199,10 @@ public class InsuranceSales {
 		this.rank.register();
 
 		// DB update
-		this.customer.setInsuranceNum(this.customer.getInsuranceNum() + 0.1);
-		this.customer.updateInsuranceNum();
+		//this.customer.setInsuranceNum(this.customer.getInsuranceNum() + 0.1);
+		//this.customer.updateInsuranceNum();
+		this.customer.updateAddApplyInsuranceNum();
+		this.salesTeamTui.showRegisterSuccess();
 		return false;
 	}
 
