@@ -8,6 +8,7 @@ import java.util.UUID;
 import Model.DB.ApplyContractDao;
 import Model.DB.ContractAccidentDao;
 import Model.DB.ContractDao;
+import Model.DB.FailContractDao;
 
 public class Contract {
 
@@ -28,6 +29,7 @@ public class Contract {
 	private ContractDao contractDao;
 	private ApplyContractDao applyContractDao;
 	private ContractAccidentDao  contractAccidentDao;
+	private FailContractDao failContractDao;
 	private ArrayList<String> accidentHistory  = new ArrayList<String>();	
 	private int num;
 	
@@ -249,9 +251,9 @@ public class Contract {
 		this.contractDao = new ContractDao();
 	}
 
-	public void registerApplyContract() {
+	public boolean registerApplyContract() {
 		this.applyContractDao = new ApplyContractDao();
-		this.applyContractDao.create(this);
+		return this.applyContractDao.create(this);
 	}
 
 	public ResultSet retrivelongtermFee() {
@@ -282,15 +284,18 @@ public class Contract {
 	}
 
 	public ResultSet getFailContract() {
-		this.contractDao = new ContractDao();
-		return this.contractDao.retriveFailContract(this);
+		this.failContractDao = new FailContractDao();
+		return this.failContractDao.retriveFailContract(this);
 	}
 
 	public ResultSet getFailContractID() {
-		this.contractDao = new ContractDao();
-		return this.contractDao.retriveFailContractID(this);
+		this.failContractDao = new FailContractDao();
+		return this.failContractDao.retriveFailContractID(this);
 	}
 
-
+	public boolean deleteFailContract() {
+		this.failContractDao = new FailContractDao();
+		return this.failContractDao.deleteFailContract(this);
+	}
 
 }// end Contract
