@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 import Model.Contract.Contract;
+
 import Model.Contract.ContractListImpl;
 import Model.Customer.Customer;
 import Model.Customer.Rank;
@@ -285,6 +286,11 @@ public class ContractTeamTui {
 	public void showFailRenewReason(String reason) {
 		System.out.println("다음과 같은 사유로 갱신에 실패하였습니다.");
 		System.out.println("사유:"+reason);
+	}
+
+	public void showContinue() {
+		System.out.println("인수심사가 완료되었습니다. 인수심사를 계속하시겠습니까?");
+		System.out.println("1. 예 2. 아니오");
 	}
 
 	public void viewDeleteCustoemr(Contract contract, Customer customer) {
