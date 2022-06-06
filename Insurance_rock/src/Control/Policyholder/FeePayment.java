@@ -132,6 +132,27 @@ public class FeePayment {
 		return false;
 	}
 	
+	public boolean start() {
+		Scanner scanner = new Scanner(System.in);
+		this.policyholderTUI.showStartMenu();
+		String num = scanner.next();
+		if(num.equals("1")) {
+			checkFee();
+		}
+		else if(num.equals("2")) {
+			checkPayment();
+		}
+		else if(num.equals("3")) {
+			checkProvision();
+		}
+		else {
+			this.policyholderTUI.showWrongInput();
+			start();
+		}
+	return false;
+		
+		
+	}
 	public boolean checkFee() {
 		Scanner scanner = new Scanner(System.in);
 		try{

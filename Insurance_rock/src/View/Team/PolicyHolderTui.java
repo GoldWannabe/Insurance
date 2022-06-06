@@ -52,7 +52,9 @@ public class PolicyHolderTui {
 	public void showSelectInsurance() {
 		System.out.println("납부할 보험의 번호를 선택해주세요. ");
 	}
-
+	public void showStartMenu() {
+		System.out.println("1. 보험료 납부 2. 납부 내역 확인 3. 지급 내역 확인");
+	}
 	public void showSelectMenu() {
 		// TODO Auto-generated method stub
 		System.out.println("1. 납부 방법 선택   2. 취소 ");
