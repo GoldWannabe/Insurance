@@ -61,19 +61,4 @@ public class ProvisionListImpl implements ProvisionList {
 		return null;
 	}
 
-	@Override
-	public ArrayList<Provision> getProvisionBySearch(String name, String phoneNum) {
-		ArrayList<Provision> provisions = new ArrayList<Provision>();
-		for(Provision provision : this.provisionList) {
-			if(provision.getCustomerName().equals(name) && provision.getPhoneNum().equals(phoneNum)) {
-				provisions.add(provision);
-			}
-		}
-		if(!(provisions.isEmpty())) { 
-			return provisions;
-		}
-		return null;
-	}
-	
-
 }//end ProvisionListImpl

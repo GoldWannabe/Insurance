@@ -1,6 +1,5 @@
 package Model.Provision;
 
-import java.util.ArrayList;
 
 /**
  * @author ansm6
@@ -17,5 +16,4 @@ public interface ProvisionList {
 
 	public void finalize() throws Throwable;
 	public Provision get(String name, String phoneNum);
-	public ArrayList<Provision> getProvisionBySearch(String name, String phoneNum);
 }//end ProvisionList

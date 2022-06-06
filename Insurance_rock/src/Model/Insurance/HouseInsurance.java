@@ -104,9 +104,4 @@ public class HouseInsurance extends Insurance {
 		}
 	}
 
-	@Override
-	public double getPremiumRate(int rank) {
-		return this.premiumRate[rank];
-	}
-
 }// end houseInsurance

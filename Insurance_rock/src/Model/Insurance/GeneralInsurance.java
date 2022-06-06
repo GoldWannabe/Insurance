@@ -103,9 +103,4 @@ public class GeneralInsurance extends Insurance {
 			e.printStackTrace();
 		}	}
 
-	@Override
-	public double getPremiumRate(int rank) {
-		return this.premiumRate[rank];
-	}
-
 }// end GeneralInsurance

@@ -30,19 +30,18 @@ public class PaymentDao  extends Dao {
 		System.out.println(query);
 		return super.update(query);
 	}
+	
+//	public boolean updateDate() {
+//		String query = "";
+//		
+//		System.out.println(query);
+//		return super.update(query);
+//	}
 
 	public boolean delete() {
 		String query = "";
 
 		System.out.println(query);
 		return super.delete(query);
-	}
-	//흠
-	public boolean updateBankName(String newBankName, String paymentID) {
-		String query = "update payment set cardOrBankName = " + "'" + newBankName + "'" + "where paymentID = " + "'" + paymentID + "';";
-
-		System.out.println(query);
-		return super.update(query);
-		
 	}
 }

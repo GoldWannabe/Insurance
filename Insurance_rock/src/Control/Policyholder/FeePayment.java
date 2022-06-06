@@ -1,17 +1,10 @@
 package Control.Policyholder;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.sql.ResultSet;
 import View.Team.PolicyHolderTui;
-import exception.BankfileAcceptException;
-import exception.LackCustomerBank;
-
 import java.sql.SQLException;
 import java.time.LocalDate;
-//import java.util.Arrays;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import Model.Payment.*;
@@ -36,21 +29,17 @@ public class FeePayment {
 	public FeePayment() {
 		this.policyholderTUI = new PolicyHolderTui();
 	}
-	private boolean setDB(String purpose) {
+	
+	public boolean checkFee() {
+		// TODO Auto-generated method stub
 		Scanner scanner = new Scanner(System.in);
 		this.paymentList = new PaymentListImpl();
 		this.payment = new Payment();
-		
 		this.contractList = new ContractListImpl();
 		this.contract = new Contract();
-		
-		this.provisionList = new ProvisionListImpl();
-		this.provision = new Provision();
-		
 		//list로 보여주기
 		ResultSet resultSet = this.payment.getPayment();
 		ResultSet resultSet2 = this.contract.getContract();
-		ResultSet resultSet3 = this.provision.getProvision();
 		
 		try {
 			while (resultSet.next()) {
@@ -71,7 +60,6 @@ public class FeePayment {
 			// TODO Auto-generated catch block
 			e.printStackTrace();	
 		}
-		int num = 1;
 		try {
 			while(resultSet2.next()) { 
 				Contract tempContract = new Contract();
@@ -88,8 +76,6 @@ public class FeePayment {
 				tempContract.setProvisionFee(resultSet2.getInt("provisionFee"));
 				tempContract.setStartDate(LocalDate.parse(resultSet2.getDate("startDate").toString()));
 				tempContract.setEndDate(LocalDate.parse(resultSet2.getDate("endDate").toString()));
-				tempContract.setNum(num);
-				num ++;
 				this.contractList.add(tempContract);
 			}
 		
@@ -99,42 +85,7 @@ public class FeePayment {
 			// TODO Auto-generated catch block
 			e.printStackTrace();	
 		}
-		try {
-			while (resultSet3.next()) {
-				
-				Provision tempProvision = new Provision();
-				tempProvision.setProvisionID(resultSet3.getString("provisionID"));
-				tempProvision.setInsuranceName(resultSet3.getString("insuranceName"));
-				tempProvision.setAccountNum(resultSet3.getString("accountNum"));
-				tempProvision.setBankName(resultSet3.getString("bankName"));
-				tempProvision.setCompensation(resultSet3.getInt("compensation"));
-				tempProvision.setPhoneNum(resultSet3.getString("customerPhoneNum"));
-				tempProvision.setCompensationDate(LocalDate.parse(resultSet3.getDate("compensationDate").toString()));
-				tempProvision.setCustomerName(resultSet3.getString("customerName"));
-				tempProvision.setLongTerm(resultSet3.getBoolean("longTerm"));	
-				tempProvision.setInsuranceType(EInsurance.valueOf(resultSet3.getString("insuranceType").toString()));
-				tempProvision.setContractID(resultSet3.getString("contractID"));
-//				tempProvision.setProvisionID(resultSet.getString("provisionID"));
-
-				this.provisionList.add(tempProvision);
-			}
-		
-		} catch (SQLException e) {
-			e.printStackTrace();	
-		}
-		if(purpose.equals("forpay") || purpose.equals("forpaymentRecord") || purpose.equals("forProvisionRecord")) {
-			return true;
-		}
-
-		return false;
-	}
-	
-	public boolean checkFee() {
-		Scanner scanner = new Scanner(System.in);
-		if(setDB("forpay")) {
-			return selectCustomer(scanner);
-		}
-		return false;
+		return selectCustomer(scanner);
 	}
 	
 	private boolean selectCustomer(Scanner scanner) {
@@ -142,23 +93,16 @@ public class FeePayment {
 		String name = scanner.next();
 		this.policyholderTUI.enterPhoneNum();
 		String phoneNum = scanner.next();
-		this.payment = this.paymentList.get(name, phoneNum);			
-		this.policyholderTUI.showPaymentFee(this.contractList, name, phoneNum);
-		return selectInsurance(scanner);
-		
-	}
-	private boolean selectInsurance(Scanner scanner) {
-		this.policyholderTUI.showSelectInsurance();
-		int num = scanner.nextInt();
-		if(num == 1) {
-			this.contract = contractList.get(num);
-			System.out.println(this.contract.getInsuranceFee());
-		}
-		else if(num == 2) {
-			this.contract = contractList.get(num);
-			System.out.println(this.contract.getInsuranceFee());
-		}
+		this.payment = this.paymentList.get(name, phoneNum);
+		//여기 오류 처리 다시 !!
+		if ( this.payment == null) {
+			this.policyholderTUI.showNopaymentName();
+			this.selectCustomer(scanner);
+		}	
+		this.policyholderTUI.showPaymentFee(this.payment);
 		return selectMenu(scanner);
+		
+
 	}
 	private boolean selectMenu(Scanner scanner) {
 		this.policyholderTUI.showSelectMenu();
@@ -166,15 +110,17 @@ public class FeePayment {
 		switch(selectNum) {
 		case "1" : 
 			 return choosePaymentMethod(scanner);
-
+//			 break;
 		case "2" : 
+			return checkPayment(scanner);
+//			break;
+		case "3" : 
 			this.policyholderTUI.cancel();
 		}
 		//다른 숫자넣었을 때..
 		return false;
 	}
-	int balances = 0;
-	File file = new File(".//File//CustomerBank.txt");
+	
 
 	private boolean choosePaymentMethod(Scanner scanner) {
 		this.policyholderTUI.selectMethod();
@@ -184,34 +130,8 @@ public class FeePayment {
 		this.policyholderTUI.selectAccountNum();
 		String num = scanner.next();
 		this.policyholderTUI.showMethod(method, name, num);
-		
-		// check customer's account balances
-		try {
-			
-			Scanner fs = new Scanner(file);
-			
-			while (fs.hasNextInt()) {
-				int balances = fs.nextInt();
-				if(balances <= 1000) {
-					throw new LackCustomerBank();
-				}
-				else if(balances >1000) {
-					this.policyholderTUI.showBalanceCheck();
-				}
-				else throw new BankfileAcceptException();
-				
-			}
-			
-		} catch(FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (LackCustomerBank e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (BankfileAcceptException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+		//통장금액 요청
+		//통장에돈있는지
 		this.payment.createPayment();
 		this.payment.setAccountNum(num);
 		this.payment.setCardOrBankName(name);
@@ -228,96 +148,94 @@ public class FeePayment {
 			return payInsuranceFee(scanner);
 		case "2" : 
 			return editPayment(scanner);
-		case "3" : 
-			this.policyholderTUI.cancel();
+			
 		}
 
 		return false;
 	}
 
-	public boolean checkPayment() {
+	private boolean checkPayment(Scanner scanner) {
 		// TODO Auto-generated method stub
-		Scanner scanner = new Scanner(System.in);
-		if(setDB("forpaymentRecord")) {
-			return selectCustomerForPayment(scanner);
-		}
-
-		return false;
-	}
-	private boolean selectCustomerForPayment(Scanner scanner) {
-		this.policyholderTUI.enterCustomerName();
-		String name = scanner.next();
-		this.policyholderTUI.enterPhoneNum();
-		String phoneNum = scanner.next();
-		this.payment = this.paymentList.get(name, phoneNum);
-//		this.contract = this.contractList.g
-		this.policyholderTUI.showPaymentRecords(this.paymentList, name, phoneNum);
+		this.policyholderTUI.showPaymentRecords(this.payment);
 		return false;
 	}
 	
-
 	private boolean payInsuranceFee(Scanner scanner) {
 		this.policyholderTUI.selectPayTerm();
 		String term = scanner.next();
-		//일시불 납부
 		if (term.equals("1")) {
-			//통장 갱신은 나중에. 
+//			ResultSet resultSet2 = this.payment.getPayment();
 //		//남은 금액 갱신, 납부 금액 추가, 해당하는 보험의 미납료 갱신, 납부내역 저장
-//			FileWriter fw = new FileWriter(file); 
-//			fw.write(balances - this.payment.getInsuranceFee());
-//          fw.close();
-            //해당하는 보험의 미납료 갱신. 
-			this.contract.updateUnpaidFee(this.contract.getUnpaidFee()-this.contract.getInsuranceFee(), this.contract.getContractID());
-			this.payment.addPayment();
 			this.policyholderTUI.showCompleted();
-
 			String selectNum = scanner.next();
 			if(selectNum.equals("1")) {
+				this.payment.addPayment();
 				this.policyholderTUI.showPaymentCheck(this.payment);
-			}
-			else if(selectNum.equals("2")) {
-				this.policyholderTUI.cancel();
-			}
 		}
-		//할부 납부
-			//남은 금액 갱신, 납부금액추가,미납료 갱신, 납부내역 저장
-//			"납부가 완료 되었습니다. 미납액:(미납액)"라는 알람이 뜨고 "납부 확인서 출력" 버튼이 뜬다(A2)
-		else if(term.equals("2")) {
-			this.policyholderTUI.enterMonthlyFee();
-			int monthlyFee = scanner.nextInt();
-			this.payment.setInsuranceFee(monthlyFee);
-			int unpaidFee = this.contract.getUnpaidFee() - monthlyFee;
-			this.contract.updateUnpaidFee(unpaidFee, this.contract.getContractID());
-			this.payment.addPayment();
-			this.policyholderTUI.showMonthlyCompleted(unpaidFee);
-			
-			String selected = scanner.next();
-			if(selected.equals("1")) {
-				this.policyholderTUI.showPaymentCheck(this.payment);
-			}
-			else if(selected.equals("2")) {
-				this.policyholderTUI.cancel();
-			}
-			
+		else if(selectNum.equals("2")) {
+			this.policyholderTUI.cancel();
 		}
-		//번호 잘못선택한그 . ..
-	
+//	}
+//	else if(selectNum.equals("3")) { 
+//		// A1 일부납부 . 아직!
+//	}
+//	}
+		}
 		return false;
 	}
 //ea수정 - (gui방식으로 되어있는부분)
 	private boolean editPayment(Scanner scanner) {
-		return choosePaymentMethod(scanner);
+		this.policyholderTUI.showEdit();
+		String num = scanner.next();
+		if(num.equals("1")) {
+			this.policyholderTUI.editMethod();
+		}
+		else if(num.equals("2")){
+			//납부방법은 db에 없음
+			this.policyholderTUI.editMethod();
+			this.policyholderTUI.showEditCompleted();
+		}
+		else if(num.equals("3")) {
+			
+		}
+		//번호 잘못 선택했을 때 exception처리 
+		return false;
 	}
 
 
 	public boolean checkProvision() {
 		// TODO Auto-generated method stub
-		Scanner scanner= new Scanner(System.in);
-		if(setDB("forProvisionRecord")) {
-			return selectCustomerForProvision(scanner);
+		//지급 정보(보험이름,보험종류,장기여부,은행명,계좌번호,보상금액,보상일)를 출력한다
+		Scanner scanner = new Scanner(System.in);
+		this.provisionList = new ProvisionListImpl();
+		this.provision = new Provision();
+		//아아아아아아아앗 payment 고객 에 두개의 payment잇네 아놔 . . . 좀따. 이거 처리하기
+		ResultSet resultSet = this.provision.getProvision();
+		try {
+			while (resultSet.next()) {
+				
+				Provision tempProvision = new Provision();
+				tempProvision.setProvisionID(resultSet.getString("provisionID"));
+				tempProvision.setInsuranceName(resultSet.getString("insuranceName"));
+				tempProvision.setAccountNum(resultSet.getString("accountNum"));
+				tempProvision.setBankName(resultSet.getString("bankName"));
+				tempProvision.setCompensation(resultSet.getInt("compensation"));
+				tempProvision.setPhoneNum(resultSet.getString("customerPhoneNum"));
+				tempProvision.setCompensationDate(LocalDate.parse(resultSet.getDate("compensationDate").toString()));
+				tempProvision.setCustomerName(resultSet.getString("customerName"));
+//				tempProvision.setInsuranceID(resultSet.getInt("insuranceFee"));
+				tempProvision.setLongTerm(resultSet.getBoolean("longTerm"));
+				//setInsuranceType set도와주세요! 됐나??			
+				tempProvision.setInsuranceType(EInsurance.valueOf(resultSet.getString("insuranceType").toString()));
+				tempProvision.setContractID(resultSet.getString("contractID"));
+				this.provisionList.add(tempProvision);
+			}
+//없는거 처리 @@	if(this.paymentList.getAll)
+		
+		} catch (SQLException e) {
+			e.printStackTrace();	
 		}
-		return false;
-
+		return selectCustomerForProvision(scanner);
 	}
 
 	private boolean selectCustomerForProvision(Scanner scanner) {
@@ -327,15 +245,92 @@ public class FeePayment {
 		this.policyholderTUI.enterPhoneNum();
 		String phoneNum = scanner.next();
 		this.provision = this.provisionList.get(name, phoneNum);
-
-		this.policyholderTUI.showProvisionRecords(this.provisionList, name, phoneNum);
+		//여기 오류 처리 다시 !!
+		if ( this.provision == null) {
+			this.policyholderTUI.showNoProvisionName();
+			this.selectCustomer(scanner);
+		}	
+		this.policyholderTUI.showProvisionRecords(this.provision);
 		//여기 지급 기록 보여주고 홈 화면으로 가는거 처리
 		return false;
 	}
-
+	
 	
 }
 
+//		
+//		
+//			System.out.println("1. 납부 방법 선택 2. 납부 기록 확인 3. 지급 기록 확인 4. 취소");
+////			String selectNum = scanner.next();
+////			switch(selectNum) {
+////			case "1" : 
+////				choosePaymentMethod(scanner);
+////				break;
+////			case "2" : 
+//////				payment.checkPayment();
+////				//납부 기록(가입자명, 연락처, 보험이름, 보험종류, 카드사/은행명, 카드/계좌번호, 납부금액, 납부일)을 출력한다
+////				break;
+////			case "3" : 
+//////				provision.checkProvision();
+//////				//지급 정보(보험이름,보험종류,장기여부,은행명,계좌번호,보상금액,보상일)를 출력한다
+////				break;
+////			case "4" : 
+////				//���-Ȩȭ�� �ҷ�����
+////			}
+//		}
+
+	
+//	public void choosePaymentMethod(Scanner scanner) {
+//		System.out.println("납부방법(카드/통장)을 선택하십시오." + "\n" + "1. 카드  2. 통장");
+//		String method = scanner.next();
+//		System.out.println("카드사/은행명과 카드/계좌번호를 입력해주십시오. ");
+//		System.out.print("카드사/은행명 : ");
+//		String bankname = scanner.next();
+//		System.out.print("카드/계좌번호 : ");
+//		String accountname = scanner.next();
+//		System.out.println(bankname + accountname + "이게 아니고 account에 통장 금액 요청. ");
+//		//통장금액 요청해서 통장 금액 제공하기 (통장에 돈 있는지 확인용도)-??질문 . 여기서?
+//		//통장에 돈있으면 E1 E2 땜ㄴ에이슨거엿음.. 알려주기도해야돼. 
+//		System.out.println();
+//		System.out.println(" 납부방법 : " + method + "\n" +
+//					"1. 납부 2. 수정 3. 취소");		
+//		
+//		String selectNum = scanner.next();
+//		switch(selectNum) {
+//		case "1" :
+//			//payInsuranceFee class
+//			break;
+//		case "2" :
+////			customer.edit;
+//			break;
+//		case "3" :
+////			취소;set? 했던거 다시 원상태로. 
+//			break;
+//		
+//		}
+//	}
+
+//public void payInsuranceFee() {
+//	Scanner scanner = new Scanner(System.in);
+//	System.out.println("1. 일시불 납부   2. 할부 납부");
+//	String selectNum = scanner.next();
+//	if (selectNum.equals("1")) {
+//		//남은 금액 갱신, 납부 금액 추가, 해당하는 보험의 미납료 갱신, 납부내역 저장
+//		System.out.println("납부가 완료되었습니다. 납부확인서를 출력하시겠습니까?" + "\n" + "1. 예   2. 아니오");
+//		selectNum = scanner.next();
+//		if(selectNum.equals("1")) {
+//			//보험납부정보(보험이름, 보험종료, 카드사/은행명, 카드/계좌번호, 납부금액, 납부일)을 출력한다.
+//			//payment.get머시기			
+//		}
+//		else if(selectNum.equals("2")) {
+//			//취소하고 홈화면
+//		}
+//	}
+//	else if(selectNum.equals("2")) { 
+//		// A1 일부납부 . 아직!
+//	}
+//	
+//}
 
 
 		

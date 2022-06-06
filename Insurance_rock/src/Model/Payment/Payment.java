@@ -38,11 +38,6 @@ public class Payment {
 		return this.paymentDao.create(this);
 	}
 	
-//	public boolean updateBankName(String newBankName, String paymentID) {
-//		this.paymentDao = new PaymentDao();
-//		return this.paymentDao.updateBankName(newBankName, paymentID);
-//	}
-	
 	public boolean paymentUpdate() {
 		this.paymentDao = new PaymentDao();
 		this.paidDate = LocalDate.now();

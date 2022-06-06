@@ -3,8 +3,6 @@ package View.Team;
 import java.util.Arrays;
 
 import Model.Contract.Contract;
-import Model.Customer.Customer;
-import Model.Customer.Rank;
 import Model.Insurance.Insurance;
 
 public class ContractTeamTui {
@@ -117,73 +115,6 @@ public class ContractTeamTui {
 		System.out.println("해당 보험을 검증하시겠습니까?");
 		System.out.println("1. 검증 2. 취소");
 
-	}
-
-	public void showDetailContract(Contract contract) {
-		System.out.println("고객명: " + contract.getCustomerName() + "   전화번호: " + contract.getPhoneNum());
-		System.out.println("보험료: " + contract.getInsuranceFee());
-		System.out.println("담보액: " + contract.getSecurityFee() + "   기간: " + contract.getPeriod());
-	}
-
-	public void showDetailInsurance(Insurance insurance) {
-		System.out.println("보험명: " + insurance.getInsuranceName());
-		System.out.println("보험종류: " + insurance.getInsuranceType().toString() + "   장기여부: " + insurance.isLongTerm());
-		System.out.println("가입조건: " + insurance.getApplyCondition());
-		System.out.println("특약: " + insurance.getSpecialContract());
-	}
-
-	public void showDetailRank(Rank rank) {
-		System.out.println("재질: " + rank.getMaterial() + "   용도: " + rank.getPurpose());
-		System.out.println("크기(평수): " + rank.getScale() + "   고층여부: " + rank.isHeight());
-		System.out.println("소방시설 점수: " + rank.getFireFacilities() + "   주변시설 점수: " + rank.getSurroundingFacilities());
-	}
-
-	public void showSelectPermit() {
-		System.out.println("가입을 허가시키겠습니까?");
-		System.out.println("1.계약 2.반려 0.취소");
-	}
-
-	public void showEnterReason() {
-		System.out.println("반려 사유를 입력해 주세요.");
-	}
-
-	public void showSelectRenewContract() {
-
-		System.out.println("심사할 갱신계약 번호를 입력해 주세요.");
-
-	}
-
-	public void showRenewContracts(int length, Contract contract) {
-		System.out.format("%10s %10s  %15d %10d %10d", length + "번", 
-				contract.getPaymentCycle(), contract.getSecurityFee(),
-				contract.getInsuranceFee(), contract.getPeriod());
-		System.out.println();
-	}
-
-	public void showRenewConractColumn() {
-		System.out.println(
-				"-------------------------------------------------------------------------------------------------");
-		System.out.printf("%10s %10s  %10s %10s %10s", "계약번호(순번)",  "납부주기", "담보액", "보험료", "연장기간(달)");
-		System.out.println();
-		System.out.println(
-				"--------------------------------------------------------------------------------------------------");
-	}
-
-	public void showDetailRenewContract(Contract contract, Contract originContract) {
-		System.out.println("고객명: " + originContract.getCustomerName() + "   전화번호: " + originContract.getPhoneNum());
-		System.out.println("기존 보험료: " + originContract.getInsuranceFee()+"   갱신 후 보험료: "+contract.getInsuranceFee());
-		System.out.println("기존 담보액: " + originContract.getSecurityFee() + "   갱신 후 담보액: "+contract.getSecurityFee());
-		System.out.println("연장기간: " + contract.getPeriod()+ "   기존 납부주기: " + originContract.getPaymentCycle() + "   갱신 후 납부주기: "+contract.getPaymentCycle());
-	}
-
-	public void showSelectRenewPermit() {
-		System.out.println("갱신을 허가시키겠습니까?");
-		System.out.println("1.계약 2.반려 0.취소");		
-	}
-
-	public void showFailRenewReason(String reason) {
-		System.out.println("다음과 같은 사유로 갱신에 실패하였습니다.");
-		System.out.println("사유:"+reason);
 	}
 
 }

@@ -13,6 +13,4 @@ public interface ContractList {
 	public Contract getCount(int select);
 	public Contract getcheck(String customerName_inser, String phoneNum_inser);
 	public Contract get(int num);
-	public Contract get(String name, String phoneNum);
-	public ArrayList<Contract> getContractByNameAndNUm(String CustomerName, String CustomerPhoneNu);
 }//end ContractList

@@ -69,11 +69,4 @@ public class CustomerDao extends Dao {
 		return super.retrive(query);
 	}
 
-	public boolean deleteByID(String customerID) {
-		String query = "delete from RegisterInsurance where customerID=\""+customerID+"\";";
-
-		System.out.println(query);
-		return super.delete(query);		
-	}
-
 }

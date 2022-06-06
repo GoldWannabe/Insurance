@@ -48,10 +48,4 @@ public class ContractAccidentDao  extends Dao {
 		System.out.println(query);
 		return super.create(query);
 	}
-
-	public ResultSet retriveCount(String contractID) {
-		String query = "select count(*) as accidentNum from contractaccident where contractID = \""+contractID+"\"";
-		System.out.println(query);
-		return super.retrive(query);
-	}
 }

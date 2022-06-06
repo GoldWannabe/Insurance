@@ -46,13 +46,6 @@ public class ApplyContractDao  extends Dao {
 		return super.delete(query);
 	}
 
-	public boolean deleteByID(String contractID) {
-		String query = "delete from applyContract where contractID=\""+contractID+"\";";
-		
-		System.out.println(query);
-		return super.delete(query);
-	}
-
 	
 
 	
