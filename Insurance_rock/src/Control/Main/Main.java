@@ -39,7 +39,7 @@ public class Main {
 				selectCompensateTeam(mainTui, scanner);
 				break;
 			case "5":
-				//selectPolicyholder(mainTui, scanner);
+				selectPolicyholder(mainTui, scanner);
 				break;
 			default:
 				// while문 안먹음 사
@@ -65,7 +65,7 @@ public class Main {
 				break;
 			case "3":
 				ContractManagement contractManagement = new ContractManagement();
-				continueSelect = contractManagement.searchContract();
+				continueSelect = contractManagement.searchContract(scanner);
 				break;
 			case "0":
 				mainTui.showClose();
@@ -135,30 +135,29 @@ public class Main {
 	}
 
 	private static void selectPolicyholder(MainTui mainTui, Scanner scanner) {
-		System.out.println("1. 보험료 납부  2. 납부 기록 확인 3. 지급 기록 확인, 0.취소");
+		boolean continueSelect = false;
 		
-		String selectNum = scanner.next();
-		FeePayment feePayment = new FeePayment();
+		while(!continueSelect) {
+			mainTui.showPolicyholder();
+			
+			String selectNum = scanner.next();
+			switch (selectNum) {
+			case "1":
+				FeePayment feePayment = new FeePayment();
+				feePayment.start();
+				break;
+			case "0":
+				mainTui.showClose();
+				System.exit(0);
+				break;
+			default:
+				mainTui.showWrongInput();
+				break;
+			}
 
-		switch (selectNum) {
-		case "1":
-			feePayment.checkFee();
-			break;
-		case "2":
-			feePayment.checkPayment();
-			break;
-		case "3":
-			feePayment.checkProvision();
-			break;
-		case "0":
-			mainTui.showClose();
-			System.exit(0);
-			break;
-		default:
-			System.out.println("선택 이상함");
-			break;
 		}
-
+		mainTui.showClose();
+	
 	}
 
 	private static boolean selectCompensateTeam(MainTui mainTui, Scanner scanner) {

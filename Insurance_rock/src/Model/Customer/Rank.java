@@ -131,7 +131,17 @@ public class Rank {
 		this.rankDao = new IRankDao();
 		return this.rankDao.retriveByID(rankID);
 	}
+	public ResultSet retriveID(String rankID) {
+		this.rankDao = new IRankDao();
+		return this.rankDao.retriveID(rankID);
+	}
 
+	public boolean delete(String rankID) {
+		this.rankDao = new IRankDao();
+		return this.rankDao.deleteRank(rankID);
+	}
+
+	
 	public void delete() {
 		this.rankDao.deleteByID(this.rankID);
 	}

@@ -48,7 +48,7 @@ public class ContractDao  extends Dao {
 
 	public ResultSet retrivecontract(String customerName, String phoneNum) {
 		StringBuilder stringBuilder = new StringBuilder();
-		String query = stringBuilder.append("select contractID, customerID, customerName, customerPhoneNum, insuranceID, insuranceName, paymentCycle, insuranceFee, unpaidFee, securityFee, provisionFee, startDate, endDate From Contract ")
+		String query = stringBuilder.append("select * From Contract ")
 				.append("Where customerName = \'"+customerName+"\' AND ") 
 				.append("customerPhoneNum = \'" + phoneNum +"\'" )
 				.toString();
@@ -94,6 +94,29 @@ public class ContractDao  extends Dao {
 		System.out.println(query);
 		return super.update(query);
 	}
+
+	public ResultSet resultAccidentHistory(Contract contract) {
+		StringBuilder stringBuilder = new StringBuilder();
+
+		String query = stringBuilder.append("select * From contractAccident Where contractID = ")
+				.append("\'" + contract.getContractID()+ "\'" )
+				.toString();
+
+		System.out.println(query);
+		return super.retrive(query);
+	}
+
+	public boolean deleteContract(Contract contract) {
+		StringBuilder stringBuilder = new StringBuilder();
+
+		String query = stringBuilder.append("delete from contract Where contractID = ")
+				.append("\'" + contract.getContractID()+ "\'" )
+				.toString();
+
+		System.out.println(query);
+		return super.delete(query);
+	}
+
 
 	public boolean updateUnpaidFee(int newUnpaidFee, String contractID) {
 		String query = "update contract set unpaidFee = " + "'" + newUnpaidFee + "'" + "where contractID = " + "'" + contractID + "';";

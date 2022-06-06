@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import Control.ContractTeam.ContractManagement;
 import Model.DB.ApplyContractDao;
 import Model.DB.ContractAccidentDao;
 import Model.DB.ContractDao;
@@ -265,10 +266,10 @@ public class Contract {
 		this.contractDao = new ContractDao();
 	}
 
-	public void registerApplyContract() {
+	public boolean registerApplyContract() {
 		this.contractID = UUID.randomUUID().toString();
 		this.applyContractDao = new ApplyContractDao();
-		this.applyContractDao.create(this);
+		return this.applyContractDao.create(this);
 	}
 
 	public ResultSet retrivelongtermFee() {
@@ -314,6 +315,29 @@ public class Contract {
 		return this.contractDao.retriveFailContractID(this);
 	}
 
+	public ResultSet resultAccidentHistory() {
+		this.contractAccidentDao = new ContractAccidentDao();
+		return this.contractDao.resultAccidentHistory(this);
+	}
+
+
+	public boolean createBesidesConstract() {
+		this.renewContractDao = new RenewContractDao();
+		return this.renewContractDao.createBesidesConstract(this);
+		
+	}
+
+	public boolean deleteContract() {
+		this.contractDao = new ContractDao();
+		return this.contractDao.deleteContract(this);
+		
+	}
+
+	public ResultSet retriveRenewContract() {
+		this.renewContractDao = new RenewContractDao();
+		return this.renewContractDao.retriveRenewContract(this);
+	}
+
 	public ResultSet getRenew() {
 		this.renewContractDao = new RenewContractDao();
 		return this.renewContractDao.retrive();
@@ -337,6 +361,11 @@ public class Contract {
 	public boolean failRenew() {
 		this.renewContractDao = new RenewContractDao();
 		return this.renewContractDao.deleteByID(this.contractID);
+	}
+
+	public boolean deleteFailContract() {
+		this.failContractDao = new FailContractDao();
+		return this.failContractDao.deleteFailContract(this);
 	}
 
 }// end Contract

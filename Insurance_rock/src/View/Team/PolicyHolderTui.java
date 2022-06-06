@@ -30,7 +30,10 @@ public class PolicyHolderTui {
 		// TODO Auto-generated method stub
 		System.out.println("해당 고객님의 지급기록이 존재하지 않습니다. 제대로 입력해주세요.");
 	}
-
+	public void showWrongInput() {
+		// TODO Auto-generated method stub
+		System.out.println("제대로 입력해주세요. ");
+	}
 	public void showPaymentFee(ContractList contractList, String name, String phoneNum) {
 		//납부 금액 정보(보험 이름, 분납/일시불 여부, 보험료, 납부 한 금액,미납액) 화면과 납부 방법, 납부 기록, 지급 기록 버튼을 출력한다
 		// TODO Auto-generated method stub
@@ -49,7 +52,9 @@ public class PolicyHolderTui {
 	public void showSelectInsurance() {
 		System.out.println("납부할 보험의 번호를 선택해주세요. ");
 	}
-
+	public void showStartMenu() {
+		System.out.println("1. 보험료 납부 2. 납부 내역 확인 3. 지급 내역 확인");
+	}
 	public void showSelectMenu() {
 		// TODO Auto-generated method stub
 		System.out.println("1. 납부 방법 선택   2. 취소 ");
@@ -120,7 +125,7 @@ public class PolicyHolderTui {
 //		//보험납부정보(보험이름, 보험종류, 카드사/은행명, 카드/계좌번호, 납부금액, 납부일)을 출력한다.
 		System.out.println("------------------------------------납부확인서------------------------------------");
 		System.out.println();
-		System.out.printf("%10s %10s %10s %10s %10s %10s", "고객명", "보험 이름", "카드사/은행명", "카드/계좌번호", "납부 완료 금액", "납부일" );
+		System.out.printf("%10s %10s %10s %10s %10s %10s", "고객명", "보험 이름", "카드사/은행명", "카드/계좌번호", "납부 금액", "납부일" );
 		System.out.println();
 		System.out.format("%10s %10s %13s %11s %13s %13s", payment.getCustomerName(), payment.getInsuranceName(), payment.getCardOrBankName(), payment.getAccountNum(), payment.getInsuranceFee(), payment.getPaidDate());
 		System.out.println();
@@ -128,7 +133,7 @@ public class PolicyHolderTui {
 
 	public void cancel() {
 		// TODO Auto-generated method stub
-		System.out.println("취소되었습니다. 홈 화면으로 돌아갑니다.");
+		System.out.println("취소되었습니다. 홈 화면으로 돌아갑니다." +"\n" );
 	}
 
 	public void showPaymentRecords(PaymentList paymentList, String name, String phoneNum) {
@@ -157,7 +162,7 @@ public class PolicyHolderTui {
 			System.out.format("%10s %10s %13s %11s %13s %13s %13s", provision.getInsuranceName(), provision.getInsuranceType(), provision.isLongTerm(), provision.getBankName(), provision.getAccountNum(), provision.getCompensation(), provision.getCompensationDate());
 			System.out.println();
 		}
-		System.out.println();
+		System.out.println("\n");
 		
 	}
 
@@ -170,6 +175,8 @@ public class PolicyHolderTui {
 		// TODO Auto-generated method stub
 		System.out.println("납부하실 금액을 입력해주세요.");
 	}
+
+
 
 
 	

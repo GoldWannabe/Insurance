@@ -63,8 +63,20 @@ public class CustomerDao extends Dao {
 		StringBuilder stringBuilder = new StringBuilder();
 
 		String query = stringBuilder.append("select bankName, accountNum from customer Where customerID = ")
-				.append("\'" + customer.getCustomerID() + "\'").toString();
+				.append("\'" + customer.getCustomerID() + "\'")
+				.toString();
+		
+		System.out.println(query);
+		return super.retrive(query);
+	}
 
+	public ResultSet retriveCustomer(String customerID) {
+		StringBuilder stringBuilder = new StringBuilder();
+
+		String query = stringBuilder.append("select * from customer Where customerID = ")
+				.append("\'" + customerID + "\'")
+				.toString();
+		
 		System.out.println(query);
 		return super.retrive(query);
 	}
@@ -74,6 +86,13 @@ public class CustomerDao extends Dao {
 
 		System.out.println(query);
 		return super.delete(query);		
+	}
+
+	public boolean deleteCustomer(Customer customer) {
+		String query = "delete from customer where customerID=\""+customer.getCustomerID()+"\";";
+
+		System.out.println(query);
+		return super.delete(query);	
 	}
 
 }
