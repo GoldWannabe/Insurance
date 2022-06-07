@@ -301,4 +301,9 @@ public class CompensateTeamTui {
 
 	}
 
+	public void viewOver(Accident accident) {
+		System.out.println(accident.getCustomerName()+ "님은 장기가입자이며 현재 보상금액이 담보액의 20%미만이므로 무료 대상자이십니다.");
+		
+	}
+
 }
