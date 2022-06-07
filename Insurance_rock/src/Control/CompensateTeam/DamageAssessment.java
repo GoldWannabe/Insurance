@@ -145,6 +145,7 @@ public class DamageAssessment {
 				throw new LackInsuranceBank();
 				
 			} else {
+				System.out.println("asf");
 				FileWriter fileWriter = new FileWriter(file, false);
 				String resultToString = Integer.toString(result);
 				fileWriter.write(resultToString);
@@ -275,7 +276,6 @@ public class DamageAssessment {
 		try {
 			while (resultSet.next()) {
 				Contract contract = new Contract();
-//				this.contractList.setnum(num);
 				contract.setNum(num);
 				contract.setContractID(resultSet.getString("contractID"));
 				contract.setCustomerID(resultSet.getString("customerID"));

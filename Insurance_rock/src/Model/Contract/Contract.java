@@ -86,7 +86,7 @@ public class Contract {
 	}
 
 	public void cancelContract() {
-
+		
 	}
 
 	public void checkUnpaidFee() {

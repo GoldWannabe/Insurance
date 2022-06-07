@@ -50,6 +50,7 @@ public class FeePayment {
 		this.provisionList = new ProvisionListImpl();
 		this.provision = new Provision();
 		
+		//list로 보여주기
 		ResultSet resultSet = this.payment.getPayment();
 		ResultSet resultSet2 = this.contract.getContract();
 		ResultSet resultSet3 = this.provision.getProvision();
@@ -95,6 +96,7 @@ public class FeePayment {
 				this.contractList.add(tempContract);
 			}
 		
+//없는거 처리 @@	if(this.paymentList.getAll)
 		
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -115,6 +117,7 @@ public class FeePayment {
 				tempProvision.setLongTerm(resultSet3.getBoolean("longTerm"));	
 				tempProvision.setInsuranceType(EInsurance.valueOf(resultSet3.getString("insuranceType").toString()));
 				tempProvision.setContractID(resultSet3.getString("contractID"));
+//				tempProvision.setProvisionID(resultSet.getString("provisionID"));
 
 				this.provisionList.add(tempProvision);
 			}
@@ -131,7 +134,6 @@ public class FeePayment {
 	
 	public boolean start() {
 		Scanner scanner = new Scanner(System.in);
-		this.policyholderTUI.showStartMenu();
 		String num = scanner.next();
 		if(num.equals("1")) {
 			checkFee();
@@ -178,7 +180,7 @@ public class FeePayment {
 				this.policyholderTUI.showNopaymentFee();
 				selectCustomer(scanner);
 			}
-			if(currDate.equals(LocalDate.now())) {
+			if(currDate == LocalDate.now()) {
 				throw new ChangedDateException();
 			}
 			this.policyholderTUI.showPaymentFee(this.contractList, name, phoneNum);
@@ -281,6 +283,7 @@ public class FeePayment {
 		case "3" : 
 			this.policyholderTUI.cancel();
 		}
+//true로
 		return true;
 	}
 
@@ -307,6 +310,7 @@ public class FeePayment {
 		this.policyholderTUI.enterPhoneNum();
 		String phoneNum = scanner.next();
 		this.payment = this.paymentList.get(name, phoneNum);
+//		this.contract = this.contractList.g
 		this.policyholderTUI.showPaymentRecords(this.paymentList, name, phoneNum);
 		return false;
 	}

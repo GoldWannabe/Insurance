@@ -11,32 +11,38 @@ public class CustomerRankDao  extends Dao {
 		super.connect();
 	}
 
-	public boolean create(String customerID, String contractID, String rankID) {
-		String query ="insert into CustomerRank(customerID, contractID, RankID) values (\""+customerID+"\", \""+contractID+"\", \""+rankID+"\");";
+	public boolean create() {
+		String query = "";
+
+		System.out.println(query);
 		return super.create(query);
 	}
 
 	public ResultSet retrive() {
 		String query = "";
 
+		System.out.println(query);
 		return super.retrive(query);
 	}
 
 	public boolean update() {
 		String query = "";
 
+		System.out.println(query);
 		return super.update(query);
 	}
 
 	public boolean delete() {
 		String query = "";
 
+		System.out.println(query);
 		return super.delete(query);
 	}
 
 	public ResultSet retriveID(String customerID) {
 		String query = "select * from customerRank where customerID = \""+customerID+ "\";";
 
+		System.out.println(query);
 		return super.retrive(query);
 	}
 
@@ -48,6 +54,7 @@ public class CustomerRankDao  extends Dao {
 				.append("where RankID  = \'" + beforeRankID + "\'")
 				.toString();
 
+		System.out.println(query);
 		return super.update(query);
 	}
 
@@ -55,6 +62,7 @@ public class CustomerRankDao  extends Dao {
 	public boolean delete(String customerID, String rankID) {
 		String query = "delete from customerRank where customerID=\""+customerID+"\" and RankID=\""+rankID+"\";";
 
+		System.out.println(query);
 		return super.delete(query);		
 	}
 }
