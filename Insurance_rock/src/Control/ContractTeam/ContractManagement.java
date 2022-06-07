@@ -127,7 +127,6 @@ public class ContractManagement {
 		boolean isSearch = true;
 		if (isSearch) {
 			String inser[] = this.contractTeamTui.viewInsertName(scanner);
-			System.out.println("adfsdafsaf"+inser[0]);
 			String customerName = inser[0];
 			this.contract.setCustomerName(customerName);
 			String phoneNum = inser[1];
