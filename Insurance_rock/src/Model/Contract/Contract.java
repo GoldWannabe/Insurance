@@ -113,7 +113,9 @@ public class Contract {
 	public boolean fail() {
 		this.failContractDao = new FailContractDao();
 		if(this.failContractDao.create(this)) {
-			return this.applyContractDao.deleteByID(this.contractID);
+			if(this.applyContractDao.deleteByID(this.contractID)) {
+				return false;
+			}
 		}
 		
 		return false;

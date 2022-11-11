@@ -13,7 +13,6 @@ public class PolicyHolderTui {
 		System.out.println("-------고객 확인--------");
 		System.out.println("성함과 연락처를 입력해주십시오. ");
 		System.out.print("성함 : ");
-		System.out.println();
 	}
 
 	public void enterPhoneNum() {

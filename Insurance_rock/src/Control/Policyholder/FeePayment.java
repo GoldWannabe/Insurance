@@ -178,7 +178,7 @@ public class FeePayment {
 				this.policyholderTUI.showNopaymentFee();
 				selectCustomer(scanner);
 			}
-			if(currDate.equals(LocalDate.now())) {
+			if(!currDate.toString().equals(LocalDate.now().toString())) {
 				throw new ChangedDateException();
 			}
 			this.policyholderTUI.showPaymentFee(this.contractList, name, phoneNum);

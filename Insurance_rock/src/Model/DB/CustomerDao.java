@@ -80,8 +80,7 @@ public class CustomerDao extends Dao {
 	}
 
 	public boolean deleteByID(String customerID) {
-		String query = "delete from RegisterInsurance where customerID=\""+customerID+"\";";
-
+		String query = "delete from customer where customerID=\""+customerID+"\";";
 		return super.delete(query);		
 	}
 

@@ -96,13 +96,9 @@ public class UnderwritingNew {
 		this.contract.setReason(reason);
 		this.customer.setInsuranceNum(this.customer.getInsuranceNum() - 0.1);
 
-		if (this.customer.getInsuranceNum() == 0) {
-			this.customer.delete();
-
-		} else {
+		
 			this.customer.updateInsuranceNum();
 
-		}
 		return this.contract.fail();
 	}
 

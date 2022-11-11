@@ -207,7 +207,6 @@ public class DamageAssessment {
 				}
 				// A3. 장기 가입자이고 책임 비용이 담보액의 20% 미만인 경우
 				if (!provision.isLongTerm() && this.accident.getLiablityCost() < this.contract.getSecurityFee() * 0.2) {
-					System.out.println(this.accident.getCustomerName()+ "님은 장기가입자이며 현재 보상금액이 담보액의 20%미만이므로 무료 대상자이십니다.");
 				} else {
 					this.contract.updateProvisionFee(this.accident.getLiablityCost());
 				}
